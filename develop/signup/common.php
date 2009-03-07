@@ -1,0 +1,1 @@
+/home/laudieh/php-openid-2.1.2/examples/consumer/common.php
