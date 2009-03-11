@@ -70,17 +70,10 @@
   background-color:#DDEEFF;
 }
 </style> 
-<!--link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/fonts/fonts-min.css" /> 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" /-->
-<!--script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/element/element-beta-min.js"></script-->
 <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ"></script> 
-<!--script type="text/javascript" src="/photos/js/upload_single.js"></script-->
 </head> 
 <body onunload="GUnload()"> 
 <div id="container">
-  <!--div id="outline">
-    點選工具：<a class="marker" href="javascript:follow()"><img src="http://maps.google.com/mapfiles/marker.png" alt="" title="click me" class="pushpin"/></a> 
-  </div-->
   <div id="msgArea">
     <span id="msg">這裡放座標</span>
     <span id="cordination"></span>
@@ -92,6 +85,7 @@
   var map;
   function initialize() {
     if (GBrowserIsCompatible()) {
+      $j = jQuery.noConflict();
       var flagHtml = '<div class="showWindow">';
       flagHtml+= '<div class="windowCaption">TRC! 精采寫真</div>';
       flagHtml+= '<div class="windowContent"><img src="http://www.trc.club.tw/images/home_goodphotos_01.jpg" alt="" align="left" class="windowPic" /><div class="windowTitle">夢幻蒸機</div>2008.05.23 3923次 菁桐平溪間</div>';
@@ -113,7 +107,6 @@
       //map.addOverlay(new GLayer("com.panoramio.all"));
       var mgr = new GMarkerManager(map);
    
-      var $j = jQuery.noConflict();
       drawMarker = function(point) {
         // 自訂圖標
         var MyIcon = new GIcon(G_DEFAULT_ICON);
@@ -180,8 +173,20 @@
 
   function addMarker(map) {
     var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
-    var markerPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
-    drawMarker(markerPoint);
+    var newPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
+    if (confirm('是否要將此位置存檔？')) {
+      $j.post("save_latlng.php", {title: 'maptest', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
+        alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
+      });
+      drawMarker(newPoint);
+    }
+    $j('#msg').html('定位於' + newPoint);
+    setTimeout(function() {
+      $j('#msg').fadeOut(function() {
+        $j('#msg').fadeIn("slow");
+        $j('#msg').html('請繼續下一個動作');
+      });
+    }, 1000);
     contextmenu.style.visibility = 'hidden';
   }
 
