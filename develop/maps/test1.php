@@ -5,6 +5,7 @@
     header("location:/login/?go_url=".$_SERVER['REQUEST_URI']);
     exit;
   }
+  $userid = $_SESSION['userid'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"> 
@@ -79,10 +80,14 @@
     <span id="cordination"></span>
   </div>
   <div id="map" style="border:1px solid gray;width: 900px; height: 600px"></div>
+  <div style="border: 1px solid white; width: 30px; height: 30px; background-position: -1px -97px; position: absolute; cursor: pointer; z-index: 1; left: 220px; top: 523px; background-image: url(http://www.panoramio.com/concat/?mini_square=308622,385930,2536564,247840,1398827,1787204,2154061,1454432,1447277,151849,1872811,550721,308468,284065,1407999,1821769,119487,1952313,2195600,1408013);"></div>
 </div>
 
 <script type="text/javascript"> 
   var map;
+  var jsvar = {
+    userid: '<?=$userid?>'
+  };
   function initialize() {
     if (GBrowserIsCompatible()) {
       $j = jQuery.noConflict();
@@ -107,7 +112,7 @@
       //map.addOverlay(new GLayer("com.panoramio.all"));
       var mgr = new GMarkerManager(map);
    
-      drawMarker = function(point) {
+      drawMarker = function(point, point_id) {
         // 自訂圖標
         var MyIcon = new GIcon(G_DEFAULT_ICON);
         //MyIcon.image = "http://www.trc.club.tw/images/firework.png";
@@ -117,7 +122,7 @@
 
         //var marker = new GMarker(point, {icon:MyIcon,draggable:true,bouncy:false});//可在這之前定義markerOptions自訂你的marker
         var minMarker = [];
-        var marker = new GMarker(point, {draggable:true});
+        var marker = new GMarker(point, {id: point_id, title:"This is marker!!", draggable:true});
         minMarker.push(marker);
         mgr.addMarkers(minMarker, 16);
         mgr.refresh();
@@ -133,11 +138,12 @@
 
         GEvent.addListener(marker, "dragend", function() {
           var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
-          if (confirm('是否要將此位置存檔？')) {
-            $j.post("save_latlng.php", {title: 'maptest', lat: marker.getPoint().lat(), lng: marker.getPoint().lng()}, function(data) {
+          if (confirm('是否要更新此位置？')) {
+            $j.post("save_latlng.php", {action: 'update', point_id: marker.id, lat: marker.getPoint().lat(), lng: marker.getPoint().lng()}, function(data) {
               alert(marker.getPoint().lat() + ' & ' + marker.getPoint().lng() + ' 已存檔!');
             });
           }
+          console.dir(marker);
           $j('#msg').html('定位於' + newPoint);
           setTimeout(function() {
             $j('#msg').fadeOut(function() {
@@ -162,7 +168,7 @@
       var showObj = function (o) {
         for(var x in o) {
           markerPoint = new GLatLng(o[x].lat, o[x].lng);
-          drawMarker(markerPoint);
+          drawMarker(markerPoint, o[x].id);
         }
       }
 
@@ -174,11 +180,17 @@
   function addMarker(map) {
     var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
     var newPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
-    if (confirm('是否要將此位置存檔？')) {
-      $j.post("save_latlng.php", {title: 'maptest', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
+    var create_new = function (data) {
+      new_markerid = data.new_markerid;
+      alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
+    };
+    if (confirm('是否要在此位置建立據點？')) {
+      $j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
+        new_markerid = data.new_markerid;
+        console.log('new_markerid => ', new_markerid);
+        drawMarker(newPoint, new_markerid);
         alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
-      });
-      drawMarker(newPoint);
+      }, 'json');
     }
     $j('#msg').html('定位於' + newPoint);
     setTimeout(function() {
