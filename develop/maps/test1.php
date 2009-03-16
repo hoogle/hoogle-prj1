@@ -80,7 +80,6 @@
     <span id="cordination"></span>
   </div>
   <div id="map" style="border:1px solid gray;width: 900px; height: 600px"></div>
-  <div style="border: 1px solid white; width: 30px; height: 30px; background-position: -1px -97px; position: absolute; cursor: pointer; z-index: 1; left: 220px; top: 523px; background-image: url(http://www.panoramio.com/concat/?mini_square=308622,385930,2536564,247840,1398827,1787204,2154061,1454432,1447277,151849,1872811,550721,308468,284065,1407999,1821769,119487,1952313,2195600,1408013);"></div>
 </div>
 
 <script type="text/javascript"> 
@@ -118,7 +117,7 @@
         //MyIcon.image = "http://www.trc.club.tw/images/firework.png";
         // 自訂圖標大小
         MyIcon.iconSize = new GSize(32, 32); 
-        markerOptions = { icon:MyIcon };
+        markerOptions = { icon:MyIcon, draggable:true };
 
         //var marker = new GMarker(point, {icon:MyIcon,draggable:true,bouncy:false});//可在這之前定義markerOptions自訂你的marker
         var minMarker = [];
@@ -200,6 +199,14 @@
       });
     }, 1000);
     contextmenu.style.visibility = 'hidden';
+    var polyline = new GPolyline([
+      new GLatLng(latlngObj.lat(), latlngObj.lng()),
+        new GLatLng(latlngObj.lat() + 0.001, latlngObj.lng() + 0.001)
+        ], "#ff0000", 3);
+    //map.addOverlay(polyline);
+    var boundaries = new GLatLngBounds(new GLatLng(latlngObj.lat(), latlngObj.lng()), new GLatLng(latlngObj.lat()+0.001, latlngObj.lng()+0.001));
+    var myimg = new GGroundOverlay("http://122.116.58.206/photos/img/btn_signup.gif", boundaries);
+    map.addOverlay(myimg);
   }
 
   function createContextMenu(map)
