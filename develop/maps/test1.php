@@ -30,6 +30,12 @@
 #cordination {
   float:right;
 }
+#preview {
+  float:left;
+}
+#map {
+  float:left;
+}
 .showWindow {
   width:300px;
   height:135px;
@@ -70,19 +76,15 @@
 .menuitem:hover {
   background-color:#DDEEFF;
 }
+img {
+  border:1px solid white;
+}
 </style> 
-<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ"></script> 
-</head> 
-<body onunload="GUnload()"> 
-<div id="container">
-  <div id="msgArea">
-    <span id="msg">這裡放座標</span>
-    <span id="cordination"></span>
-  </div>
-  <div id="map" style="border:1px solid gray;width: 900px; height: 600px"></div>
-</div>
-
-<script type="text/javascript"> 
+<!--script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ"></script--> 
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ" type="text/javascript"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="/photos/js/gmarker.js"></script>
+<script type="text/javascript">
   var map;
   var jsvar = {
     userid: '<?=$userid?>'
@@ -90,11 +92,6 @@
   function initialize() {
     if (GBrowserIsCompatible()) {
       $j = jQuery.noConflict();
-      var flagHtml = '<div class="showWindow">';
-      flagHtml+= '<div class="windowCaption">TRC! 精采寫真</div>';
-      flagHtml+= '<div class="windowContent"><img src="http://www.trc.club.tw/images/home_goodphotos_01.jpg" alt="" align="left" class="windowPic" /><div class="windowTitle">夢幻蒸機</div>2008.05.23 3923次 菁桐平溪間</div>';
-      flagHtml+= '</div>';
-      flagHtml = '';
 
       map = new GMap2(document.getElementById('map'));
       //map.setCenter(new GLatLng(25.0266, 121.5223), 17);
@@ -111,29 +108,22 @@
       //map.addOverlay(new GLayer("com.panoramio.all"));
       var mgr = new GMarkerManager(map);
    
-      drawMarker = function(point, point_id) {
-        // 自訂圖標
-        var MyIcon = new GIcon(G_DEFAULT_ICON);
-        //MyIcon.image = "http://www.trc.club.tw/images/firework.png";
-        // 自訂圖標大小
-        MyIcon.iconSize = new GSize(32, 32); 
-        markerOptions = { icon:MyIcon, draggable:true };
+      //drawMarker = function(point, point_id) {
+      drawMarker = function(marker, point_id) {
 
-        //var marker = new GMarker(point, {icon:MyIcon,draggable:true,bouncy:false});//可在這之前定義markerOptions自訂你的marker
+        /*
         var minMarker = [];
-        var marker = new GMarker(point, {id: point_id, title:"This is marker!!", draggable:true});
         minMarker.push(marker);
         mgr.addMarkers(minMarker, 16);
         mgr.refresh();
+        */
 
-        var dragit = function() {
+        GEvent.addListener(marker, "drag", function() {
           var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
-          document.getElementById('cordination').innerHTML = newPoint.toString();
+          document.getElementById('cordination').innerHTML = newPoint;
           $j('#msg').fadeIn("fast");
           $j('#msg').html('您可移動至您想放的位置...');
-        };
-
-        GEvent.addListener(marker, "drag", dragit); 
+        }); 
 
         GEvent.addListener(marker, "dragend", function() {
           var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
@@ -142,7 +132,6 @@
               alert(marker.getPoint().lat() + ' & ' + marker.getPoint().lng() + ' 已存檔!');
             });
           }
-          console.dir(marker);
           $j('#msg').html('定位於' + newPoint);
           setTimeout(function() {
             $j('#msg').fadeOut(function() {
@@ -164,15 +153,118 @@
         });
       } // End of drawMarker
 
-      var showObj = function (o) {
-        for(var x in o) {
-          markerPoint = new GLatLng(o[x].lat, o[x].lng);
-          drawMarker(markerPoint, o[x].id);
-        }
-      }
+function getPreviewDOM(photo, i)
+{
+  var id = photo.id;
 
-      $j.get("load_latlng.php", "", showObj, "json");
+  var a = document.createElement("A");
+  a.href = "/photo/" + id;
+
+  var img = document.createElement("IMG");
+
+  $j(img).attr({
+    title: photo.curr_time,
+    id: "r" + id,
+    src: "http://122.116.58.206/photos/img/icon_openid_s.gif",
+    //src: getImageUrl("thumbnail", id),
+    p_id: id }).hover(
+    function() {
+      $j(this).css("border-width", "2px");
+      $j(this).css("border-color", "#ff0000");
+      markers.select(i);
+    }, function() {
+      $j(this).css("border-width", "2px");
+      $j(this).css("border-color", "#ffffff");
+      markers.select(markers.NONE);
     }
+  );
+
+  var div = document.createElement("DIV");
+  div.appendChild(a);
+  a.appendChild(img);
+  return div;
+}
+
+      var showObj = function (o) {
+        /*
+        var photos = [];
+        var photos_desc = [];
+        var mymarkers = new myMarker("/activity/123/photoconcat/?w=32&h=32", 32, 32, o, photos, photos_desc, "article");
+        map.addOverlay(mymarkers);
+         */
+
+        var points = [];
+        var ids = [];
+        var minMarker = [];
+        //for(var x in o) {
+        for(var i=0; i<o.length; i++) {
+
+          var photo = o[i];
+          var markerPoint = new GLatLng(photo.lat, photo.lng);
+          points.push(markerPoint);
+          ids.push(photo.id);
+/*
+        var marker = new GMarker(markerPoint);
+        minMarker.push(marker);
+        mgr.addMarkers(minMarker, 16);
+        mgr.refresh();
+*/
+
+          $j("#preview").append(getPreviewDOM(o[i], i));
+
+        }
+
+
+        markers = new GCompoundMarker("http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg", 32, 32, points);
+        map.addOverlay(markers);
+
+        GEvent.addListener(markers, "mouseover", function(i) {
+          markers.select(i);
+          $j("#r" + o[i].id).css("background", "#ff0000");
+        });
+
+        GEvent.addListener(markers, "mouseout", function(i) {
+          markers.select(markers.NONE);
+          $j("#r" + o[i].id).css("background", "#ffffff");
+        });
+
+        GEvent.addListener(markers, "click", function(i) {
+          console.dir(markers.select(i));
+          //marker.openInfoWindowHtml('圖在這!');
+        });
+
+          /*
+          // 自訂圖標
+          var MyIcon = new GIcon(G_DEFAULT_ICON);
+          MyIcon.image = "http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg";
+          // 自訂圖標大小
+          MyIcon.iconSize = new GSize(32, 32); 
+          markerOptions = { icon:MyIcon, draggable:true, id:p.id};
+
+          markerPoint = new GLatLng(o[x].lat, o[x].lng);
+          var marker = new GMarker(markerPoint, markerOptions);
+          //var marker = new GCompoundMarker(MyIcon.image, 32, 32, markerPoint);
+          drawMarker(marker);
+          */
+
+        //}
+      } //End of showObj
+
+        var bounds = map.getBounds();
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        var req_para = {
+          "minx": sw.lng(),
+          "miny": sw.lat(),
+          "maxx": ne.lng(),
+          "maxy": ne.lat()
+        };
+      $j.get("load_latlng.php", req_para, showObj, "json");
+    }
+
+    GEvent.addListener(map, "moveend", function() {
+      $j.get("load_latlng.php", req_para, showObj, "json");
+    });
 
   }
 
@@ -199,14 +291,18 @@
       });
     }, 1000);
     contextmenu.style.visibility = 'hidden';
+    /*
     var polyline = new GPolyline([
       new GLatLng(latlngObj.lat(), latlngObj.lng()),
         new GLatLng(latlngObj.lat() + 0.001, latlngObj.lng() + 0.001)
         ], "#ff0000", 3);
-    //map.addOverlay(polyline);
-    var boundaries = new GLatLngBounds(new GLatLng(latlngObj.lat(), latlngObj.lng()), new GLatLng(latlngObj.lat()+0.001, latlngObj.lng()+0.001));
-    var myimg = new GGroundOverlay("http://122.116.58.206/photos/img/btn_signup.gif", boundaries);
+    map.addOverlay(polyline);
+     */
+    /*
+    var boundaries = new GLatLngBounds(new GLatLng(latlngObj.lat(), latlngObj.lng()), new GLatLng(latlngObj.lat()+0.00025, latlngObj.lng()+0.00025));
+    var myimg = new GGroundOverlay("http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg", boundaries);
     map.addOverlay(myimg);
+     */
   }
 
   function createContextMenu(map)
@@ -291,8 +387,19 @@
   }
    */
    
-  google.load("maps", "2.x", {"callback" : initialize, "locale" : "zh_TW"});
-  google.load("jquery", "1.2.6");
+  //google.load("maps", "2.x", {"callback" : initialize, "locale" : "zh_TW"});
+  //google.load("jquery", "1.2.6");
 </script> 
+</head> 
+<body onLoad="initialize()" onunload="GUnload()"> 
+<div id="container">
+  <div id="msgArea">
+    <span id="msg">這裡放座標</span>
+    <span id="cordination"></span>
+  </div>
+  <div id="preview"></div>
+  <div id="map" style="border:1px solid gray;width: 900px; height: 600px"></div>
+</div>
+
 </body> 
 </html>
