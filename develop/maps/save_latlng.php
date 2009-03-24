@@ -4,7 +4,7 @@
   require LIBRARY_PATH."function.inc";
 
   Connect_Mysql();
-  $_POST['now_time'] = date("Y-m-d H:i:s");
+  $_POST['curr_time'] = date("Y-m-d H:i:s");
   if (isset($_POST['action']))
   {
     Connect_Mysql();
@@ -20,7 +20,7 @@
         break;
       case "update":
         $sql = "UPDATE web3.map_point SET ";
-        $sql.= "lat = '{$_POST['lat']}', lng = '{$_POST['lng']}', now_time = now() ";
+        $sql.= "lat = '{$_POST['lat']}', lng = '{$_POST['lng']}', curr_time = now() ";
         $sql.= "WHERE id = '{$_POST['point_id']}'";
         Query_Mysql($sql);
         Close_Mysql();
