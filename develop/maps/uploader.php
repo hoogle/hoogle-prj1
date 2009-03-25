@@ -1,6 +1,7 @@
 <?
   session_start();
   $userid = $_SESSION['userid'];
+  $pid = intval($_GET['pid']);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
 <html> 
@@ -89,6 +90,7 @@ body {
     </div>
     <div id="uploaderOverlay"></div>
     <div id="uploadButton">
+      <input type="hidden" id="pid" name="pid" value="<?=$pid?>" />
       <input type="hidden" id="book" name="book" value="" />
       <input type="button" id="btn_upload" name="btn_upload" value="上傳" />
     </div>
