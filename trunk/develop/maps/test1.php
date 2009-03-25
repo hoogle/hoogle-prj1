@@ -33,6 +33,12 @@
 #preview {
   float:left;
 }
+#preview img {
+  /*background:white none repeat scroll 0 0;*/
+  border:1px solid #CCCCCC;
+  margin:2px auto;
+  padding:3px;
+}
 #map {
   float:left;
 }
@@ -107,22 +113,23 @@ img {
       map.addMapType(G_PHYSICAL_MAP);
       //map.addOverlay(new GLayer("com.panoramio.all"));
       var mgr = new GMarkerManager(map);
-   
-      //drawMarker = function(point, point_id) {
+
       drawMarker = function(marker, point_id) {
 
+        map.addOverlay(marker);
         /*
-        var minMarker = [];
+          var minMarker = [];
         minMarker.push(marker);
         mgr.addMarkers(minMarker, 16);
         mgr.refresh();
-        */
+         */
 
         GEvent.addListener(marker, "drag", function() {
           var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
           document.getElementById('cordination').innerHTML = newPoint;
           $j('#msg').fadeIn("fast");
           $j('#msg').html('您可移動至您想放的位置...');
+          console.dir(marker);
         }); 
 
         GEvent.addListener(marker, "dragend", function() {
@@ -149,41 +156,44 @@ img {
           $j('#msg').html('請選擇上傳檔案！');
           var maxContentDiv = document.createElement('div');
           maxContentDiv.innerHTML = '載入中...';
-          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php" style="width:220px;border:none;"></iframe>');
+          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'" style="width:220px;border:none;"></iframe>');
         });
       } // End of drawMarker
 
-function getPreviewDOM(photo, i)
-{
-  var id = photo.id;
+      function getPreviewDOM(photo, i)
+      {
+        var id = photo.id;
 
-  var a = document.createElement("A");
-  a.href = "/photo/" + id;
+        var a = document.createElement("A");
+        a.href = "/photo/" + id;
 
-  var img = document.createElement("IMG");
+        var img = document.createElement("IMG");
 
-  $j(img).attr({
-    title: photo.curr_time,
-    id: "r" + id,
-    src: "http://122.116.58.206/photos/img/icon_openid_s.gif",
-    //src: getImageUrl("thumbnail", id),
-    p_id: id }).hover(
-    function() {
-      $j(this).css("border-width", "2px");
-      $j(this).css("border-color", "#ff0000");
-      markers.select(i);
-    }, function() {
-      $j(this).css("border-width", "2px");
-      $j(this).css("border-color", "#ffffff");
-      markers.select(markers.NONE);
-    }
-  );
+        $j(img).attr({
+          title: photo.curr_time,
+            id: "r" + id,
+            src: "http://122.116.58.206/photos/img/icon_openid_s.gif",
+            //src: getImageUrl("thumbnail", id),
 
-  var div = document.createElement("DIV");
-  div.appendChild(a);
-  a.appendChild(img);
-  return div;
-}
+            p_id: id }).hover(
+              function() {
+                $j(this).css("border", "1px solid #ff0000");
+                $j(this).css("margin", "2px auto");
+                $j(this).css("padding", "3px");
+                markers.select(i);
+              }, function() {
+                $j(this).css("border", "1px solid #cccccc");
+                $j(this).css("margin", "2px auto");
+                $j(this).css("padding", "3px");
+                markers.select(markers.NONE);
+              }
+          );
+
+          var div = document.createElement("DIV");
+          div.appendChild(a);
+          a.appendChild(img);
+          return div;
+      }
 
       var showObj = function (o) {
         /*
@@ -203,17 +213,17 @@ function getPreviewDOM(photo, i)
           var markerPoint = new GLatLng(photo.lat, photo.lng);
           points.push(markerPoint);
           ids.push(photo.id);
-/*
-        var marker = new GMarker(markerPoint);
-        minMarker.push(marker);
-        mgr.addMarkers(minMarker, 16);
-        mgr.refresh();
-*/
+
+          /*
+          var marker = new GMarker(markerPoint);
+          minMarker.push(marker);
+          mgr.addMarkers(minMarker, 16);
+          mgr.refresh();
+           */
 
           $j("#preview").append(getPreviewDOM(o[i], i));
 
         }
-
 
         markers = new GCompoundMarker("http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg", 32, 32, points);
         map.addOverlay(markers);
@@ -233,32 +243,31 @@ function getPreviewDOM(photo, i)
           //marker.openInfoWindowHtml('圖在這!');
         });
 
-          /*
-          // 自訂圖標
-          var MyIcon = new GIcon(G_DEFAULT_ICON);
-          MyIcon.image = "http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg";
-          // 自訂圖標大小
-          MyIcon.iconSize = new GSize(32, 32); 
-          markerOptions = { icon:MyIcon, draggable:true, id:p.id};
+        /*
+        // 自訂圖標
+        var MyIcon = new GIcon(G_DEFAULT_ICON);
+        MyIcon.image = "http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg";
+        // 自訂圖標大小
+        MyIcon.iconSize = new GSize(32, 32); 
+        markerOptions = { icon:MyIcon, draggable:true, id:p.id};
 
-          markerPoint = new GLatLng(o[x].lat, o[x].lng);
-          var marker = new GMarker(markerPoint, markerOptions);
-          //var marker = new GCompoundMarker(MyIcon.image, 32, 32, markerPoint);
-          drawMarker(marker);
-          */
+        markerPoint = new GLatLng(o[x].lat, o[x].lng);
+        var marker = new GMarker(markerPoint, markerOptions);
+        //var marker = new GCompoundMarker(MyIcon.image, 32, 32, markerPoint);
+        drawMarker(marker);
+         */
 
-        //}
       } //End of showObj
 
-        var bounds = map.getBounds();
-        var sw = bounds.getSouthWest();
-        var ne = bounds.getNorthEast();
-        var req_para = {
-          "minx": sw.lng(),
+      var bounds = map.getBounds();
+      var sw = bounds.getSouthWest();
+      var ne = bounds.getNorthEast();
+      var req_para = {
+        "minx": sw.lng(),
           "miny": sw.lat(),
           "maxx": ne.lng(),
           "maxy": ne.lat()
-        };
+      };
       $j.get("load_latlng.php", req_para, showObj, "json");
     }
 
@@ -279,7 +288,16 @@ function getPreviewDOM(photo, i)
       $j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
         new_markerid = data.new_markerid;
         console.log('new_markerid => ', new_markerid);
-        drawMarker(newPoint, new_markerid);
+
+        // 自訂圖標
+        var MyIcon = new GIcon(G_DEFAULT_ICON);
+        MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
+        // 自訂圖標大小
+        MyIcon.iconSize = new GSize(32, 32); 
+        markerOptions = { icon:MyIcon, draggable:true, id:new_markerid};
+        var newMarker = new GMarker(newPoint, {draggable:true, id:new_markerid});
+
+        drawMarker(newMarker, new_markerid);
         alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
       }, 'json');
     }
@@ -315,11 +333,11 @@ function getPreviewDOM(photo, i)
     contextmenu.style.border = '1px solid #8888FF';
 
     contextmenu.innerHTML = '<div class="menuitem" onclick="zoomInHere()">放大</div>'
-    + '<div class="menuitem" onclick="javascript:zoomOutHere()">縮小</div>'
-    + '<div class="menuitem" onclick="javascript:addMarker(map)">在此新增據點</div>'
-    + '<div class="menuitem" onclick="javascript:centreMapHere()">將此置於地圖中心</div>'
+      + '<div class="menuitem" onclick="javascript:zoomOutHere()">縮小</div>'
+      + '<div class="menuitem" onclick="javascript:addMarker(map)">在此新增據點</div>'
+      + '<div class="menuitem" onclick="javascript:centreMapHere()">將此置於地圖中心</div>'
 
-    map.getContainer().appendChild(contextmenu);
+      map.getContainer().appendChild(contextmenu);
     GEvent.addListener(map, 'singlerightclick', function(pixel, tile) {
       clickedPixel = pixel;
       var x = pixel.x;
@@ -360,7 +378,7 @@ function getPreviewDOM(photo, i)
     var marker;
     var dog = true;
     var noMore = false;
-   
+
     var mouseMove = GEvent.addListener(map, 'mousemove', function(cursorPoint){
       if(!noMore){
         marker = new GMarker(cursorPoint,{draggable:true, autoPan:false});
@@ -386,7 +404,7 @@ function getPreviewDOM(photo, i)
     });
   }
    */
-   
+
   //google.load("maps", "2.x", {"callback" : initialize, "locale" : "zh_TW"});
   //google.load("jquery", "1.2.6");
 </script> 
