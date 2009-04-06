@@ -7,6 +7,9 @@
   }
   $userid = $_SESSION['userid'];
   $photoid = $_GET['pid'];
+
+  require LIBRARY_PATH."function.inc";
+  $picAry = getListData("web3.map_point", $cnt, array('id' => $photoid));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -90,39 +93,22 @@
   var jsvar = {
     userid: '<?=$userid?>'
   };
+
   function initialize() {
     if (GBrowserIsCompatible()) {
       $j = jQuery.noConflict();
 
       map = new GMap2(document.getElementById('map'));
-      map.setCenter(new GLatLng(35.62819, 139.73631), 17);
-      map.addControl(new GLargeMapControl());
-      map.addControl(new GOverviewMapControl());
+      map.setCenter(new GLatLng('<?=$picAry[0]['lat']?>', '<?=$picAry[0]['lng']?>'), 17);
+      map.addControl(new GSmallMapControl());
       map.addControl(new GScaleControl());
-      map.enableGoogleBar();
       map.enableScrollWheelZoom();
       map.enableContinuousZoom();
       map.addControl(new GMapTypeControl());
-      createContextMenu(map);
       map.addMapType(G_PHYSICAL_MAP);
-      var mgr = new GMarkerManager(map);
 
       drawMarker = function(marker, point_id) {
-
         map.addOverlay(marker);
-
-        GEvent.addListener(marker, "drag", function() {
-        }); 
-
-        GEvent.addListener(marker, "dragend", function() {
-          var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
-          if (confirm('是否要更新此位置？')) {
-            $j.post("/maps/save_latlng.php", {action: 'update', point_id: marker.id, lat: marker.getPoint().lat(), lng: marker.getPoint().lng()}, function(data) {
-              alert(marker.getPoint().lat() + ' & ' + marker.getPoint().lng() + ' 已存檔!');
-            });
-          }
-        });
-
         GEvent.addListener(marker, "click", function() {
           var maxContentDiv = document.createElement('div');
           maxContentDiv.innerHTML = '載入中...';
@@ -162,7 +148,7 @@
           div.appendChild(a);
           a.appendChild(img);
           return div;
-      }
+      } // End of getPreviewDOM 
 
       var showObj = function (o) {
         var points = [];
@@ -194,25 +180,29 @@
           console.dir(markers.select(i));
         });
 
-      } //End of showObj
+      } // End of showObj
 
-      var bounds = map.getBounds();
-      var sw = bounds.getSouthWest();
-      var ne = bounds.getNorthEast();
-      var req_para = {
-        "minx": sw.lng(),
-          "miny": sw.lat(),
-          "maxx": ne.lng(),
-          "maxy": ne.lat()
-      };
-      $j.get("/maps/load_latlng.php", req_para, showObj, "json");
+      var getBounds = function() {
+        var bounds = map.getBounds();
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        var req_para = {
+          "minx": sw.lng(),
+            "miny": sw.lat(),
+            "maxx": ne.lng(),
+            "maxy": ne.lat()
+        };
+        $j.get("/maps/load_latlng.php", req_para, showObj, "json");
+      } // End of getBounds
+
+      getBounds();
     }
 
     GEvent.addListener(map, "moveend", function() {
-      $j.get("/maps/load_latlng.php", req_para, showObj, "json");
+      getBounds();
     });
 
-  }
+  } // End of initial
 
   function addMarker(map) {
     var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
@@ -238,57 +228,6 @@
         alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
       }, 'json');
     }
-    contextmenu.style.visibility = 'hidden';
-  }
-
-  function createContextMenu(map)
-  {
-    contextmenu = document.createElement('div');
-    contextmenu.id = 'funcmenu';
-    contextmenu.style.padding = '0px';
-    contextmenu.style.visibility = 'hidden';
-    contextmenu.style.background = '#ffffff';
-    contextmenu.style.border = '1px solid #8888FF';
-
-    contextmenu.innerHTML = '<div class="menuitem" onclick="zoomInHere()">放大</div>'
-      + '<div class="menuitem" onclick="javascript:zoomOutHere()">縮小</div>'
-      + '<div class="menuitem" onclick="javascript:addMarker(map)">在此新增據點</div>'
-      + '<div class="menuitem" onclick="javascript:centreMapHere()">將此置於地圖中心</div>'
-
-      map.getContainer().appendChild(contextmenu);
-    GEvent.addListener(map, 'singlerightclick', function(pixel, tile) {
-      clickedPixel = pixel;
-      var x = pixel.x;
-      var y = pixel.y;
-      if (x > map.getSize().width - 120) { 
-        x = map.getSize().width - 120 
-      }
-      if (y > map.getSize().height - 100) { 
-        y = map.getSize().height - 100 
-      }
-      var pos = new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(x, y));  
-      pos.apply(contextmenu);
-      contextmenu.style.visibility = 'visible';
-    });
-    GEvent.addListener(map, "click", function() {
-      contextmenu.style.visibility = 'hidden';
-    });
-  }
-
-  function zoomInHere() {
-    var point = map.fromContainerPixelToLatLng(clickedPixel)
-      map.zoomIn(point, true);
-    contextmenu.style.visibility = 'hidden';
-  }      
-  function zoomOutHere() {
-    var point = map.fromContainerPixelToLatLng(clickedPixel)
-      map.setCenter(point,map.getZoom()-1); 
-    contextmenu.style.visibility = 'hidden';
-  }      
-  function centreMapHere() {
-    var point = map.fromContainerPixelToLatLng(clickedPixel)
-      map.setCenter(point);
-    contextmenu.style.visibility = 'hidden';
   }
 </script> 
 </head> 
