@@ -107,15 +107,6 @@
       map.addControl(new GMapTypeControl());
       map.addMapType(G_PHYSICAL_MAP);
 
-      drawMarker = function(marker, point_id) {
-        map.addOverlay(marker);
-        GEvent.addListener(marker, "click", function() {
-          var maxContentDiv = document.createElement('div');
-          maxContentDiv.innerHTML = '載入中...';
-          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'" style="width:220px;border:none;"></iframe>');
-        });
-      } // End of drawMarker
-
       function getPreviewDOM(photo, i)
       {
         var id = photo.id;
@@ -153,7 +144,6 @@
       var showObj = function (o) {
         var points = [];
         var ids = [];
-        var minMarker = [];
 
         for(var i=0; i<o.length; i++) {
           var photo = o[i];
@@ -177,7 +167,7 @@
         });
 
         GEvent.addListener(markers, "click", function(i) {
-          console.dir(markers.select(i));
+          location.href='/album/photo.php?pid='+o[i].id;
         });
 
       } // End of showObj
@@ -203,32 +193,6 @@
     });
 
   } // End of initial
-
-  function addMarker(map) {
-    var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
-    var newPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
-    var create_new = function (data) {
-      new_markerid = data.new_markerid;
-      alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
-    };
-    if (confirm('是否要在此位置建立據點？')) {
-      $j.post("/maps/save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
-        new_markerid = data.new_markerid;
-        console.log('new_markerid => ', new_markerid);
-
-        // 自訂圖標
-        var MyIcon = new GIcon(G_DEFAULT_ICON);
-        MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
-        // 自訂圖標大小
-        MyIcon.iconSize = new GSize(32, 32); 
-        markerOptions = { icon:MyIcon, draggable:true, id:new_markerid};
-        var newMarker = new GMarker(newPoint, {draggable:true, id:new_markerid});
-
-        drawMarker(newMarker, new_markerid);
-        alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
-      }, 'json');
-    }
-  }
 </script> 
 </head> 
 <body onLoad="initialize()" onunload="GUnload()"> 
