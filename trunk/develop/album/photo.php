@@ -101,8 +101,6 @@
       map = new GMap2(document.getElementById('map'));
       map.setCenter(new GLatLng('<?=$picAry[0]['lat']?>', '<?=$picAry[0]['lng']?>'), 17);
       map.addControl(new GSmallMapControl());
-      map.addControl(new GScaleControl());
-      map.enableScrollWheelZoom();
       map.enableContinuousZoom();
       map.addControl(new GMapTypeControl());
       map.addMapType(G_PHYSICAL_MAP);
