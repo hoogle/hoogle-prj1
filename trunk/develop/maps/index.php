@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"> 
 <head> 
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
-<title>Google Maps JavaScript API Example</title> 
+<title>Hoogle - main</title> 
 <style type="text/css"> 
 #container {
   /*position:relative;*/
@@ -86,10 +86,10 @@ img {
   border:1px solid white;
 }
 </style> 
-<!--script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ"></script--> 
-<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSfuyCR8UQqND6_MVZSTCrXFOoSJhRFXxV9YDnWBxuCXkBsNPiWSF6FeQ" type="text/javascript"></script>
+<!--script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg"></script--> 
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="/photos/js/gmarker.js"></script>
+<script type="text/javascript" src="/photos/js/glayer.js"></script>
 <script type="text/javascript">
   var map;
   var jsvar = {
@@ -172,7 +172,7 @@ img {
         $j(img).attr({
           title: photo.curr_time,
             id: "r" + id,
-            src: "http://122.116.58.206/photos/img/icon_openid_s.gif",
+            src: "http://122.116.58.213/photos/img/icon_openid_s.gif",
             //src: getImageUrl("thumbnail", id),
 
             p_id: id }).hover(
@@ -196,36 +196,39 @@ img {
       }
 
       var showObj = function (o) {
-        /*
-        var photos = [];
-        var photos_desc = [];
-        var mymarkers = new myMarker("/activity/123/photoconcat/?w=32&h=32", 32, 32, o, photos, photos_desc, "article");
-        map.addOverlay(mymarkers);
-         */
-
         var points = [];
         var ids = [];
-        var minMarker = [];
+        //var minMarker = [];
         //for(var x in o) {
         for(var i=0; i<o.length; i++) {
-
           var photo = o[i];
           var markerPoint = new GLatLng(photo.lat, photo.lng);
           points.push(markerPoint);
           ids.push(photo.id);
 
-          /*
-          var marker = new GMarker(markerPoint);
-          minMarker.push(marker);
-          mgr.addMarkers(minMarker, 16);
-          mgr.refresh();
-           */
+          //
+          // 自訂icon
+          //var MyIcon = new GIcon(G_DEFAULT_ICON);
+          //MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
+          // 自訂icon大小
+          //MyIcon.iconSize = new GSize(32, 32); 
+          //
+          markerOptions = { draggable:true, id:photo.id};
+
+          var marker = new GMarker(markerPoint, markerOptions);
+          //minMarker.push(marker);
+          //mgr.addMarkers(minMarker, 16);
+          //mgr.refresh();
+
+          drawMarker(marker);
+          //
+
 
           $j("#preview").append(getPreviewDOM(o[i], i));
-
         }
 
-        markers = new GCompoundMarker("http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg", 32, 32, points);
+        markers = new GCompoundMarker("http://122.116.58.213/composite/?" + ids.join(","), 32, 32, points);
+        //markers = new GCompoundMarker("", 32, 32, points, ids);
         map.addOverlay(markers);
 
         GEvent.addListener(markers, "mouseover", function(i) {
@@ -239,23 +242,11 @@ img {
         });
 
         GEvent.addListener(markers, "click", function(i) {
-          console.dir(markers.select(i));
-          //marker.openInfoWindowHtml('圖在這!');
+          //console.dir(markers.select(i));
+          location.href='/album/photo.php?pid='+o[i].id;
         });
 
-        /*
-        // 自訂圖標
-        var MyIcon = new GIcon(G_DEFAULT_ICON);
-        MyIcon.image = "http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg";
-        // 自訂圖標大小
-        MyIcon.iconSize = new GSize(32, 32); 
-        markerOptions = { icon:MyIcon, draggable:true, id:p.id};
-
-        markerPoint = new GLatLng(o[x].lat, o[x].lng);
-        var marker = new GMarker(markerPoint, markerOptions);
-        //var marker = new GCompoundMarker(MyIcon.image, 32, 32, markerPoint);
-        drawMarker(marker);
-         */
+        //
 
       } //End of showObj
 
@@ -284,17 +275,12 @@ img {
       new_markerid = data.new_markerid;
       alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
     };
-    if (confirm('是否要在此位置建立據點？')) {
+    if (confirm('是否要在此位置建立景點？')) {
       $j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
         new_markerid = data.new_markerid;
         console.log('new_markerid => ', new_markerid);
 
-        // 自訂圖標
-        var MyIcon = new GIcon(G_DEFAULT_ICON);
-        MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
-        // 自訂圖標大小
-        MyIcon.iconSize = new GSize(32, 32); 
-        markerOptions = { icon:MyIcon, draggable:true, id:new_markerid};
+        markerOptions = { draggable:true, id:new_markerid};
         var newMarker = new GMarker(newPoint, {draggable:true, id:new_markerid});
 
         drawMarker(newMarker, new_markerid);
@@ -318,7 +304,7 @@ img {
      */
     /*
     var boundaries = new GLatLngBounds(new GLatLng(latlngObj.lat(), latlngObj.lng()), new GLatLng(latlngObj.lat()+0.00025, latlngObj.lng()+0.00025));
-    var myimg = new GGroundOverlay("http://122.116.58.206/photos/upload/r/richardw/1/Winter.jpg", boundaries);
+    var myimg = new GGroundOverlay("http://122.116.58.213/photos/upload/r/richardw/1/Winter.jpg", boundaries);
     map.addOverlay(myimg);
      */
   }
@@ -334,7 +320,7 @@ img {
 
     contextmenu.innerHTML = '<div class="menuitem" onclick="zoomInHere()">放大</div>'
       + '<div class="menuitem" onclick="javascript:zoomOutHere()">縮小</div>'
-      + '<div class="menuitem" onclick="javascript:addMarker(map)">在此新增據點</div>'
+      + '<div class="menuitem" onclick="javascript:addMarker(map)">在此新增景點</div>'
       + '<div class="menuitem" onclick="javascript:centreMapHere()">將此置於地圖中心</div>'
 
       map.getContainer().appendChild(contextmenu);
