@@ -116,8 +116,8 @@
 
         $j(img).attr({
           title: photo.curr_time,
-            id: "r" + id,
-            src: "/photos/img/icon_openid_s.gif",
+            id: 'r' + id,
+            src: '/photos/upload/user/r/richardw/1/thumb/t' + id + '.jpg',
 
             p_id: id }).hover(
               function() {
@@ -205,7 +205,7 @@
       <div class="yui-u first">
         <div id="show">
           <span class="cell">
-            <img src="/photos/upload/user/r/richardw/1/thumb/t<?=$photoid?>.jpg" />
+            <img src="/photos/upload/user/r/richardw/1/<?=$photoid?>.jpg" />
           </span>
         </div>
       </div>
