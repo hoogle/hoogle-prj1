@@ -165,14 +165,14 @@ img {
         var id = photo.id;
 
         var a = document.createElement("A");
-        a.href = "/photo/" + id;
+        a.href = '/album/photo.php?pid=' + id;
 
         var img = document.createElement("IMG");
 
         $j(img).attr({
           title: photo.curr_time,
-            id: "r" + id,
-            src: "http://122.116.58.213/photos/img/icon_openid_s.gif",
+            id: 'r' + id,
+            src: '/photos/upload/user/r/richardw/1/thumb/t' + (i+1) + '.jpg',
             //src: getImageUrl("thumbnail", id),
 
             p_id: id }).hover(
@@ -402,7 +402,7 @@ img {
     <span id="cordination"></span>
   </div>
   <div id="preview"></div>
-  <div id="map" style="border:1px solid gray;width: 900px; height: 600px"></div>
+  <div id="map" style="border:1px solid gray;width:900px;height:700px"></div>
 </div>
 
 </body> 
