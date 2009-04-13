@@ -84,6 +84,30 @@
 .menuitem:hover {
   background-color:#DDEEFF;
 }
+#locinfo {
+  margin:10px;
+  padding:5px;
+  border:1px solid gray;
+  background-color:#eee;
+}
+.exif-info, .exif-item {
+  text-align:left;
+  font:12pt Arial;
+  clear:both;
+  padding:5px;
+  height:20px;
+}
+.exif-item {
+  font-weight:bold;
+}
+.exif-info label, .exif-item label {
+  float:left;
+  width:100px;
+  display:block;
+}
+.exif-info span {
+  float:left;
+}
 </style> 
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
@@ -208,17 +232,15 @@
             <img src="/photos/upload/user/r/richardw/1/<?=$photoid?>.jpg" />
           </span>
         </div>
+        <div class="main-center" id="preview"></div>
       </div>
       <div class="yui-u">
         <div id="map"></div>
-        <div id="locinfo">經緯度...... 資料</div>
+        <div id="locinfo">
+        <? include WEBROOT_PATH."include/mod_exif.php"; ?>
+        </div>
       </div>
     </div>
-
-    <div class="yui-g">
-      <div class="main-center" id="preview"></div>
-    </div>
-    <div class="yui-g"></div>
 
   </div>
 </div>
