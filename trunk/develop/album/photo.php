@@ -134,7 +134,7 @@
         var id = photo.id;
 
         var a = document.createElement("A");
-        a.href = "/photo/" + id;
+        a.href = "/album/photo.php?pid=" + id;
 
         var img = document.createElement("IMG");
 
