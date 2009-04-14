@@ -10,6 +10,7 @@
 
   require LIBRARY_PATH."function.inc";
   $picAry = getListData("web3.map_point", $cnt, array('id' => $photoid));
+  $abs_filename = getUserPath($userid, 1)."/{$photoid}.jpg"; 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -28,8 +29,14 @@
 .yui-gc .yui-u { 
     width:36%;
 }
+#preview {
+  border:1px solid red;
+  padding:0 20px;
+  text-align:center;
+}
 #preview div {
   float:left;
+  margin:5px;
 }
 #preview img {
   /*background:white none repeat scroll 0 0;*/
@@ -164,6 +171,7 @@
       } // End of getPreviewDOM 
 
       var showObj = function (o) {
+        $j("#preview").html('');
         var points = [];
         var ids = [];
 
@@ -232,7 +240,7 @@
             <img src="/photos/upload/user/r/richardw/1/<?=$photoid?>.jpg" />
           </span>
         </div>
-        <div class="main-center" id="preview"></div>
+        <div class="main-center clearfix" id="preview"></div>
       </div>
       <div class="yui-u">
         <div id="map"></div>
