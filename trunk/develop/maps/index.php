@@ -156,7 +156,7 @@ img {
           $j('#msg').html('請選擇上傳檔案！');
           var maxContentDiv = document.createElement('div');
           maxContentDiv.innerHTML = '載入中...';
-          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'" style="width:220px;border:none;"></iframe>');
+          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'" style="width:220px;height:90px;border:none;" scrolling="no"></iframe>');
         });
       } // End of drawMarker
 
@@ -196,6 +196,7 @@ img {
       }
 
       var showObj = function (o) {
+        $j("#preview").html('');
         var points = [];
         var ids = [];
         //var minMarker = [];
