@@ -172,7 +172,7 @@ img {
         $j(img).attr({
           title: photo.curr_time,
             id: 'r' + id,
-            src: '/photos/upload/user/r/richardw/1/thumb/t' + (i+1) + '.jpg',
+            src: '/photos/upload/user/r/richardw/1/thumb/t' + id + '.jpg',
             //src: getImageUrl("thumbnail", id),
 
             p_id: id }).hover(
