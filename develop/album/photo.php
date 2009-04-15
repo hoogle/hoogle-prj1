@@ -29,9 +29,16 @@
 .yui-gc .yui-u { 
     width:36%;
 }
+.preview-info {
+  margin:10px 5px 2px 5px;
+  text-align:left;
+  font-size:12pt;
+}
 #preview {
-  border:1px solid red;
+  margin:5px;
   padding:0 20px;
+  border:1px solid gray;
+  background-color:#ffffee;
   text-align:center;
 }
 #preview div {
@@ -240,6 +247,7 @@
             <img src="/photos/upload/user/r/richardw/1/<?=$photoid?>.jpg" />
           </span>
         </div>
+        <div class="preview-info">此區內的其他照片：</div>
         <div class="main-center clearfix" id="preview"></div>
       </div>
       <div class="yui-u">
