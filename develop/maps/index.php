@@ -251,20 +251,24 @@ img {
 
       } //End of showObj
 
-      var bounds = map.getBounds();
-      var sw = bounds.getSouthWest();
-      var ne = bounds.getNorthEast();
-      var req_para = {
-        "minx": sw.lng(),
-          "miny": sw.lat(),
-          "maxx": ne.lng(),
-          "maxy": ne.lat()
-      };
-      $j.get("load_latlng.php", req_para, showObj, "json");
+      var getMapBounds = function() {
+        var bounds = map.getBounds();
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        var req_para = {
+          "minx": sw.lng(),
+            "miny": sw.lat(),
+            "maxx": ne.lng(),
+            "maxy": ne.lat()
+        };
+        $j.get("load_latlng.php", req_para, showObj, "json");
+      } // End of getMapBounds
+
+      getMapBounds();
     }
 
     GEvent.addListener(map, "moveend", function() {
-      $j.get("load_latlng.php", req_para, showObj, "json");
+      getMapBounds();
     });
 
   }
