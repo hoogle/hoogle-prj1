@@ -12,6 +12,7 @@
 <head> 
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
 <title>Hoogle - main</title> 
+<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
 <style type="text/css"> 
 #container {
   /*position:relative;*/
@@ -32,9 +33,13 @@
 }
 #preview {
   float:left;
+  width:100px;
+  border:1px solid gray;
+  margin:0 10px;
+  padding: 10px;
+  font-size:12px;
 }
 #preview img {
-  /*background:white none repeat scroll 0 0;*/
   border:1px solid #CCCCCC;
   margin:2px auto;
   padding:3px;
@@ -201,32 +206,37 @@ img {
         var ids = [];
         //var minMarker = [];
         //for(var x in o) {
-        for(var i=0; i<o.length; i++) {
-          var photo = o[i];
-          var markerPoint = new GLatLng(photo.lat, photo.lng);
-          points.push(markerPoint);
-          ids.push(photo.id);
+        var o_len = o.length;
+        if (!o_len) {
+          $j("#preview").html('此區尚無任何照片');
+        } else {
+          for(var i=0; i<o_len; i++) {
+            var photo = o[i];
+            var markerPoint = new GLatLng(photo.lat, photo.lng);
+            points.push(markerPoint);
+            ids.push(photo.id);
 
-          //
-          // 自訂icon
-          //var MyIcon = new GIcon(G_DEFAULT_ICON);
-          //MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
-          // 自訂icon大小
-          //MyIcon.iconSize = new GSize(32, 32); 
-          //
-          markerOptions = { draggable:true, id:photo.id};
+            //
+            // 自訂icon
+            //var MyIcon = new GIcon(G_DEFAULT_ICON);
+            //MyIcon.image = "http://maps.google.com.tw/intl/zh-TW_tw/mapfiles/ms/micons/blue-dot.white.png";
+            // 自訂icon大小
+            //MyIcon.iconSize = new GSize(32, 32); 
+            //
+            markerOptions = { draggable:true, id:photo.id};
 
-          var marker = new GMarker(markerPoint, markerOptions);
-          //minMarker.push(marker);
-          //mgr.addMarkers(minMarker, 16);
-          //mgr.refresh();
+            var marker = new GMarker(markerPoint, markerOptions);
+            //minMarker.push(marker);
+            //mgr.addMarkers(minMarker, 16);
+            //mgr.refresh();
 
-          drawMarker(marker);
-          //
+            drawMarker(marker);
+            //
 
 
-          $j("#preview").append(getPreviewDOM(o[i], i));
-        }
+            $j("#preview").append(getPreviewDOM(o[i], i));
+          }
+        } // end if o_len>0
 
         markers = new GCompoundMarker("http://122.116.58.213/composite/?" + ids.join(","), 32, 32, points);
         //markers = new GCompoundMarker("", 32, 32, points, ids);
@@ -406,7 +416,7 @@ img {
     <span id="msg">這裡放座標</span>
     <span id="cordination"></span>
   </div>
-  <div id="preview"></div>
+  <div id="preview" class="clearfix">搜尋中...</div>
   <div id="map" style="border:1px solid gray;width:900px;height:700px"></div>
 </div>
 
