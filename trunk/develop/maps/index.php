@@ -134,7 +134,7 @@ img {
           document.getElementById('cordination').innerHTML = newPoint;
           $j('#msg').fadeIn("fast");
           $j('#msg').html('您可移動至您想放的位置...');
-          console.dir(marker);
+          //console.dir(marker);
         }); 
 
         GEvent.addListener(marker, "dragend", function() {
@@ -161,7 +161,7 @@ img {
           $j('#msg').html('請選擇上傳檔案！');
           var maxContentDiv = document.createElement('div');
           maxContentDiv.innerHTML = '載入中...';
-          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'" style="width:220px;height:90px;border:none;" scrolling="no"></iframe>');
+          marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'?<?=time()?>" style="width:220px;height:auto;border:none;" scrolling="no" frameborder="0"></iframe>');
         });
       } // End of drawMarker
 
@@ -223,14 +223,14 @@ img {
             // 自訂icon大小
             //MyIcon.iconSize = new GSize(32, 32); 
             //
-            markerOptions = { draggable:true, id:photo.id};
+            ////markerOptions = { draggable:true, id:photo.id};
 
-            var marker = new GMarker(markerPoint, markerOptions);
+            ////var marker = new GMarker(markerPoint, markerOptions);
             //minMarker.push(marker);
             //mgr.addMarkers(minMarker, 16);
             //mgr.refresh();
 
-            drawMarker(marker);
+            ////drawMarker(marker);
             //
 
 
@@ -286,14 +286,15 @@ img {
   function addMarker(map) {
     var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
     var newPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
-    var create_new = function (data) {
+    /*var create_new = function (data) {
       new_markerid = data.new_markerid;
       alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
     };
+  */
     if (confirm('是否要在此位置建立景點？')) {
       $j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
         new_markerid = data.new_markerid;
-        console.log('new_markerid => ', new_markerid);
+        //console.log('new_markerid => ', new_markerid);
 
         markerOptions = { draggable:true, id:new_markerid};
         var newMarker = new GMarker(newPoint, {draggable:true, id:new_markerid});
