@@ -33,16 +33,44 @@ body {
   width:200px;
   height:auto;
 }
+#title-area, #desc-area{
+  padding:3px 0;
+  clear:both;
+}
+#desc-area {
+  height:37px;
+}
+#desc {
+  height:35px;
+}
+#title-area label, #desc-area label {
+  float:left;
+}
+#title-area span, #desc-area span {
+  float:right;
+}
+.input_frame {
+  border:1px solid gray;
+  font:9pt Arial;
+  width:160px;
+}
+#fileProgress {
+  border: 1px solid gray;
+  width:200px;
+  height:23px;
+}
 #progressBar {
   width:200px;
   height:4px;
+  margin:0;
+  padding:0;
   background-color:#CCCCCC;
 }
 #fileName {
   text-align:center;
-  margin:5px;
-  width:190px;
-  height:16px;
+  padding:2px 0;
+  width:200px;
+  height:15px;
   font:12px verdana;
   overflow:hidden;
 }
@@ -58,11 +86,6 @@ body {
   float:right;
   margin-top:5px;
 }
-#fileProgress {
-  border: black 1px solid;
-  width:200px;
-  height:30px;
-}
 </style> 
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/fonts/fonts-min.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" />
@@ -75,7 +98,7 @@ body {
 <body class="yui-skin-sam"> 
 <div id="postArea">
   <div>
-    上傳照片:
+    存放照片於：
     <select id="mybook" name="book">
       <option value="0">請選擇相簿</option>
       <option value="1">未命名相簿</option>
@@ -84,6 +107,12 @@ body {
   <div id="resultArea"></div>
   <div id="uploadArea">
     <form name="F_upload" method="post">
+    <div id="title-area">
+      <label>標題</label><span><input type="text" id="title" name="title" class="input_frame" /></span>
+    </div>
+    <div id="desc-area">
+      <label>簡述</label><span><textarea id="desc" name="desc" class="input_frame"></textarea></span>
+    </div>
     <div id="fileProgress">
       <div id="fileName"></div>
       <div id="progressBar"></div>
