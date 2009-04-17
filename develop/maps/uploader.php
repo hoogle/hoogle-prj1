@@ -62,6 +62,7 @@ body {
 #progressBar {
   width:200px;
   height:4px;
+  font-size:0;
   margin:0;
   padding:0;
   background-color:#CCCCCC;
