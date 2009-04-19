@@ -1,7 +1,6 @@
 <?
   session_start();
   $userid = $_SESSION['userid'];
-  $pid = intval($_GET['pid']);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
 <html> 
@@ -55,13 +54,14 @@ body {
   width:160px;
 }
 #fileProgress {
+  float:right;
   border: 1px solid gray;
-  width:200px;
-  height:23px;
+  width:120px;
+  height:24px;
 }
 #progressBar {
-  width:200px;
-  height:4px;
+  width:120px;
+  height:3px;
   font-size:0;
   margin:0;
   padding:0;
@@ -69,19 +69,22 @@ body {
 }
 #fileName {
   text-align:center;
-  padding:2px 0;
-  width:200px;
+  padding:4px 0 2px 0;
+  width:120px;
   height:15px;
   font:12px verdana;
   overflow:hidden;
 }
 #uploaderOverlay {
   float:left;
-  margin-top:5px;
   width:70px;
   height:26px;
   cursor:pointer;
   z-index:0;
+}
+#uploadCancel {
+  float:left;
+  margin-top:5px;
 }
 #uploadButton {
   float:right;
@@ -107,13 +110,15 @@ body {
     <div id="desc-area">
       <label>簡述</label><span><textarea id="desc" name="desc" class="input_frame"></textarea></span>
     </div>
+    <div id="uploaderOverlay"></div>
     <div id="fileProgress">
       <div id="fileName"></div>
       <div id="progressBar"></div>
     </div>
-    <div id="uploaderOverlay"></div>
+    <div id="uploadCancel">
+      <input type="button" id="btn_cancel" name="btn_cancel" value="刪除" />
+    </div>
     <div id="uploadButton">
-      <input type="hidden" id="pid" name="pid" value="<?=$pid?>" />
       <input type="button" id="btn_upload" name="btn_upload" value="上傳" />
     </div>
     </form>
