@@ -159,9 +159,10 @@ img {
             $j('#msg').fadeOut("slow");
           }, 1000);
           $j('#msg').html('請選擇上傳檔案！');
-          var maxContentDiv = document.createElement('div');
-          maxContentDiv.innerHTML = '載入中...';
+          //var maxContentDiv = document.createElement('div');
+          //maxContentDiv.innerHTML = '載入中...';
           marker.openInfoWindowHtml('<iframe src="/maps/uploader.php?pid='+point_id+'?<?=time()?>" style="width:220px;height:auto;border:none;" scrolling="no" frameborder="0"></iframe>');
+          //marker.openInfoWindow(maxContentDiv);
         });
       } // End of drawMarker
 
@@ -374,38 +375,6 @@ img {
       map.setCenter(point);
     contextmenu.style.visibility = 'hidden';
   }
-
-  /*
-  function follow() {
-    var marker;
-    var dog = true;
-    var noMore = false;
-
-    var mouseMove = GEvent.addListener(map, 'mousemove', function(cursorPoint){
-      if(!noMore){
-        marker = new GMarker(cursorPoint,{draggable:true, autoPan:false});
-        map.addOverlay(marker);
-        marker.setImage("http://maps.google.com/mapfiles/marker.png");
-        noMore = true;
-      // This function deletes the marker when dragged outside map
-      GEvent.addListener(marker, 'drag', function(markerPoint){
-        if(!map.getBounds().containsLatLng(markerPoint)){
-            map.removeOverlay(marker);
-          }
-        }); 
-      }
-      if(dog){
-        marker.setLatLng(cursorPoint);
-      }
-    });
-    var mapClick = GEvent.addListener(map, 'click', function(){
-      dog = false;
-      // 'mousemove' event listener is deleted to save resources
-      GEvent.removeListener(mouseMove);
-      GEvent.removeListener(mapClick);
-    });
-  }
-   */
 
   //google.load("maps", "2.x", {"callback" : initialize, "locale" : "zh_TW"});
   //google.load("jquery", "1.2.6");
