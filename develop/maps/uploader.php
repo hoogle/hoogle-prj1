@@ -27,7 +27,7 @@ body {
   height:0;
   visibility:hidden;
 }
-#resultArea {
+#responseInfo {
   position:absolute;
   z-index:10;
   width:200px;
@@ -98,14 +98,7 @@ body {
  
 <body class="yui-skin-sam"> 
 <div id="postArea">
-  <div>
-    存放照片於：
-    <select id="mybook" name="book">
-      <option value="0">請選擇相簿</option>
-      <option value="1">未命名相簿</option>
-    </select>
-  </div>
-  <div id="resultArea"></div>
+  <div id="responseInfo"></div>
   <div id="uploadArea">
     <form name="F_upload" method="post">
     <div id="title-area">
@@ -121,7 +114,6 @@ body {
     <div id="uploaderOverlay"></div>
     <div id="uploadButton">
       <input type="hidden" id="pid" name="pid" value="<?=$pid?>" />
-      <input type="hidden" id="book" name="book" value="" />
       <input type="button" id="btn_upload" name="btn_upload" value="上傳" />
     </div>
     </form>
