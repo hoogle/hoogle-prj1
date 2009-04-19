@@ -287,23 +287,25 @@ img {
   function addMarker(map) {
     var latlngObj = map.fromContainerPixelToLatLng(new GPoint(clickedPixel.x, clickedPixel.y));
     var newPoint = new GLatLng(latlngObj.lat(), latlngObj.lng());
-    /*var create_new = function (data) {
-      new_markerid = data.new_markerid;
-      alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
-    };
-  */
-    if (confirm('是否要在此位置建立景點？')) {
-      $j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
-        new_markerid = data.new_markerid;
+    //if (confirm('是否要在此位置建立景點？')) {
+      //$j.post("save_latlng.php", {action: 'create', lat: latlngObj.lat(), lng: latlngObj.lng()}, function(data) {
+        //new_markerid = data.new_markerid;
         //console.log('new_markerid => ', new_markerid);
 
-        markerOptions = { draggable:true, id:new_markerid};
-        var newMarker = new GMarker(newPoint, {draggable:true, id:new_markerid});
+        //markerOptions = { draggable:true, id:new_markerid};
+        var newMarker = new GMarker(newPoint);
+        map.addOverlay(newMarker);
 
-        drawMarker(newMarker, new_markerid);
-        alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
-      }, 'json');
-    }
+        //drawMarker(newMarker, new_markerid);
+        newMarker.openInfoWindowHtml('<iframe src="/maps/uploader.php" style="width:220px;height:auto;border:none;" scrolling="no" frameborder="0"></iframe>');
+        //alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
+      //}, 'json');
+    //}
+        
+    var newMarker = new GMarker(newPoint);
+    map.addOverlay(newMarker);
+    newMarker.openInfoWindowHtml('<iframe src="/maps/uploader.php" style="width:220px;height:130px;border:none;" scrolling="no" frameborder="0"></iframe>');
+
     $j('#msg').html('定位於' + newPoint);
     setTimeout(function() {
       $j('#msg').fadeOut(function() {
