@@ -90,6 +90,10 @@ body {
   float:right;
   margin-top:5px;
 }
+#uploadCancel {
+  float:left;
+  margin-top:5px;
+}
 </style> 
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/fonts/fonts-min.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" />
