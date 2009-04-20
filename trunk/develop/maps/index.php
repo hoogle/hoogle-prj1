@@ -91,7 +91,6 @@ img {
   border:1px solid white;
 }
 </style> 
-<!--script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg"></script--> 
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="/photos/js/glayer.js"></script>
@@ -105,7 +104,6 @@ img {
       $j = jQuery.noConflict();
 
       map = new GMap2(document.getElementById('map'));
-      //map.setCenter(new GLatLng(25.0266, 121.5223), 17);
       map.setCenter(new GLatLng(35.62819, 139.73631), 17);
       map.addControl(new GLargeMapControl());
       map.addControl(new GOverviewMapControl());
@@ -116,7 +114,6 @@ img {
       map.addControl(new GMapTypeControl());
       createContextMenu(map);
       map.addMapType(G_PHYSICAL_MAP);
-      //map.addOverlay(new GLayer("com.panoramio.all"));
       var mgr = new GMarkerManager(map);
 
       drawMarker = function(marker, point_id) {
@@ -128,14 +125,6 @@ img {
         mgr.addMarkers(minMarker, 16);
         mgr.refresh();
          */
-
-        GEvent.addListener(marker, "drag", function() {
-          var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
-          document.getElementById('cordination').innerHTML = newPoint;
-          $j('#msg').fadeIn("fast");
-          $j('#msg').html('您可移動至您想放的位置...');
-          //console.dir(marker);
-        }); 
 
         GEvent.addListener(marker, "dragend", function() {
           var newPoint = new GLatLng(marker.getPoint().lat(), marker.getPoint().lng());
