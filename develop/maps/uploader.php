@@ -128,6 +128,7 @@ body {
 
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/element/element-beta-min.js&amp;2.6.0/build/button/button-min.js&amp;2.6.0/build/uploader/uploader-experimental.js"></script>
 <script type="text/javascript" src="/photos/js/upload_single.js?<?=time()?>"></script>
+<script type="text/javascript" src="/photos/js/mymap.js?<?=time()?>"></script>
 <script type="text/javascript">
   YUE.on(window, 'load', function(){
     $('title').focus();
