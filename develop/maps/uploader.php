@@ -97,10 +97,6 @@ body {
 </style> 
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/fonts/fonts-min.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" />
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/element/element-beta-min.js&amp;2.6.0/build/button/button-min.js&amp;2.6.0/build/uploader/uploader-experimental.js"></script>
-<script type="text/javascript">
-  var jsvar = {userid: '<?=$userid?>'};
-</script>
 </head> 
  
 <body class="yui-skin-sam"> 
@@ -123,12 +119,19 @@ body {
       <input type="button" id="btn_cancel" name="btn_cancel" value="刪除" />
     </div>
     <div id="uploadButton">
+      <input type="hidden" id="userid" name="userid" value="<?=$userid?>" />
       <input type="button" id="btn_upload" name="btn_upload" value="上傳" />
     </div>
     </form>
   </div>
 </div>
 
-<script type="text/javascript" src="/photos/js/upload_single.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/element/element-beta-min.js&amp;2.6.0/build/button/button-min.js&amp;2.6.0/build/uploader/uploader-experimental.js"></script>
+<script type="text/javascript" src="/photos/js/upload_single.js?<?=time()?>"></script>
+<script type="text/javascript">
+  YUE.on(window, 'load', function(){
+    $('title').focus();
+  });
+</script>
 </body> 
 </html> 
