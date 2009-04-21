@@ -96,7 +96,7 @@ img {
 <script type="text/javascript" src="/photos/js/glayer.js"></script>
 <script type="text/javascript">
   var map;
-  var jsvar = {
+  jsvar = {
     userid: '<?=$userid?>'
   };
   function initialize() {
@@ -282,11 +282,11 @@ img {
         //console.log('new_markerid => ', new_markerid);
 
         //markerOptions = { draggable:true, id:new_markerid};
-        var newMarker = new GMarker(newPoint);
-        map.addOverlay(newMarker);
+        //var newMarker = new GMarker(newPoint);
+        //map.addOverlay(newMarker);
 
         //drawMarker(newMarker, new_markerid);
-        newMarker.openInfoWindowHtml('<iframe src="/maps/uploader.php" style="width:220px;height:auto;border:none;" scrolling="no" frameborder="0"></iframe>');
+        //newMarker.openInfoWindowHtml('<iframe src="/maps/uploader.php?userid='+jsvar.userid+'" style="width:220px;height:auto;border:none;" scrolling="no" frameborder="0"></iframe>');
         //alert(latlngObj.lat() + ' & ' + latlngObj.lng() + ' 已存檔!');
       //}, 'json');
     //}
