@@ -9,7 +9,7 @@
   $photoid = $_GET['pid'];
 
   require LIBRARY_PATH."function.inc";
-  $picAry = getListData("web3.map_point", $cnt, array('id' => $photoid));
+  $picAry = getPicInfo($photoid);
   $abs_filename = getUserPath($userid, 1)."/{$photoid}.jpg"; 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,6 +53,16 @@
 }
 #show {
   text-align:center;
+}
+#show img {
+  border:1px solid gray;
+}
+#title {
+  font:bold 20pt simhei;
+  color:#6699cc;
+  height:35px;
+  width:600px;
+  overflow:hidden;
 }
 #map {
   border:1px solid gray;
@@ -155,7 +165,7 @@
         $j(img).attr({
           title: photo.curr_time,
             id: 'r' + id,
-            src: '/photos/upload/user/r/richardw/1/thumb/t' + id + '.jpg',
+            src: '/photos/upload/user/r/richardw/32767/thumb/t' + id + '.jpg',
 
             p_id: id }).hover(
               function() {
@@ -244,8 +254,9 @@
       <div class="yui-u first">
         <div id="show">
           <span class="cell">
-            <img src="/photos/upload/user/r/richardw/1/<?=$photoid?>.jpg" />
+            <img src="/photos/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
           </span>
+          <div id="title"><?=$picAry[0]['title']?></div>
         </div>
         <div class="preview-info">此區內的其他照片：</div>
         <div class="main-center clearfix" id="preview"></div>
