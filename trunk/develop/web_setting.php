@@ -4,4 +4,6 @@
   define("LIBRARY_PATH", "/home/www/lib/");
   define("USER_UPLOAD_PATH", "/mnt/photos/upload/user/");
   define("TILE_UPLOAD_PATH", "/mnt/photos/upload/tile/");
+  define('ICON_SIZE', 30);
+  define('USER_MAX_BOOKID', 32767);
 ?>
