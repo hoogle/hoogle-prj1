@@ -1,14 +1,21 @@
-<div class="float_left"><a href="/" style="font:Bold italic 50pt Verdana;">TravelMap</a></div>
-  <div class="float_right">
+<div class="yui-d0">
+  <div class="clearfix">
+    <div id="logo" class="float_left"><a href="/">TravelMap</a></div>
+    <div id="login" class="float_right">
 <? if (isset($_SESSION['userid'])) : ?>
-      <span>您好，<?=$_SESSION['nick']?> 歡迎您！</span>&nbsp;&nbsp;|&nbsp;
-      <span><a href="/login/logout.php">登出</a></span>
+      <span class="info">您好，虎哥 歡迎您！</span>
+      <span class="link">
+        &nbsp;|&nbsp;&nbsp;<a href="/login/logout.php">登出</a>
+        &nbsp;|&nbsp;&nbsp;<a href="/upload/yuiuploader.php">上傳</a>
+        &nbsp;|&nbsp;&nbsp;<a href="/maps/">MAP</a>
+      </span>
 <? else : ?>
-      <span>您好，訪客 歡迎您！</span>&nbsp;&nbsp;|&nbsp;
-      <span><a href="/signup/">註冊</a></span>&nbsp;&nbsp;|&nbsp;
-      <span><a href="/login/">登入</a></span>
+      <span class="info">您好，訪客 歡迎您！</span>
+      <span class="link">
+        &nbsp;|&nbsp;&nbsp;<a href="/login/">登入</a>
+        &nbsp;|&nbsp;&nbsp;<a href="/signup/">註冊</a>
+      </span>
 <? endif ?>
-      <br />
-      <a href="/upload/yuiuploader.php">上傳</a>&nbsp;&nbsp;|&nbsp;
-      <a href="/maps/test2.php">MAP</a>&nbsp;&nbsp;|&nbsp;
     </div>
+  </div>
+</div>
