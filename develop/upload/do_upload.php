@@ -3,15 +3,24 @@
   require LIBRARY_PATH."function.inc";
   Connect_Mysql();
   $userid = $_POST['userid'];
-  $pid = $_POST['pid'];
   $title = $_POST['title'];
   $desc = $_POST['desc'];
+  $lat = $_POST['lat'];
+  $lng = $_POST['lng'];
 
+  $new_point_ary = array(
+    "userid" => $userid,
+    "lat" => $lat,
+    "lng" => $lng,
+    "curr_time" => date("Y-m-d H:i:s")
+  );
+  insertData("web3.map_point", $new_point_ary, $pid); 
   $userPicAry = getListData("web3.photo", $acnt, array("userid" => $userid));
   if (!$acnt) initAlbum($userid);
   $target_book_path = getUserPath($userid).USER_MAX_BOOKID;
   if (!is_dir($target_book_path)) mkdir($target_book_path);
   $target_thumb_path = "{$target_book_path}/thumb";
+  if (!is_dir($target_thumb_path)) mkdir($target_thumb_path);
   $target_org_img = "{$target_book_path}/{$pid}.jpg";
   $target_thumb_img = "{$target_thumb_path}/t{$pid}.jpg";
   $target_tile_img = TILE_UPLOAD_PATH."t{$pid}.jpg";
@@ -25,7 +34,8 @@
     $cmd = sprintf("/usr/local/bin/convert %s -thumbnail '90x90^' -gravity center -extent 90x90 %s", $tmp_file, $target_thumb_img);
     system($cmd);
 
-    $cmd = sprintf("/usr/local/bin/jpegtopnm %s | /usr/local/bin/pnmscale -width=%d -height=%d | /usr/local/bin/ppmtojpeg > %s", $tmp_file, ICON_SIZE, ICON_SIZE, $target_tile_img);
+    $cmd = sprintf("/usr/local/bin/convert -resize '%dx%d>' '%s' '%s'", ICON_SIZE, ICON_SIZE, $tmp_file, $target_tile_img);
+    //$cmd = sprintf("/usr/local/bin/jpegtopnm %s | /usr/local/bin/pnmscale -width=%d -height=%d | /usr/local/bin/ppmtojpeg > %s", $tmp_file, ICON_SIZE, ICON_SIZE, $target_tile_img);
     system($cmd);
 
     $cmd = sprintf("/usr/local/bin/convert -resize '%dx%d>' '%s' '%s'", 550, 550, $tmp_file, $target_org_img);
