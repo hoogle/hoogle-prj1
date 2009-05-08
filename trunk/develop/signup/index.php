@@ -26,7 +26,7 @@
           <div style="text-align:right;padding-right:10px;"><a href="http://openid.net/" style="font:9pt Verdana;">什麼是 OpenID?</a></div>
         </div>
         <form name="sign_form" class="signup-form" method="post" action="/signup/signup.php">
-        <ul style="font-size:14pt;padding:20px 15px 0 0;">
+        <ul class="ul-login-form" style="font-size:14pt;padding:20px 15px 0 0;">
           <li>
             <strong>帳號</strong>
             <input class="form-input" type="text" name="userid" />
