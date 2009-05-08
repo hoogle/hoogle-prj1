@@ -34,8 +34,7 @@
     $cmd = sprintf("/usr/local/bin/convert %s -thumbnail '90x90^' -gravity center -extent 90x90 %s", $tmp_file, $target_thumb_img);
     system($cmd);
 
-    $cmd = sprintf("/usr/local/bin/convert -resize '%dx%d>' '%s' '%s'", ICON_SIZE, ICON_SIZE, $tmp_file, $target_tile_img);
-    //$cmd = sprintf("/usr/local/bin/jpegtopnm %s | /usr/local/bin/pnmscale -width=%d -height=%d | /usr/local/bin/ppmtojpeg > %s", $tmp_file, ICON_SIZE, ICON_SIZE, $target_tile_img);
+    $cmd = sprintf("/usr/local/bin/jpegtopnm %s | /usr/local/bin/pnmscale -width=%d -height=%d | /usr/local/bin/ppmtojpeg > %s", $tmp_file, ICON_SIZE, ICON_SIZE, $target_tile_img);
     system($cmd);
 
     $cmd = sprintf("/usr/local/bin/convert -resize '%dx%d>' '%s' '%s'", 550, 550, $tmp_file, $target_org_img);
