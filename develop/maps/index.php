@@ -7,16 +7,16 @@
   }
   $userid = $_SESSION['userid'];
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"> 
-<head> 
-<meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
-<title>Hoogle - main</title> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>TravelMap</title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssreset/reset-min.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css"> 
 <link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
-<style type="text/css"> 
-#container {
-  /*position:relative;*/
-}
+<style type="text/css">
 #msgArea {
   margin:10px 0;
   padding:5px;
@@ -32,20 +32,22 @@
   float:right;
 }
 #preview {
-  float:left;
-  width:100px;
-  border:1px solid gray;
-  margin:0 10px;
-  padding: 10px;
+  text-align:left;
+  border:1px solid green;
+  position:relative;
+  width:auto;
+  *width:280px;
+  padding:10px;
   font-size:12px;
+}
+#preview div {
+  float:left;
+  margin:0 3px 3px 0;
 }
 #preview img {
   border:1px solid #CCCCCC;
   margin:2px auto;
   padding:3px;
-}
-#map {
-  float:left;
 }
 .showWindow {
   width:300px;
@@ -77,6 +79,7 @@
   border:none;
 }
 .menuitem {
+  text-align:left;
   padding:3px;
   margin:0;
   display:block;
@@ -100,16 +103,32 @@ img {
   };
 </script> 
 </head> 
-<body onLoad="initialize()" onunload="GUnload()"> 
-<div id="container">
-  <div id="msgArea">
-    <span id="msg">這裡放座標</span>
-    <span id="cordination"></span>
+<body class="home yui-skin-sam" onLoad="initialize()" onunload="GUnload()"> 
+<div id="doc3" class="yui-t3" style="width:auto">
+  <div id="hd">
+<? require WEBROOT_PATH."include/header.php"; ?>
   </div>
-  <div id="preview" class="clearfix">搜尋中...</div>
-  <div id="map" style="border:1px solid gray;width:900px;height:700px"></div>
-</div>
 
+  <div id="bd">
+    <div id="yui-main">
+      <!--div id="msgArea">
+        <span id="msg">這裡放座標</span>
+        <span id="cordination"></span>
+      </div-->
+      <div class="yui-b">
+        <div id="map" style="border:1px solid gray; width:100%; height:700px"></div>
+        <div id="comment">This powered by hoogle.</div>
+      </div>
+    </div>
+    <div id="navi">
+      <div id="preview" class="clearfix">搜尋中...</div>
+    </div>
+  </div>
+
+  <div id="ft">
+<? require WEBROOT_PATH."include/footer.php"; ?>
+  </div>
+</div>
 <script type="text/javascript" src="/photos/js/mymap.js"></script>
 </body> 
 </html>
