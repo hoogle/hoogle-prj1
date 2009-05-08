@@ -12,9 +12,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <title>TravelMap</title>
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssreset/reset-min.css">
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css">
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css"> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssreset/reset-min.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/tabview/assets/skins/sam/tabview.css" />
 <link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
 <style type="text/css">
 #msgArea {
@@ -31,23 +32,31 @@
 #cordination {
   float:right;
 }
-#preview {
+#nearby {
   text-align:left;
-  border:1px solid green;
   position:relative;
   width:auto;
-  *width:280px;
-  padding:10px;
+  *width:273px;
+  padding:5px;
   font-size:12px;
 }
-#preview div {
-  float:left;
+#nearby .nearby-list {
   margin:0 3px 3px 0;
+  background-color:#eee;
+  border:1px solid #ddd;
 }
-#preview img {
+#nearby img {
   border:1px solid #CCCCCC;
-  margin:2px auto;
-  padding:3px;
+  padding:2px;
+}
+#nearby .n_title {
+  margin-bottom:5px;
+  font-size:12pt;
+}
+#nearby .n_desc {
+  font-size:12pt;
+}
+#tab-navi .yui-nav {
 }
 .showWindow {
   width:300px;
@@ -97,13 +106,14 @@ img {
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="/photos/js/glayer.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/element/element-min.js&2.7.0/build/tabview/tabview-min.js"></script>
 <script type="text/javascript">
   jsvar = {
     userid: '<?=$userid?>'
   };
 </script> 
 </head> 
-<body class="home yui-skin-sam" onLoad="initialize()" onunload="GUnload()"> 
+<body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()"> 
 <div id="doc3" class="yui-t3" style="width:auto">
   <div id="hd">
 <? require WEBROOT_PATH."include/header.php"; ?>
@@ -121,7 +131,26 @@ img {
       </div>
     </div>
     <div id="navi">
-      <div id="preview" class="clearfix">搜尋中...</div>
+      <div class="hd">
+      </div>
+      <div class="bd">
+        <div id="tab-navi" class="yui-navset">
+            <ul class="yui-nav">
+                <li class="selected"><a href="#nearby"><em>景點</em></a></li>
+                <li><a href="#tab2"><em>美食</em></a></li>
+                <li><a href="#tab3"><em>新奇</em></a></li>
+            </ul>
+            <div class="yui-content">
+                <div id="nearby" class="clearfix"><p>景點搜尋中...</p></div>
+                <div id="tab2"><p>美食搜尋中...</p></div>
+                <div id="tab3"><p>新奇搜尋中...</p></div>
+            </div>
+        </div>
+        <script>
+        (function() { var tabView = new YAHOO.widget.TabView('tab-navi'); })();
+        </script>
+      </div>
+      <div class="ft">AD</div>
     </div>
   </div>
 
