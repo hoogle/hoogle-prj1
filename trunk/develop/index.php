@@ -9,11 +9,6 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css">
 <link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
-<style type="text/css">
-.yui-d0 div {
-    text-align:center;
-}
-</style>
 </head>
 
 <body>
