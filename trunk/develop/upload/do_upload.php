@@ -3,8 +3,8 @@
   require LIBRARY_PATH."function.inc";
   Connect_Mysql();
   $userid = $_POST['userid'];
-  $title = $_POST['title'];
-  $desc = $_POST['desc'];
+  $title = urldecode($_POST['title']);
+  $desc = urldecode($_POST['desc']);
   $lat = $_POST['lat'];
   $lng = $_POST['lng'];
 
