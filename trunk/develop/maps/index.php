@@ -39,6 +39,8 @@
   *width:273px;
   padding:5px;
   font-size:12px;
+  height:436px;
+  overflow:auto;
 }
 #nearby .nearby-list {
   margin:0 3px 3px 0;
@@ -54,9 +56,9 @@
   font-size:12pt;
 }
 #nearby .n_desc {
-  font-size:12pt;
+  font-size:13px;
 }
-#tab-navi .yui-nav {
+#tab-navi .yui-content {
 }
 .showWindow {
   width:300px;
@@ -126,7 +128,7 @@ img {
         <span id="cordination"></span>
       </div-->
       <div class="yui-b">
-        <div id="map" style="border:1px solid gray; width:100%; height:700px"></div>
+        <div id="map" style="border:1px solid gray; width:100%; height:750px"></div>
         <div id="comment">This powered by hoogle.</div>
       </div>
     </div>
@@ -149,8 +151,22 @@ img {
         <script>
         (function() { var tabView = new YAHOO.widget.TabView('tab-navi'); })();
         </script>
+        <div style="margin:3px 0;padding:2px;text-align:center;">
+          <a href="">前頁</a> &nbsp; | &nbsp; <a href="">後頁</a>
+        </div>
       </div>
-      <div class="ft">AD</div>
+      <div class="ft">
+  <script type="text/javascript">
+  <!--
+  google_ad_client = "pub-8202875917107311";
+  /* 300x250, 已建立 2009/5/10 */
+  google_ad_slot = "3066029557";
+  google_ad_width = 300;
+  google_ad_height = 250;
+  //-->
+  </script>
+  <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+      </div>
     </div>
   </div>
 
