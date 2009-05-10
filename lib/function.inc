@@ -1,20 +1,38 @@
 <?php
+  require_once LIBRARY_PATH."mysql_cfg.inc";
+  Connect_Mysql();
+
+  function getPicInfo($pid)
+  {
+    $sql = "SELECT point.*, photo.* FROM map_point AS point, photo AS photo ";
+    $sql.= "WHERE point.id = photo.point_id AND point.id = '{$pid}'";
+    $res = Query_Mysql($sql);
+
+    $res_ary = array();
+    while($tmp = mysql_fetch_assoc($res))
+    {
+      $res_ary[] = $tmp;
+    }
+    return $res_ary;
+  }
+
   function getUserPath($userid)
   {
     $u = $userid[0];
-    if (!is_dir(SYS_UPLOAD_PATH."{$u}/")) mkdir(SYS_UPLOAD_PATH."{$u}/");
-    if (!is_dir(SYS_UPLOAD_PATH."{$u}/{$userid}/")) mkdir(SYS_UPLOAD_PATH."{$u}/{$userid}/");
-    return SYS_UPLOAD_PATH."{$u}/{$userid}/";
+    if (!is_dir(USER_UPLOAD_PATH."{$u}/")) mkdir(USER_UPLOAD_PATH."{$u}/");
+    if (!is_dir(USER_UPLOAD_PATH."{$u}/{$userid}/")) mkdir(USER_UPLOAD_PATH."{$u}/{$userid}/");
+    return USER_UPLOAD_PATH."{$u}/{$userid}/";
   }
 
   function initAlbum($userid)
   {
-    $book = 1;
     $dataAry = array("userid" => $userid, "title" => "未命名相簿",
-                      "update_time" => date("Y-m-d H:i:s"), "book" => 1);
+                      "update_time" => date("Y-m-d H:i:s"), "book" => USER_MAX_BOOKID);
     insertData("web3.album", $dataAry, $album_id);
-    if (!is_dir(getUserPath($userid)."{$book}/")) mkdir(getUserPath($userid)."{$book}/");
-    return $book;
+    $user_img_path = getUserPath($userid).USER_MAX_BOOKID;
+    if (!is_dir($user_img_path)) mkdir($user_img_path);
+    $user_thumb_path = "{$user_img_path}/thumb";
+    if (!is_dir($user_thumb_path)) mkdir($user_thumb_path);
   }
 
   function getListData($tablename, &$cnt, $condAry=null, $order_field=null, $desc_str=null, $page=null, $limit=null)
@@ -45,7 +63,11 @@
     $result = Query_Mysql($sql);
     $res = Query_Mysql("SELECT found_rows()");
     list($cnt) = mysql_fetch_row($res);
-    while($res_ary[] = mysql_fetch_assoc($result));
+    $res_ary = array();
+    while($tmp = mysql_fetch_assoc($result))
+    {
+      $res_ary[] = $tmp;
+    }
     mysql_free_result($result);
     foreach ($res_ary as $idx => $val) if (empty($val)) unset($res_ary[$idx]);
     return $res_ary;
@@ -86,7 +108,7 @@
       $sql.= "'".$post_fields[$val]."', ";
     }
     $sql = substr($sql, 0, strlen($sql)-2).")";
-    //echo "$sql<br />";
+    echo $sql;
     Query_Mysql($sql);
     $newid = mysql_insert_id();
   }
