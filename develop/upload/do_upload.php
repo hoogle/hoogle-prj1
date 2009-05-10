@@ -49,7 +49,7 @@
     "book" => USER_MAX_BOOKID,
     "title" => $title,
     "description" => $desc,
-    "post_time" => "now()",
+    "post_time" => date("Y-m-d H:i:s"),
     "point_id" => $pid
   ); 
   print_r($dataAry);
