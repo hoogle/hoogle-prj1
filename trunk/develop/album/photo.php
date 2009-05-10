@@ -64,6 +64,10 @@
   width:600px;
   overflow:hidden;
 }
+#description {
+  font:18px 標楷體;
+  margin:3px 0;
+}
 #map {
   border:1px solid gray;
   height:360px;
@@ -107,6 +111,23 @@
 }
 .menuitem:hover {
   background-color:#DDEEFF;
+}
+#navi .hd {
+  margin-bottom:7px;
+  text-align:left;
+}
+#profile {
+  text-align:left;
+  margin-bottom:7px;
+}
+#profile img {
+  padding:1px;
+  border:1px solid gray;
+  float:left;
+  margin:0 7px 5px 0;
+}
+#author {
+  font:bold 12pt Verdana;
 }
 #locinfo {
   margin:10px;
@@ -251,21 +272,44 @@
 <div id="bd">
   <div class="yui-d3 contain-main">
     <div class="yui-gc">
-      <div class="yui-u first">
-        <div id="show">
-          <span class="cell">
-            <img src="/photos/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
-          </span>
+      <div id="show" class="yui-u first">
+        <div class="hd"></div>
+        <div class="bd">
           <div id="title"><?=$picAry[0]['title']?></div>
+          <div class="cell">
+            <img src="/photos/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
+          </div>
+          <div id="description"><?=$picAry[0]['description']?></div>
+          <div class="preview-info">此區內的其他照片：</div>
+          <div class="main-center clearfix" id="preview"></div>
         </div>
-        <div class="preview-info">此區內的其他照片：</div>
-        <div class="main-center clearfix" id="preview"></div>
+        <div class="ft"></div>
       </div>
-      <div class="yui-u">
-        <div id="map"></div>
-        <div id="locinfo">
-        <? include WEBROOT_PATH."include/mod_exif.php"; ?>
+      <div id="navi" class="yui-u">
+        <div class="hd">
+          <form action="" method="post">
+            <input type="text" name="qkey" style="width:236px;border:1px solid gray;" />
+            <select name="type">
+              <option value="0">標題</option>
+              <option value="0">發表人</option>
+            </select>
+            <input type="submit" value="搜尋" />
+          </form>
         </div>
+        <div class="bd">
+          <div id="profile" class="clearfix">
+            <img src="<?=getUserIcon('richardw')?>" />
+            <div id="author">作者：<a href="#">richardw</a></div>
+            <ul>
+              <li>上傳時間：<?=$picAry[0]['curr_time']?></li>
+            <ul>
+          </div>
+          <div id="map"></div>
+          <div id="locinfo">
+          <? include WEBROOT_PATH."include/mod_exif.php"; ?>
+          </div>
+        </div>
+        <div class="ft"></div>
       </div>
     </div>
 
