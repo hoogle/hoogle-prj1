@@ -123,10 +123,6 @@ img {
 
   <div id="bd">
     <div id="yui-main">
-      <!--div id="msgArea">
-        <span id="msg">這裡放座標</span>
-        <span id="cordination"></span>
-      </div-->
       <div class="yui-b">
         <div id="map" style="border:1px solid gray; width:100%; height:750px"></div>
         <div id="comment">This powered by hoogle.</div>
