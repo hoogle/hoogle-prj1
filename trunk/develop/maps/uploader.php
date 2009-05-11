@@ -3,6 +3,7 @@
   $userid = $_SESSION['userid'];
   $lat = $_GET['lat'];
   $lng = $_GET['lng'];
+  $address = $_GET['address'];
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
 <html> 
@@ -124,6 +125,7 @@ body {
       <input type="hidden" id="userid" name="userid" value="<?=$userid?>" />
       <input type="hidden" id="lat" name="lat" value="<?=$lat?>" />
       <input type="hidden" id="lng" name="lng" value="<?=$lng?>" />
+      <input type="hidden" id="address" name="address" value="<?=$address?>" />
       <input type="button" id="btn_upload" name="btn_upload" value="上傳" />
     </div>
     </form>
