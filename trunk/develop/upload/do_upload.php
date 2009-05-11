@@ -7,11 +7,13 @@
   $desc = urldecode($_POST['desc']);
   $lat = $_POST['lat'];
   $lng = $_POST['lng'];
+  $address = urldecode($_POST['address']);
 
   $new_point_ary = array(
     "userid" => $userid,
     "lat" => $lat,
     "lng" => $lng,
+    "address" => $address,
     "curr_time" => date("Y-m-d H:i:s")
   );
   insertData("web3.map_point", $new_point_ary, $pid); 
