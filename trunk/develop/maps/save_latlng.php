@@ -20,7 +20,7 @@
         insertData("web3.map_point", $data_point, $new_markerid);
         $data_photo = array(
           "userid" => $_SESSION['userid'], 
-          "book" => $book,
+          "set" => $set,
           "title" => $title,
           "description" => $desc,
           "post_time" => $curr_time,

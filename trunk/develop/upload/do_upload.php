@@ -19,11 +19,11 @@
   insertData("web3.map_point", $new_point_ary, $pid); 
   $userPicAry = getListData("web3.photo", $acnt, array("userid" => $userid));
   if (!$acnt) initAlbum($userid);
-  $target_book_path = getUserPath($userid).USER_MAX_BOOKID;
-  if (!is_dir($target_book_path)) mkdir($target_book_path);
-  $target_thumb_path = "{$target_book_path}/thumb";
+  $target_set_path = getUserPath($userid).USER_MAX_SETID;
+  if (!is_dir($target_set_path)) mkdir($target_set_path);
+  $target_thumb_path = "{$target_set_path}/thumb";
   if (!is_dir($target_thumb_path)) mkdir($target_thumb_path);
-  $target_org_img = "{$target_book_path}/{$pid}.jpg";
+  $target_org_img = "{$target_set_path}/{$pid}.jpg";
   $target_thumb_img = "{$target_thumb_path}/t{$pid}.jpg";
   $target_tile_img = TILE_UPLOAD_PATH."t{$pid}.jpg";
 
@@ -48,7 +48,7 @@
   } 
   $dataAry = array(
     "userid" => $userid,
-    "book" => USER_MAX_BOOKID,
+    "set" => USER_MAX_SETID,
     "title" => $title,
     "description" => $desc,
     "post_time" => date("Y-m-d H:i:s"),

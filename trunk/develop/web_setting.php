@@ -6,5 +6,5 @@
   define('USER_UPLOAD_PATH', '/mnt/filer/photos/upload/user/');
   define('TILE_UPLOAD_PATH', '/mnt/filer/photos/upload/tile/');
   define('ICON_SIZE', 30);
-  define('USER_MAX_BOOKID', 32767);
+  define('USER_MAX_SETID', 32767);
 ?>
