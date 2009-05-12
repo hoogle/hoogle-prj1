@@ -39,7 +39,7 @@
   *width:273px;
   padding:5px;
   font-size:12px;
-  height:436px;
+  height:300px;
   overflow:auto;
 }
 #nearby .nearby-list {
@@ -110,6 +110,18 @@ img {
 <script type="text/javascript" src="/photos/js/glayer.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/element/element-min.js&2.7.0/build/tabview/tabview-min.js"></script>
 <script type="text/javascript">
+  $j = jQuery.noConflict();
+  var resizemap = function() {
+    var map_width = parseInt(document.documentElement.clientWidth) - 325;
+    var map_height = parseInt(document.documentElement.clientHeight) - 115;
+    $j('#yui-main .yui-b').css('width', map_width+'px');
+    $j('#yui-main .yui-b').css('height', map_height+'px');
+  };
+  var resizeTimer = null;
+  $j(window).bind('resize', function() {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resizemap, 50);
+  });
   jsvar = {
     userid: '<?=$userid?>'
   };
@@ -124,7 +136,7 @@ img {
   <div id="bd">
     <div id="yui-main">
       <div class="yui-b">
-        <div id="map" style="border:1px solid gray; width:100%; height:750px"></div>
+        <div id="map" style="border:1px solid gray; width:100%; height:635px"></div>
         <div id="comment">This powered by hoogle.</div>
       </div>
     </div>
