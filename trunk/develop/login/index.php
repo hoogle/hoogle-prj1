@@ -19,16 +19,18 @@
   </div>
 
   <div id="bd">
-    <div class="yui-g">
-      <div class="signup">
-        <div class="signup-title float_left">
+    <div id="signup" class="yui-g">
+      <div class="hd clearfix">
+        <div id="signword">
           登入
         </div>
-        <div class="signup-title float_right">
+        <div id="openid">
           <div style="font:15pt Verdana, Simhei;padding-right:10px;">使用<a href="https://122-116-58-206.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.206/signup/signup.php" onclick="return false;" class="rpxnow" style="color:#ff6200"><img src="/photos/img/icon_openid_s.gif" style="vertical-align:middle" />OpenID</a>?</div>
           <div style="text-align:right;padding-right:10px;"><a href="http://openid.net/" style="font:9pt Verdana;">什麼是 OpenID?</a></div>
         </div>
-        <form name="login_form" class="signup-form" method="post" action="/login/login_check.php">
+      </div>
+      <div class="hd clearfix">
+        <form name="login_form" method="post" action="/login/login_check.php">
         <ul class="ul-login-form" style="font-size:14pt;padding:20px 15px 0 0;">
           <li>
             <strong>帳號</strong>
@@ -46,15 +48,27 @@
             |&nbsp;&nbsp;<a href="#">忘記密碼</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/signup/">註冊</a>
           </li>
-          <li style="padding-right:100px;">
+          <li>
             <input type="hidden" name="go_url" value="<?=$go_url?>" />
             <input type="image" src="/photos/img/btn_signup.gif" style="vertical-align:middle;" onclick="return true" />
           </li>
         </ul>
         </form>
       </div>
-      <div class="adsense_banner">
-      </div>
+      <div class="ft adsense_banner"></div>
+    </div>
+    <div class="adsense_banner">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8202875917107311";
+/* 728x90, 已建立 2009/5/13 */
+google_ad_slot = "9738620896";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
     </div>
   </div>
 

@@ -39,13 +39,16 @@
   *width:273px;
   padding:5px;
   font-size:12px;
-  height:300px;
+  /*height:300px;*/
   overflow:auto;
 }
 #nearby .nearby-list {
   margin:0 3px 3px 0;
   background-color:#eee;
   border:1px solid #ddd;
+}
+#nearby .nearby-list div {
+  text-align:left;
 }
 #nearby img {
   border:1px solid #CCCCCC;
@@ -58,7 +61,8 @@
 #nearby .n_desc {
   font-size:13px;
 }
-#tab-navi .yui-content {
+.yui-nav {
+  text-align:left;
 }
 .showWindow {
   width:300px;
@@ -112,76 +116,98 @@ img {
 <script type="text/javascript">
   $j = jQuery.noConflict();
   var resizemap = function() {
-    var map_width = parseInt(document.documentElement.clientWidth) - 325;
-    var map_height = parseInt(document.documentElement.clientHeight) - 115;
+    var map_width = parseInt($j(window).width()) - 335;
+    var map_height = parseInt($j(window).height()) - 135;
+    var nearby_height = parseInt($j(window).height()) - 450;
     $j('#yui-main .yui-b').css('width', map_width+'px');
     $j('#yui-main .yui-b').css('height', map_height+'px');
+    $j('#nearby').css('height', nearby_height+'px');
   };
   var resizeTimer = null;
-  $j(window).bind('resize', function() {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resizemap, 50);
-  });
+  $j(window).bind('resize', resizemap); 
   jsvar = {
     userid: '<?=$userid?>'
   };
+  $j(document).ready(function () {
+    //var nearby_height = parseInt($j(window).height()) - 390;
+    //$j('#nearby').css('height', nearby_height+'px');
+    $j('#nearby').css('height', '287px');
+    var map_height = parseInt($j(window).height()) - 150;
+    $j('#yui-main .yui-b').css('height', map_height+'px');
+  });
 </script> 
 </head> 
 <body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()"> 
 <div id="doc3" class="yui-t3" style="width:auto">
   <div id="hd">
-<? require WEBROOT_PATH."include/header.php"; ?>
+<? require WEBROOT_PATH . "include/header.php"; ?>
   </div>
 
   <div id="bd">
-    <div id="yui-main">
-      <div class="yui-b">
-        <div id="map" style="border:1px solid gray; width:100%; height:635px"></div>
-        <div id="comment">This powered by hoogle.</div>
-      </div>
-    </div>
-    <div id="navi">
-      <div class="hd">
-      </div>
-      <div class="bd">
-        <div id="tab-navi" class="yui-navset">
-            <ul class="yui-nav">
-                <li class="selected"><a href="#nearby"><em>景點</em></a></li>
-                <li><a href="#tab2"><em>美食</em></a></li>
-                <li><a href="#tab3"><em>新奇</em></a></li>
-            </ul>
-            <div class="yui-content">
-                <div id="nearby" class="clearfix"><p>景點搜尋中...</p></div>
-                <div id="tab2"><p>美食搜尋中...</p></div>
-                <div id="tab3"><p>新奇搜尋中...</p></div>
+    <div id="map-tab" class="yui-navset">
+      <ul class="yui-nav">
+        <li class="selected"><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
+        <li><a href="#maptab2"><em>我的旅行地圖</em></a></li>
+        <li><a href="#maptab3"><em>最新旅行地圖</em></a></li>
+        <li><a href="#maptab4"><em>熱門旅行地圖</em></a></li>
+      </ul>
+      <div class="yui-content">
+        <div id="maptab1" class="clearfix">
+          <div id="yui-main">
+            <div class="yui-b">
+              <div id="map" style="position:relative;display:block;border:1px solid gray; width:auto; height:100%;"></div>
+              <div id="comment" style="position:relative;padding:3px;text-align:right;width:100%;right:5px;">This powered by hoogle.</div>
             </div>
-        </div>
-        <script>
-        (function() { var tabView = new YAHOO.widget.TabView('tab-navi'); })();
+          </div>
+          <div id="navi">
+            <div class="hd"></div>
+            <div class="bd">
+              <div id="tab-navi" class="yui-navset">
+                  <ul class="yui-nav">
+                      <li class="selected"><a href="#nearby"><em>景點</em></a></li>
+                      <li><a href="#tab2"><em>美食</em></a></li>
+                      <li><a href="#tab3"><em>新奇</em></a></li>
+                  </ul>
+                  <div class="yui-content">
+                      <div id="nearby" class="clearfix"><p>景點搜尋中...</p></div>
+                      <div id="tab2"><p>美食搜尋中...</p></div>
+                      <div id="tab3"><p>新奇搜尋中...</p></div>
+                  </div>
+              </div>
+              <script>
+              (function() { var tabView = new YAHOO.widget.TabView('tab-navi'); })();
+              </script>
+              <div style="margin:3px 0;padding:2px;text-align:center;">
+                <a href="">前頁</a> &nbsp; | &nbsp; <a href="">後頁</a>
+              </div>
+            </div>
+            <div class="ft">
+        <script type="text/javascript">
+        <!--
+        google_ad_client = "pub-8202875917107311";
+        /* 300x250, 已建立 2009/5/10 */
+        google_ad_slot = "3066029557";
+        google_ad_width = 300;
+        google_ad_height = 250;
+        //-->
         </script>
-        <div style="margin:3px 0;padding:2px;text-align:center;">
-          <a href="">前頁</a> &nbsp; | &nbsp; <a href="">後頁</a>
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="ft">
-  <script type="text/javascript">
-  <!--
-  google_ad_client = "pub-8202875917107311";
-  /* 300x250, 已建立 2009/5/10 */
-  google_ad_slot = "3066029557";
-  google_ad_width = 300;
-  google_ad_height = 250;
-  //-->
-  </script>
-  <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+        <div id="maptab2"></div>
+        <div id="maptab3"></div>
       </div>
     </div>
+<script>
+(function() { var tabView = new YAHOO.widget.TabView('map-tab'); })();
+</script>
   </div>
 
   <div id="ft">
 <? require WEBROOT_PATH."include/footer.php"; ?>
   </div>
 </div>
-<script type="text/javascript" src="/photos/js/mymap.js"></script>
 </body> 
 </html>
+<script type="text/javascript" src="/photos/js/mymap.js"></script>
