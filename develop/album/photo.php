@@ -29,23 +29,23 @@
 .yui-gc .yui-u { 
     width:36%;
 }
-.preview-info {
+.nearby-info {
   margin:10px 5px 2px 5px;
   text-align:left;
   font-size:12pt;
 }
-#preview {
+#nearby {
   margin:5px;
   padding:0 20px;
   border:1px solid gray;
   background-color:#ffffee;
   text-align:center;
 }
-#preview div {
+#nearby div {
   float:left;
   margin:5px;
 }
-#preview img {
+#nearby img {
   /*background:white none repeat scroll 0 0;*/
   border:1px solid #CCCCCC;
   margin:2px auto;
@@ -174,7 +174,7 @@
       map.addControl(new GMapTypeControl());
       map.addMapType(G_PHYSICAL_MAP);
 
-      function getPreviewDOM(photo, i)
+      function getNearbyDOM(photo, i)
       {
         var id = photo.id;
 
@@ -195,7 +195,7 @@
                 $j(this).css("padding", "3px");
                 markers.select(i);
               }, function() {
-                $j(this).css("border", "1px solid #cccccc");
+                $j(this).css("border", "1px solid gray");
                 $j(this).css("margin", "2px auto");
                 $j(this).css("padding", "3px");
                 markers.select(markers.NONE);
@@ -206,10 +206,10 @@
           div.appendChild(a);
           a.appendChild(img);
           return div;
-      } // End of getPreviewDOM 
+      } // End of getNearbyDOM 
 
       var showObj = function (o) {
-        $j("#preview").html('');
+        $j("#nearby").html('');
         var points = [];
         var ids = [];
 
@@ -218,7 +218,7 @@
           var markerPoint = new GLatLng(photo.lat, photo.lng);
           points.push(markerPoint);
           ids.push(photo.id);
-          $j("#preview").append(getPreviewDOM(o[i], i));
+          $j("#nearby").append(getNearbyDOM(o[i], i));
         }
 
         markers = new GCompoundMarker("", 32, 32, points, ids);
@@ -226,12 +226,12 @@
 
         GEvent.addListener(markers, "mouseover", function(i) {
           markers.select(i);
-          $j("#r" + o[i].id).css("background", "#ff0000");
+          $j("#r" + o[i].id).css("backgroundColor", "orange");
         });
 
         GEvent.addListener(markers, "mouseout", function(i) {
           markers.select(markers.NONE);
-          $j("#r" + o[i].id).css("background", "#ffffff");
+          $j("#r" + o[i].id).css("backgroundColor", "white");
         });
 
         GEvent.addListener(markers, "click", function(i) {
@@ -280,8 +280,8 @@
             <img src="/photos/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
           </div>
           <div id="description"><?=$picAry[0]['description']?></div>
-          <div class="preview-info">此區內的其他照片：</div>
-          <div class="main-center clearfix" id="preview"></div>
+          <div class="nearby-info">此區內的其他照片：</div>
+          <div class="main-center clearfix" id="nearby"></div>
         </div>
         <div class="ft"></div>
       </div>
@@ -298,7 +298,7 @@
         </div>
         <div class="bd">
           <div id="profile" class="clearfix">
-            <img src="<?=getUserIcon('richardw')?>" />
+            <img src="<?=getUserIcon('richardw', 60)?>" />
             <div id="author">作者：<a href="#">richardw</a></div>
             <ul>
               <li>上傳時間：<?=$picAry[0]['curr_time']?></li>
