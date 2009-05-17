@@ -1,5 +1,6 @@
 <?
   session_start();
+  require_once LIBRARY_PATH . "function.inc";
   if (!isset($_SESSION['userid']))
   {
     header("location:/login/?go_url=".$_SERVER['REQUEST_URI']);
@@ -32,11 +33,10 @@
 #cordination {
   float:right;
 }
-#map-tab-all .yui-content .cat-tab {
+#map-tab-all .yui-content .tabs {
   height:292px;
 }
 #nearby {
-  text-align:left;
   width:auto;
   *width:273px;
   font-size:12px;
@@ -108,6 +108,17 @@
 img {
   border:1px solid white;
 }
+.myicon {
+  text-align:center;
+}
+.myicon img {
+  margin-top:10px;
+  padding:1px;
+  border:1px solid gray;
+}
+.yui-content .tabs {
+  text-align:left;
+}
 </style> 
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
@@ -118,7 +129,7 @@ img {
   var resizemap = function() {
     var map_width = parseInt($j(window).width()) - 335;
     var map_height = parseInt($j(window).height()) - 135;
-    var nearby_height = parseInt($j(window).height()) - 450;
+    var nearby_height = parseInt($j(window).height()) - 455;
     $j('.yui-main .yui-b').css('width', map_width+'px');
     //$j('.yui-main .yui-b').css('height', map_height+'px');
     $j('#nearby').css('height', nearby_height+'px');
@@ -137,7 +148,8 @@ img {
   });
 </script> 
 </head> 
-<body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()"> 
+<!--body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()"-->
+<body class="yui-skin-sam">
 <div id="custom-doc" class="yui-t3" style="width:auto">
   <div id="hd">
 <? require WEBROOT_PATH . "include/header.php"; ?>
@@ -146,14 +158,14 @@ img {
   <div id="bd">
     <div id="map-tab" class="yui-navset">
       <ul class="yui-nav">
-        <li class="selected"><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
-        <li><a href="#maptab2"><em>我的旅行地圖</em></a></li>
+        <li><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
+        <li class="selected"><a href="#maptab2"><em>我的旅行地圖</em></a></li>
         <li><a href="#maptab3"><em>最新旅行地圖</em></a></li>
         <li><a href="#maptab4"><em>熱門旅行地圖</em></a></li>
       </ul>
       <div class="yui-content">
         <div id="maptab1" class="clearfix">
-          <? require WEBROOT_PATH . "maps/mod_all.php"; ?>
+          <? //require WEBROOT_PATH . "maps/mod_all.php"; ?>
         </div>
         <div id="maptab2">
           <? include WEBROOT_PATH . "maps/mod_my.php"; ?>
