@@ -1,7 +1,6 @@
 <?
-  require LIBRARY_PATH."mysql_cfg.inc";
-  require LIBRARY_PATH."function.inc";
-  Connect_Mysql();
+  require LIBRARY_PATH."function.php";
+//  $db = Mysql::getInstance('localhost');
   $userid = $_POST['userid'];
   $title = urldecode($_POST['title']);
   $desc = urldecode($_POST['desc']);
