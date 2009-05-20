@@ -1,6 +1,6 @@
 <?
   session_start();
-  require_once LIBRARY_PATH . "function.inc";
+  require_once LIBRARY_PATH . "function.php";
   if (!isset($_SESSION['userid']))
   {
     header("location:/login/?go_url=".$_SERVER['REQUEST_URI']);
@@ -148,8 +148,8 @@ img {
   });
 </script> 
 </head> 
-<!--body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()"-->
-<body class="yui-skin-sam">
+<body class="yui-skin-sam" onLoad="initialize()" onunload="GUnload()">
+<!--body class="yui-skin-sam"-->
 <div id="custom-doc" class="yui-t3" style="width:auto">
   <div id="hd">
 <? require WEBROOT_PATH . "include/header.php"; ?>
@@ -165,7 +165,7 @@ img {
       </ul>
       <div class="yui-content">
         <div id="maptab1" class="clearfix">
-          <? //require WEBROOT_PATH . "maps/mod_all.php"; ?>
+          <? require WEBROOT_PATH . "maps/mod_all.php"; ?>
         </div>
         <div id="maptab2">
           <? include WEBROOT_PATH . "maps/mod_my.php"; ?>
