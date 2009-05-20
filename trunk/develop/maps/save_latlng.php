@@ -1,13 +1,11 @@
 <?
   session_start();
-  require LIBRARY_PATH."mysql_cfg.inc";
-  require LIBRARY_PATH."function.inc";
+  require LIBRARY_PATH."function.php";
 
-  Connect_Mysql();
   $curr_time = date("Y-m-d H:i:s");
   if (isset($_POST['action']))
   {
-    Connect_Mysql();
+    $db = Mysql::getInstance('localhost');
     switch($_POST['action'])
     {
       case "create":
@@ -34,7 +32,7 @@
         $sql = "UPDATE web3.map_point SET ";
         $sql.= "lat = '{$_POST['lat']}', lng = '{$_POST['lng']}', curr_time = '{$curr_time}' ";
         $sql.= "WHERE id = '{$_POST['point_id']}'";
-        Query_Mysql($sql);
+        $db->query($sql);
         Close_Mysql();
         break;
     }
