@@ -1,12 +1,12 @@
 <?php
   session_start();
-  require LIBRARY_PATH."mysql_cfg.inc";
+  require LIBRARY_PATH."db_mysql.php";
   require LIBRARY_PATH."function.inc";
-  Connect_Mysql();
+  $db = Mysql::getInstance('localhost');
 
   $sql = "SELECT userid, pw_opid, usernk, verify_time FROM users ";
   $sql.= "WHERE userid = '{$_POST['userid']}'";
-  $res = Query_Mysql($sql);
+  $res = $db->query($sql);
   list($db_userid, $db_pw, $db_nick, $db_vtime) = mysql_fetch_row($res);
 
   if ($db_vtime == "0000-00-00 00:00:00")
@@ -23,8 +23,7 @@
     $sql = "UPDATE users SET login_times = login_times + 1, IP = '{$userIP}', ";
     $sql.= "last_login = now() ";
     $sql.= "WHERE userid = '{$db_userid}'";
-    Query_Mysql($sql);
-    Close_Mysql();
+    $db->query($sql);
 
     $expire_time = 60 * 60 * 24 * 3;
     if (isset($_POST['remem']) && ($_POST['remem'] == "on"))
