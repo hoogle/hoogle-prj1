@@ -25,7 +25,7 @@
           "point_id" => $new_markerid
         );
         insertData("web3.photo", $data_photo, $new_photo);
-        Close_Mysql();
+        $db->close();
         echo "{new_markerid:{$new_markerid}}";
         break;
       case "update":
@@ -33,7 +33,7 @@
         $sql.= "lat = '{$_POST['lat']}', lng = '{$_POST['lng']}', curr_time = '{$curr_time}' ";
         $sql.= "WHERE id = '{$_POST['point_id']}'";
         $db->query($sql);
-        Close_Mysql();
+        $db->close();
         break;
     }
   }
