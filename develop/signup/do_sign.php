@@ -19,18 +19,17 @@ $resp = recaptcha_check_answer ($privatekey,
   $usernk = $_POST['usernk'];
   $email = $_POST['email'];
   $birthday = sprintf("%s-%s-%s", $_POST['birth_y'], $_POST['birth_m'], $_POST['birth_d']);
-  require LIBRARY_PATH."mysql_cfg.inc";
   require LIBRARY_PATH."function.inc";
   $userIP = getUserIP();
-  Connect_Mysql();
+  require LIBRARY_PATH."mysql_cfg.inc";
   $sql = "INSERT INTO users (userid, pw_opid, usernk, email, birthday, IP, reg_time) ";
   $sql.= "VALUES ('{$userid}', '{$userpw}', '{$usernk}', '{$email}', '{$birthday}', '{$userIP}', now())";
-  Query_Mysql($sql);
+  $db->query($sql);
 
   $session_id = session_id();
   $sql = "INSERT INTO init_acc (userid, sid) ";
   $sql.= "VALUES ('{$userid}', '{$session_id}')";
-  Query_Mysql($sql);
+  $db->query($sql);
 
   $authstr = base64_encode("{$userid}#{$session_id}");
 //}
@@ -38,7 +37,7 @@ $resp = recaptcha_check_answer ($privatekey,
   $mail_content = '
 mailto '.$email.' :
 
-請點選 http://122.116.58.206/include/initial_acc.php?auth='.$authstr.' for initialize your account.
+請點選 http://122.116.58.213/include/initial_acc.php?auth='.$authstr.' for initialize your account.
 
 - TravelMap -';
 mail($email, "認證信 (authorization)", $mail_content, $header); 
