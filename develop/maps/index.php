@@ -7,6 +7,27 @@
     exit;
   }
   $userid = $_SESSION['userid'];
+  $func = $_GET['f'];
+  switch ($func)
+  {
+    case 'hot': $inc_file = WEBROOT_PATH . "maps/mod_hot.php";
+                $selected_str4 = ' class="selected"';
+                $tab = 4;
+                break;
+    case 'new': $inc_file = WEBROOT_PATH . "maps/mod_new.php";
+                $selected_str3 = ' class="selected"';
+                $tab = 3;
+                break;
+    case 'my':  $inc_file = WEBROOT_PATH . "maps/mod_my.php";
+                $selected_str2 = ' class="selected"';
+                $tab = 2;
+                break;
+    case 'all':
+    default:    $inc_file = WEBROOT_PATH . "maps/mod_all.php";
+                $selected_str1 = ' class="selected"';
+                $tab = 1;
+                break;
+  }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -158,19 +179,15 @@ img {
   <div id="bd">
     <div id="map-tab" class="yui-navset">
       <ul class="yui-nav">
-        <li><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
-        <li class="selected"><a href="#maptab2"><em>我的旅行地圖</em></a></li>
+        <li class="selected"><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
+        <li><a href="#maptab2"><em>我的旅行地圖</em></a></li>
         <li><a href="#maptab3"><em>最新旅行地圖</em></a></li>
         <li><a href="#maptab4"><em>熱門旅行地圖</em></a></li>
       </ul>
       <div class="yui-content">
-        <div id="maptab1" class="clearfix">
-          <? require WEBROOT_PATH . "maps/mod_all.php"; ?>
+        <div id="maptab<?=$tab?>" class="clearfix">
+          <? require $inc_file; ?>
         </div>
-        <div id="maptab2">
-          <? include WEBROOT_PATH . "maps/mod_my.php"; ?>
-        </div>
-        <div id="maptab3"></div>
       </div>
     </div>
 <script>
