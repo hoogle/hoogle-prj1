@@ -140,6 +140,30 @@ img {
 .yui-content .tabs {
   text-align:left;
 }
+.tab-nav {
+  margin:20px 3px 9px;
+}
+.tab-nav li {
+  display:inline;
+  background:#ff0000 url(http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/sprite.png) repeat-x scroll left -1400px;
+  color:#fff;
+}
+.tab-nav li a {
+  color:#363636;
+  background:#D8D8D8 url(http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/sprite.png) repeat-x scroll 0 0;
+  text-decoration:none;
+  font-size:16px;
+  padding:6px 25px;
+  border:1px solid #ccc;
+}
+.tab-nav li a:hover {
+  color:#363636;
+  background:#bfdaff url(http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/sprite.png) repeat-x left -1300px;outline:0;
+}
+#map-tab .tab-nav .selected a {
+  color:#fff;
+  background:#2647A0 url(http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/sprite.png) repeat-x scroll left -1400px;
+}
 </style> 
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
@@ -177,22 +201,17 @@ img {
   </div>
 
   <div id="bd">
-    <div id="map-tab" class="yui-navset">
-      <ul class="yui-nav">
-        <li class="selected"><a href="#maptab1"><em>大家的旅行地圖</em></a></li>
-        <li><a href="#maptab2"><em>我的旅行地圖</em></a></li>
-        <li><a href="#maptab3"><em>最新旅行地圖</em></a></li>
-        <li><a href="#maptab4"><em>熱門旅行地圖</em></a></li>
+    <div id="map-tab">
+      <ul class="tab-nav">
+        <li><a href="/maps/"><em>大家的旅行地圖</em></a></li>
+        <li><a href="/maps/?f=my"><em>我的旅行地圖</em></a></li>
+        <li><a href="/maps/?f=new"><em>最新旅行地圖</em></a></li>
+        <li><a href="/maps/?f=hot"><em>熱門旅行地圖</em></a></li>
       </ul>
-      <div class="yui-content">
-        <div id="maptab<?=$tab?>" class="clearfix">
-          <? require $inc_file; ?>
-        </div>
+      <div class="tab-content">
+        <? require $inc_file; ?>
       </div>
     </div>
-<script>
-(function() { var tabView = new YAHOO.widget.TabView('map-tab'); })();
-</script>
   </div>
 
   <div id="ft">
@@ -201,4 +220,9 @@ img {
 </div>
 </body> 
 </html>
+<script type="text/javascript">
+(function() {
+  $j('#map-tab .tab-nav > li').eq(<?=($tab-1)?>).addClass('selected');
+})();
+</script>
 <script type="text/javascript" src="/photos/js/mymap.js"></script>
