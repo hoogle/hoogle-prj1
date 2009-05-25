@@ -172,7 +172,7 @@ img {
 <script type="text/javascript">
   $j = jQuery.noConflict();
   var resizemap = function() {
-    var map_width = parseInt($j(window).width()) - 335;
+    var map_width = parseInt($j(window).width()) - 320;
     var map_height = parseInt($j(window).height()) - 135;
     var nearby_height = parseInt($j(window).height()) - 455;
     $j('.yui-main .yui-b').css('width', map_width+'px');
