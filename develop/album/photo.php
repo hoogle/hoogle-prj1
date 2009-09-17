@@ -6,7 +6,7 @@
     exit;
   }
   $userid = $_SESSION['userid'];
-  $photoid = $_GET['pid'];
+  $photoid = intval($_GET['pid']);
 
   require LIBRARY_PATH."function.inc";
   $picAry = getPicInfo($photoid);
