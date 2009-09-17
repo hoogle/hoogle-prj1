@@ -1,6 +1,6 @@
 <?
   session_start();
-  require LIBRARY_PATH."db_mysql.php";
+  require LIBRARY_PATH."function.php";
 
   $db = Mysql::getInstance('localhost');
   $sql = "SELECT m.*, p.set, p.title, p.description FROM web3.map_point m, web3.photo p ";

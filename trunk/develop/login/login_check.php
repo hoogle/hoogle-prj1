@@ -1,7 +1,6 @@
 <?php
   session_start();
-  require LIBRARY_PATH."db_mysql.php";
-  require LIBRARY_PATH."function.inc";
+  require LIBRARY_PATH."function.php";
   $db = Mysql::getInstance('localhost');
 
   $sql = "SELECT userid, pw_opid, usernk, verify_time FROM users ";
