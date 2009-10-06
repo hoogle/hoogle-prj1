@@ -41,4 +41,8 @@
     header("location:{$url}");
     exit;
   }
+  else
+  {
+    echo "id/pw error!";
+  }
 ?>
