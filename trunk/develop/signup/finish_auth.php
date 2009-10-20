@@ -1,1 +1,1 @@
-/home/laudieh/php-openid-2.1.2/examples/consumer/finish_auth.php
+/mnt/filer/laudieh/php-openid-2.1.2/examples/consumer/finish_auth.php
