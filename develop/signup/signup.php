@@ -3,7 +3,7 @@ if (isset($_GET['token']))
 {
   $authURL = "https://rpxnow.com/api/v2/auth_info";
   $postData = array(
-    "apiKey" => "aae60f77db9f1e62ba26ad8d18b3cac0d80922b5",
+    "apiKey" => "707ed1543413a84ed8425ab6f44e3e5f765d34cc",
     "token" => $_GET['token']);
   $ch = curl_init($authURL);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -18,7 +18,7 @@ if (isset($_GET['token']))
 
   if ("ok" != $result['stat'])
   {
-    //header("location: https://122-116-58-206.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.206/signup/signup.php");
+    //header("location: https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php");
     //exit;
   }
 }

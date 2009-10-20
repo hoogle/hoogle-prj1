@@ -18,8 +18,8 @@
 class APIException extends Exception {}
 
 class RPX {
-    var $api_key = "aae60f77db9f1e62ba26ad8d18b3cac0d80922b5";
-    var $base_url = "http://122.116.58.206/signup/";
+    var $api_key = "707ed1543413a84ed8425ab6f44e3e5f765d34cc";
+    var $base_url = "http://122.116.58.213/signup/";
     var $format = "xml";
     var $response_body = "";
 
