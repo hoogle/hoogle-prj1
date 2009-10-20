@@ -6,7 +6,7 @@
 <title>我的旅行地圖 - 註冊</title>
 <link rel="stylesheet" href="http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 </head>
 
 <body>
@@ -59,8 +59,9 @@
 <script src="https://rpxnow.com/openid/v2/widget" type="text/javascript"></script>
 <script type="text/javascript">
   RPXNOW.token_url = "http://122.116.58.213/signup/signup.php";
-  RPXNOW.realm = "122-116-58-213";
+  RPXNOW.realm = "travelmap";
   RPXNOW.overlay = true;
+  RPXNOW.language_preference = 'zh-TW';
 </script>
 
 </body>
