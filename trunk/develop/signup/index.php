@@ -22,7 +22,7 @@
           註冊
         </div>
         <div class="signup-title float_right">
-          <div style="font:15pt Verdana, Simhei;padding-right:10px;">使用<a href="https://122-116-58-206.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.206/signup/signup.php" onclick="return false;" class="rpxnow" style="color:#ff6200"><img src="/photos/img/icon_openid_s.gif" style="vertical-align:middle" />OpenID</a>?</div>
+          <div style="font:15pt Verdana, Simhei;padding-right:10px;">使用<a href="https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php" onclick="return false;" class="rpxnow" style="color:#ff6200"><img src="/photos/img/icon_openid_s.gif" style="vertical-align:middle" />OpenID</a>?</div>
           <div style="text-align:right;padding-right:10px;"><a href="http://openid.net/" style="font:9pt Verdana;">什麼是 OpenID?</a></div>
         </div>
         <form name="sign_form" class="signup-form" method="post" action="/signup/signup.php">
@@ -58,8 +58,8 @@
 </div>
 <script src="https://rpxnow.com/openid/v2/widget" type="text/javascript"></script>
 <script type="text/javascript">
-  RPXNOW.token_url = "http://122.116.58.206/signup/signup.php";
-  RPXNOW.realm = "122-116-58-206";
+  RPXNOW.token_url = "http://122.116.58.213/signup/signup.php";
+  RPXNOW.realm = "122-116-58-213";
   RPXNOW.overlay = true;
 </script>
 
