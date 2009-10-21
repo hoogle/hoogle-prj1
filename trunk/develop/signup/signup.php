@@ -18,8 +18,8 @@ if (isset($_GET['token']))
 
   if ("ok" != $result['stat'])
   {
-    //header("location: https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php");
-    //exit;
+    header("location: https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php");
+    exit;
   }
 }
 $userid = (isset($_POST['userid'])) ? $_POST['userid'] : $result['profile']['identifier'];
