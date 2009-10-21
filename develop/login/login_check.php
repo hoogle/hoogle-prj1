@@ -1,10 +1,25 @@
 <?php
+if (isset($_POST['token']))
+{
+  $authURL = "https://rpxnow.com/api/v2/auth_info";
+  $postData = array(
+    "apiKey" => "707ed1543413a84ed8425ab6f44e3e5f765d34cc",
+    "token" => $_POST['token']);
+  $ch = curl_init($authURL);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result = json_decode(curl_exec($ch), true);
+  curl_close($ch);
+}
+$userid = (isset($result['profile']['identifier'])) ? $result['profile']['identifier'] : $_POST['userid'];
   session_start();
   require LIBRARY_PATH."function.php";
   $db = Mysql::getInstance('localhost');
 
   $sql = "SELECT userid, pw_opid, usernk, verify_time FROM users ";
-  $sql.= "WHERE userid = '{$_POST['userid']}'";
+  $sql.= "WHERE userid = '{$userid}'";
   $res = $db->query($sql);
   list($db_userid, $db_pw, $db_nick, $db_vtime) = mysql_fetch_row($res);
 
