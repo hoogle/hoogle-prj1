@@ -61,7 +61,7 @@
   RPXNOW.token_url = "http://122.116.58.213/signup/signup.php";
   RPXNOW.realm = "travelmap";
   RPXNOW.overlay = true;
-  RPXNOW.language_preference = 'zh-TW';
+  RPXNOW.language_preference = 'zh-CHT';
 </script>
 
 </body>
