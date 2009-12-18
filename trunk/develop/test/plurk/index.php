@@ -9,7 +9,7 @@
 
 <body>
 <div>
-    nick: <input type="text" id="nick" value="hoogle"/><br/>
+    nick: <input type="text" id="nick"/><br/>
     pwd: <input type="password" id="pwd"/><br/>
     msg: <input type="text" id="msg"/><br/>
     <input type="button" id="getit" value="get it!"/>
@@ -22,10 +22,11 @@
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         var msg = $('#msg').val();
-        $('#show').html('haha');
-        alert('nick = '+nick);
-        $.post('post2plurk.php', {nick:nick, pwd:pwd, uid:'3982321', msg:msg}, function(data) {
-            $('#show').html(data);
-        });
+        $('#show').html('發送中...');
+        $.post('post2plurk.php', {nick:nick, pwd:pwd, msg:msg}, function(data) {
+            if (data['error'] == null) {
+                $('#show').html('發送成功!!');
+            }
+        }, 'json');
     });
 </script>
