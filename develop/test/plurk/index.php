@@ -12,11 +12,11 @@
     nick: <input type="text" id="nick"/><br/>
     pwd: <input type="password" id="pwd"/><br/>
     msg: <input type="text" id="msg"/><br/>
-    <input type="button" id="plurkit" value="plurk it!"/>
+    <input type="button" id="plurkit" value="噗吧!"/>
     <div id="stat"></div>
 </div>
 <div>
-    <input type="button" id="getit" value="get it!"/> 
+    <input type="button" id="getit" value="取得噗"/> 
     <div id="show"></div> 
     <div id="nick"></div>
     <div id="karma"></div>
