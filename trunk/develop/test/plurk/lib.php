@@ -14,56 +14,52 @@ function getUserID($nick)
     return $uid;
 }
 
-function post_plurk($nick_name, $pwd, $uid, $msg) {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    // 認證
-    curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
-    curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
-    curl_setopt($ch, CURLOPT_URL, 'http://www.plurk.com/Users/login');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "nick_name={$nick_name}&password={$pwd}");
-    curl_exec($ch);
-    // 發文
-    curl_setopt($ch, CURLOPT_URL, 'http://www.plurk.com/TimeLine/addPlurk');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "qualifier=says&content=" . urlencode($msg) . "&lang=tr_ch&limited_to=[$uid]&no_comments=0&uid={$uid}");
-    $rsp = curl_exec($ch);
-    curl_close($ch);
-    return $rsp;
-}
-
-function do_act( $target_url, $data, $cookie_file = NULL )
+function do_act($target_url, $data, $cookie_file = NULL)
 {
     $ch = curl_init();
 
-    curl_setopt( $ch , CURLOPT_URL , $target_url );
-    curl_setopt( $ch , CURLOPT_POST , true );
-    curl_setopt( $ch , CURLOPT_POSTFIELDS , http_build_query( $data ) );
-
-    if( isset( $cookie_file ) )     // cookie
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    if (isset($cookie_file))
     {
-        curl_setopt( $ch , CURLOPT_COOKIEFILE , $cookie_file );
-        curl_setopt( $ch , CURLOPT_COOKIEJAR , $cookie_file );
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
     }
+    curl_setopt($ch, CURLOPT_URL, $target_url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 
-    //curl_setopt( $ch , CURLOPT_RETURNTRANSFER , true );
-    //curl_setopt( $ch , CURLOPT_FOLLOWLOCATION , true );
-    //curl_setopt( $ch , CURLOPT_SSL_VERIFYPEER , false );
-
-    $result = curl_exec( $ch );
-    curl_close( $ch );
+    $result = curl_exec($ch);
+    curl_close($ch);
     return $result;
 }
 
-switch($_POST('func'))
+$func = strip_tags($_POST['func']);
+switch($func)
 {
-    case "post":
+    case "plurking":
         $nick = $_POST['nick'];
         $pwd = $_POST['pwd'];
-        $uid = $_POST['uid'];
         $msg = $_POST['msg'];
-
         $uid = getUserID($nick);
-        echo post_plurk($nick, $pwd, $uid, $msg);
+        $cookie_file = "/tmp/plurk_cookie";
+        $login_url = "http://www.plurk.com/Users/login"; 
+        $login_data = array(
+            "api_key" => API_KEY,
+            "nick_name" => $nick,
+            "password" => $pwd
+        );
+        do_act($login_url, $login_data, $cookie_file);
+
+        $post_url = "http://www.plurk.com/TimeLine/addPlurk"; 
+        $post_data = array(
+            "qualifier" => "says",
+            "content" => urlencode($msg),
+            "lang" => "tr_ch",
+            "limited_to" => "[$uid]",
+            "no_comments" => 0,
+            "uid" => $uid
+        );
+        echo do_act($post_url, $post_data, $cookie_file);
         break;
 
     case "get":
@@ -74,7 +70,7 @@ switch($_POST('func'))
             "username" => $_POST['nick'],
             "password" => $_POST['pwd'] 
         );
-        //do_act($target_url, $data, $cookie_file);
+        do_act($target_url, $data, $cookie_file);
 
         $target_url = "http://www.plurk.com/API/Timeline/getPlurks";
         $data = array(

@@ -29,7 +29,8 @@
         var pwd = $('#pwd').val();
         var msg = $('#msg').val();
         $('#stat').html('發送中...');
-        $.post('post2plurk.php', {nick:nick, pwd:pwd, msg:msg}, function(data) {
+        $.post('lib.php', {func:'plurking', nick:nick, pwd:pwd, msg:msg}, function(data) {
+            console.dir(data);
             if (data['error'] == null) {
                 $('#stat').html('發送成功!!');
             }
