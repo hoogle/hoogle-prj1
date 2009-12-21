@@ -11,7 +11,30 @@
 <div>
     nick: <input type="text" id="nick"/><br/>
     pwd: <input type="password" id="pwd"/><br/>
-    msg: <input type="text" id="msg"/><br/>
+    msg: <input type="text" id="msg"/>
+    <select id="qualifier">
+        <option value="loves">loves</option>
+        <option value="likes">likes</option>
+        <option value="shares">shares</option>
+        <option value="gives">gives</option>
+        <option value="hates">hates</option>
+        <option value="wants">wants</option>
+        <option value="has">has</option>
+        <option value="will">will</option>
+        <option value="asks">asks</option>
+        <option value="wishes">wishes</option>
+        <option value="was">was</option>
+        <option value="feels">feels</option>
+        <option value="thinks">thinks</option>
+        <option value="says">says</option>
+        <option value="is">is</option>
+        <option value=":">:</option>
+        <option value="freestyle">freestyle</option>
+        <option value="hopes">hopes</option>
+        <option value="needs">needs</option>
+        <option value="wonders">wonders</option>
+    </select><br/>
+    <label for="priv"><input type="checkbox" name="priv" id="priv"/>密噗</label>
     <input type="button" id="plurkit" value="噗吧!"/>
     <div id="stat"></div>
 </div>
@@ -28,8 +51,10 @@
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         var msg = $('#msg').val();
+        var qualifier = $('#qualifier').val();
+        var priv = $('#priv').attr()[0].checked;
         $('#stat').html('發送中...');
-        $.post('lib.php', {func:'plurking', nick:nick, pwd:pwd, msg:msg}, function(data) {
+        $.post('lib.php', {func:'plurking', nick:nick, pwd:pwd, msg:msg, qualifier:qualifier, priv:priv}, function(data) {
             console.dir(data);
             if (data['error'] == null) {
                 $('#stat').html('發送成功!!');
