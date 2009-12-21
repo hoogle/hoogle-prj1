@@ -40,6 +40,8 @@ switch($func)
         $nick = $_POST['nick'];
         $pwd = $_POST['pwd'];
         $msg = $_POST['msg'];
+        $qualifier = $_POST['qualifier'];
+        $priv = $_POST['priv'];
         $uid = getUserID($nick);
         $cookie_file = "/tmp/plurk_cookie";
         $login_url = "http://www.plurk.com/Users/login"; 
@@ -51,11 +53,12 @@ switch($func)
         do_act($login_url, $login_data, $cookie_file);
 
         $post_url = "http://www.plurk.com/TimeLine/addPlurk"; 
+        $limited_to = ($priv == "true") ? "[$uid]" : "";
         $post_data = array(
-            "qualifier" => "says",
+            "qualifier" => $qualifier,
             "content" => $msg,
             "lang" => "tr_ch",
-            //"limited_to" => "[$uid]",
+            "limited_to" => $limited_to,
             "no_comments" => 0,
             "uid" => $uid
         );
