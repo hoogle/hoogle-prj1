@@ -53,34 +53,36 @@ switch($func)
         $post_url = "http://www.plurk.com/TimeLine/addPlurk"; 
         $post_data = array(
             "qualifier" => "says",
-            "content" => urlencode($msg),
+            "content" => $msg,
             "lang" => "tr_ch",
-            "limited_to" => "[$uid]",
+            //"limited_to" => "[$uid]",
             "no_comments" => 0,
             "uid" => $uid
         );
         echo do_act($post_url, $post_data, $cookie_file);
         break;
 
-    case "get":
+    case "getplurks":
+        $nick = $_POST['nick'];
+        $pwd = $_POST['pwd'];
         $cookie_file = "/tmp/plurk_cookie";
         $target_url = "http://www.plurk.com/API/Users/login";
         $data = array(
             "api_key" => API_KEY,
-            "username" => $_POST['nick'],
-            "password" => $_POST['pwd'] 
+            "username" => $nick,
+            "password" => $pwd 
         );
         do_act($target_url, $data, $cookie_file);
 
         $target_url = "http://www.plurk.com/API/Timeline/getPlurks";
         $data = array(
             "api_key" => API_KEY,
-            "plurk_id" => 182352727 
+            "offset" => date("Y-n-dTH:i:s") 
         );
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
 
-        do_act($target_url, $data, $cookie_file);
+        echo do_act($target_url, $data, $cookie_file);
         break;
 }
 ?>
