@@ -40,6 +40,7 @@
 </div>
 <div>
     <input type="button" id="getit" value="取得噗"/> 
+    <input type="button" id="get_who_limited_me" value="誰私噗給我"/> 
     <div id="show"></div> 
     <div id="nick"></div>
     <div id="karma"></div>
@@ -72,6 +73,29 @@
                 uids+= '<li>' + data['plurk_users'][item]['display_name'] + ' (' + data['plurk_users'][item]['karma'] + ')</li>\n';
             }
             uids+= '</ul>\n';
+            $('#show').html('users: '+uids);
+            console.dir(data);
+        }, 'json');
+    });
+
+    $('#get_who_limited_me').click(function() {
+        var nick = $('#nick').val();
+        var pwd = $('#pwd').val();
+        $('#show').html('載入中...');
+        $.post('lib.php', {func:'getplurks', nick:nick, pwd:pwd}, function(data) {
+            var uids = "<ul>\n";
+            var regex = /\|\d+\|/g;
+            for(var item in data['plurks']) {
+                var limited_to = data['plurks'][item]['limited_to'];
+                if (limited_to != null) {
+                    var owner = data['plurks'][item]['owner_id'];
+                    if (limited_to.match(regex) != null) {
+                        uids+= '<li>' + data['plurk_users'][owner]['display_name'] + ' [' + data['plurks'][item]['qualifier_translated'] + '] ' + data['plurks'][item]['content'] + ' (' + data['plurks'][item]['posted'] + ') </li>\n';
+                    }
+                }
+            }
+            uids+= '</ul>\n';
+            console.dir(data);
             $('#show').html('users: '+uids);
         }, 'json');
     });
