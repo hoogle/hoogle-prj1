@@ -24,7 +24,7 @@
 </body>
 </html>
 <script type="text/javascript">
-    $('#plurkit').click(function(e) {
+    $('#plurkit').click(function() {
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         var msg = $('#msg').val();
@@ -38,14 +38,16 @@
     });
 
     $('#getit').click(function() {
+        var nick = $('#nick').val();
+        var pwd = $('#pwd').val();
         $('#show').html('geting...');
-        $.post('get_plurk.php', {nick:'hoogle', pwd:'qUs4obog', uid:'3982321'}, function(data) {
-        var uids = "";
-        for(var item in data['plurk_users']) {
-            uids+= '<br/>' + item;
-        }
-        $('#show').html('users: '+uids);
-    console.dir(data);
+        $.post('lib.php', {func:'getplurks', nick:nick, pwd:pwd}, function(data) {
+            var uids = "<ul>\n";
+            for(var item in data['plurk_users']) {
+                uids+= '<li>' + data['plurk_users'][item]['display_name'] + ' (' + data['plurk_users'][item]['karma'] + ')</li>\n';
+            }
+            uids+= '</ul>\n';
+            $('#show').html('users: '+uids);
         }, 'json');
     });
 </script>
