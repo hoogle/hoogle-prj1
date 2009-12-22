@@ -81,22 +81,24 @@
     $('#get_who_limited_me').click(function() {
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
-        $('#show').html('載入中...');
+        $('#show').html('查詢中...');
         $.post('lib.php', {func:'getplurks', nick:nick, pwd:pwd}, function(data) {
             var uids = "<ul>\n";
+            var li = "";
             var regex = /\|\d+\|/g;
             for(var item in data['plurks']) {
                 var limited_to = data['plurks'][item]['limited_to'];
                 if (limited_to != null) {
                     var owner = data['plurks'][item]['owner_id'];
                     if (limited_to.match(regex) != null) {
-                        uids+= '<li>' + data['plurk_users'][owner]['display_name'] + ' [' + data['plurks'][item]['qualifier_translated'] + '] ' + data['plurks'][item]['content'] + ' (' + data['plurks'][item]['posted'] + ') </li>\n';
+                        li+= '<li>' + data['plurk_users'][owner]['display_name'] + ' [' + data['plurks'][item]['qualifier_translated'] + '] ' + data['plurks'][item]['content'] + ' (' + data['plurks'][item]['posted'] + ') </li>\n';
                     }
                 }
             }
+            uids+= (li != "") ? li : '<li>查無我的私噗!</li>';
             uids+= '</ul>\n';
+            $('#show').html(uids);
             console.dir(data);
-            $('#show').html('users: '+uids);
         }, 'json');
     });
 </script>
