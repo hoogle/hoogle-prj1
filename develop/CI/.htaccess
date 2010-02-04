@@ -1,5 +1,0 @@
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteCond $1 !^(index.php|static|robots.txt)
-RewriteRule ^(.*)$ /home/www/develop/CI/index.php/$1 [L]
-</IfModule>

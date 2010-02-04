@@ -18,7 +18,7 @@
 
   <div id="bd">
     <div class="yui-d3 contain-main">
-          Comming soon...
+        Comming soon...
     </div>
   </div>
 
