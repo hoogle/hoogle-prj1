@@ -1,0 +1,65 @@
+<html> 
+<head> 
+<title>mydlink API</title> 
+<script src="http://mjj3.v2.dlinklife.com/muchiii/mydlinkAPI.js"></script> 
+<script> 
+ 
+$mydlink.isDebug = parseInt("0", 10);
+ 
+function checkConnBy8D(mydlink_no)
+{
+  $mydlink.checkConnBy8D(
+    {
+      mydlink_no: mydlink_no,
+      success:
+alert('Y');
+        // a callback function for success
+        function(ip, port){
+          alert(ip+":"+port);
+        }
+      ,
+      fail:
+alert('N');
+        // a callback function for failure 
+        function(errorMsg){
+          //alert($mydlink.ds._str2);
+          alert(errorMsg);  // message for debugging ...
+        }
+    }
+  );
+}
+function getInfoBy8D(mydlink_no)
+{
+  $mydlink.getInfoBy8D(
+    mydlink_no,
+    // callback function
+    function(mydlink8DInfo)
+    {
+      // mydlink8DInfo will be an object with ip/port information or a string "ERROR"
+      if(typeof(mydlink8DInfo) == "object" && mydlink8DInfo != "ERROR")
+      {
+        // success ...
+        alert(
+          "Local IP:  "+mydlink8DInfo.local_ip+"\n"+
+          "UPnP IP:  "+mydlink8DInfo.upnp_ip+"\n"+
+          "UPnP Port:  "+mydlink8DInfo.upnp_port+"\n"
+        );
+      }else
+      {
+        // error!
+        alert("Invalid mydlink number.");
+      }
+    }
+  );
+}
+ 
+</script> 
+ 
+</head> 
+<body> 
+<input size="40" id="mydlink_no" value="50201014"> 
+<input type="button" value="Check Connection by 8D" onclick="checkConnBy8D(document.getElementById('mydlink_no').value)"> 
+<input type="button" value="Get 8D Info" onclick="getInfoBy8D(document.getElementById('mydlink_no').value)"> 
+ 
+</body> 
+</html> 
