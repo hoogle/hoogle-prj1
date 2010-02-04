@@ -14,6 +14,32 @@ class L10n_model extends Model {
         $this->db->query($sql);
     }
 
+    function add_newlang($data)
+    {
+        $userid = $this->session->userdata('user_id');
+        $lang_arr = $this->session->userdata('lang_perm');
+        foreach ($lang_arr as $lang_item)
+        {
+            if ($lang_item['l_type'] == "en_US")
+            {
+                $id_fields = "";
+                $id_value = "";
+            }
+            else
+            {
+                $id_fields = "s_id, ";
+                $id_value = "{$new_sid}, ";
+            }
+            $sql = "INSERT INTO lang_{$lang_item['l_type']} ({$id_fields}key_word, translate, original, create_time, update_time, last_updater, status) VALUES ";
+            $sql.= "({$id_value}'{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', 1)";
+            $this->db->query($sql);
+            if ($lang_item['l_type'] == "en_US")
+            {
+                $new_sid = $this->db->insert_id();
+            }
+        }
+    }
+
     function get_userdata($userid)
     {
         $sql = "SELECT * FROM users WHERE user_id = '{$userid}'";

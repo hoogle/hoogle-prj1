@@ -12,8 +12,6 @@
 
 <?php else : ?>
 
-<div>
-    <a href="/login/">Please login to cont.</a>
-</div>
+<?php $this->load->view("login/please_login.php"); ?>
 
 <?php endif ?>
