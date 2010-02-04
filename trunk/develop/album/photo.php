@@ -5,6 +5,7 @@
     header("location:/login/?go_url=".$_SERVER['REQUEST_URI']);
     exit;
   }
+
   $userid = $_SESSION['userid'];
   $photoid = intval($_GET['pid']);
 
