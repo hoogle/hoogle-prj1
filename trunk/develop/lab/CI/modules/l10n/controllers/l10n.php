@@ -28,10 +28,20 @@ class L10n extends Controller {
     {
         $this->load->database();
         $this->load->model("l10n_model");
+        $this->load->library('session');
+        $lang_arr = $this->session->userdata('lang_perm');
+        foreach ($lang_arr as $lang_item)
+        {
+            $l_type = $lang_item['l_type'];
+            $langs[$l_type] = $this->input->post("{$l_type}_word");
+        }
         $data = array(
             'key_word'  => $this->input->post('key_word'),
+            'langs'  => $langs,
         );
         $this->l10n_model->add_newlang($data);
+        header("location:/l10n/list_all");
+        exit;
     }
 
     function add()
