@@ -11,7 +11,7 @@ if ('tw' == $lang) {
     setlocale(LC_ALL, 'zh_TW.UTF-8'); // bsd use zh_TW.UTF-8
 } else if ('cn' == $lang) {
     putenv('LANG=zh_CN');
-    setlocale(LC_ALL, 'zh_CN'); // bsd use zh_CN.UTF-8
+    setlocale(LC_ALL, 'zh_CN.UTF-8'); // bsd use zh_CN.UTF-8
 } else if ('en' == $lang) {
     putenv('LANG=en_US');
     setlocale(LC_ALL, 'en_US'); // or use en
