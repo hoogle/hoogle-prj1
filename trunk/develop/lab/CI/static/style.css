@@ -1,0 +1,14 @@
+.i18n_edit input {
+    width:800px;
+    border:1px solid #ccc;
+    background-color:#ffffee;
+    font:16px Verdana;
+}
+
+.i18n_other_lang li {
+    display:inline;
+    margin:0 5px;
+}
+.i18n_this_lang span {
+    color:green;
+}
