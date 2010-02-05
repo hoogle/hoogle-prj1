@@ -12,12 +12,12 @@ class Login extends Controller {
         $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
     }
 
-    function index()
+    function index($go_url = NULL)
     {
         $this->load->library('session');
         $uid = $this->session->userdata('user_id'); 
         $is_login = ($uid) ? 1 : 0;
-        $go_url = $_SERVER['HTTP_REFERER'];
+        $go_url = ( ! is_null($go_url)) ? str_replace("-", "/", "/{$go_url}") : $_SERVER['HTTP_REFERER'];
         $data = array(
             'userid' => $uid,
             'is_login' => $is_login,
