@@ -1,3 +1,3 @@
 <div>
-    <a href="/login/">Please login to cont.</a>
+    <a href="/login/<?php echo (isset($go_url)) ? "index/{$go_url}" : ""; ?>">Please login to cont.</a>
 </div>

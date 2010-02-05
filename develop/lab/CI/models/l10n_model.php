@@ -31,12 +31,28 @@ class L10n_model extends Model {
                 $id_value = "{$new_sid}, ";
             }
             $sql = "INSERT INTO lang_{$lang_item['l_type']} ({$id_fields}key_word, translate, original, create_time, update_time, last_updater, status) VALUES ";
-            $sql.= "({$id_value}'{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', 1)";
+            $sql.= "({$id_value}'{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', ".LANG_TRANSLATE_NEW.")";
             $this->db->query($sql);
             if ($lang_item['l_type'] == "en_US")
             {
                 $new_sid = $this->db->insert_id();
             }
+        }
+    }
+
+    function edit_lang($form_data)
+    {
+        $userid = $this->session->userdata('user_id');
+        $lang_arr = $this->session->userdata('lang_perm');
+        foreach ($lang_arr as $lang_item)
+        {
+            $data = array (
+                'translate' => $this->db->escape_str($form_data['langs'][$lang_item['l_type']]),
+                'last_updater' => $userid,
+                'update_time' => date("Y-m-d H:i:s"),
+                'status' => LANG_RETRANSLATED
+            );
+            $this->db->update("lang_{$lang_item['l_type']}", $data, array("s_id" => $form_data['sid']));
         }
     }
 
@@ -56,9 +72,10 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
-    function get_all_lang($lang = "en_US")
+    function get_all_lang($lang = "en_US", $sid = NULL)
     {
         $sql = "SELECT * FROM lang_{$lang}";
+        $sql.= ( ! is_null($sid)) ? " WHERE s_id = {$sid}" : "";
         $res = $this->db->query($sql);
         return $res->result_array();
     }

@@ -36,6 +36,10 @@ define('FOPEN_READ_WRITE_CREATE', 				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT', 			'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+define('LANG_KW_MODIFIED',      0);
+define('LANG_TRANSLATED_OK',    1);
+define('LANG_TRANSLATE_NEW',    2);
+define('LANG_RETRANSLATED',     3);
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
