@@ -15,11 +15,13 @@ class L10n extends Controller {
         $this->load->library('session');
         $lang_arr = $this->session->userdata('lang_perm');
         $userid = $this->session->userdata('user_id');
+        $is_login = ($userid) ? 1 : 0;
         $data = array(
             'userid' => $userid,
+            'is_login' => $is_login,
             'lang_arr' => $lang_arr,
             'use_lang' => $this->_browser_lang,
-            'div' => 'home', 
+            'div' => ( ! $is_login) ? 'home' : 'changes', 
         );
         $this->load->view("index", $data);
     }

@@ -79,5 +79,12 @@ class L10n_model extends Model {
         $res = $this->db->query($sql);
         return $res->result_array();
     }
+
+    function get_retranslated($lang = "en_US")
+    {
+        $sql = "SELECT * FROM lang_{$lang} WHERE status = ".LANG_RETRANSLATED;
+        $res = $this->db->query($sql);
+        return $res->result_array();
+    }
 }
 ?>

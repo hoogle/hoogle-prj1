@@ -1,6 +1,6 @@
 <?php if ($lang_arr) : ?>
 
-<form name="Fe" method="post" action="/l10n/upd/<?php echo $sid; ?>">
+<form name="Fe" method="post" action="/lang/upd/<?php echo $sid; ?>">
   <ul>
     <li>key: <input type="text" name="key_word" value="<?php echo $list['key_word']; ?>"/></li>
 <?php foreach($lang_arr as $lang_item) : ?>
