@@ -8,14 +8,35 @@ class Lang extends Controller {
         $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
     }
 
-    function index($use_lang)
+    function index()
     {
         $this->load->database();
         $this->load->model("l10n_model");
         $data = array (
-            'list' => $this->l10n_model->get_all_lang($use_lang),
+            'list' => $this->l10n_model->get_all_lang($this->_browser_lang),
         );
         $this->load->view("rec_list", $data);
+    }
+
+    function changes()
+    {
+        $this->load->library('session');
+        $userid = $this->session->userdata('user_id');
+        $lang_arr = $this->session->userdata('lang_perm');
+        $this->load->database();
+        $this->load->model("l10n_model");
+
+        foreach ($lang_arr as $lang_item)
+        {
+            $trans_arr = $this->l10n_model->get_retranslated($lang_item['l_type']);
+            foreach ($trans_arr as $k => $arr)
+            {
+                $rec[$lang_item['l_type']][$k]['key_word'] = $trans_arr[$k]['key_word'];
+                $rec[$lang_item['l_type']][$k]['translate'] = $trans_arr[$k]['translate'];
+            }
+        }
+        $data = array('rec' => $rec);
+        $this->load->view("changes", $data);
     }
 
     function edit($sid)
@@ -108,7 +129,7 @@ class Lang extends Controller {
             'langs'  => $langs,
         );
         $this->l10n_model->add_newlang($data);
-        header("location:/l10n/list_all");
+        header("location:/lang/list_all");
         exit;
     }
 
