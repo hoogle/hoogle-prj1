@@ -9,7 +9,7 @@
     </tr>
 <?php foreach($list as $ary) : ?>
     <tr>
-        <td><?php echo $ary['s_id']; ?> <a href="/l10n/edit/<?php echo $ary['s_id']?>">[edit]</a></td>
+        <td><?php echo $ary['s_id']; ?> <a href="/lang/edit/<?php echo $ary['s_id']?>">[edit]</a></td>
         <td><?php echo $ary['key_word']; ?></td>
         <td><?php echo $ary['translate']; ?></td>
         <td><?php echo $ary['status']; ?></td>

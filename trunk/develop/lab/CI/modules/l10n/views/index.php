@@ -13,9 +13,9 @@
 <?php if ($div == "list") : ?>
 <?php echo modules::run("lang", $use_lang); ?>
 <?php elseif ($div == "add") : ?>
-<?php $this->load->view("l10n/add"); ?>
+<?php $this->load->view("lang/add"); ?>
 <?php elseif ($div == "edit") : ?>
-<?php $this->load->view("l10n/edit"); ?>
+<?php $this->load->view("lang/edit"); ?>
 <?php else : ?>
 <?php $this->load->view("l10n/home"); ?>
 <?php endif ?>
