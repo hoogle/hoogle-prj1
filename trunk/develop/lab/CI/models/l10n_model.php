@@ -72,10 +72,12 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
-    function get_all_lang($lang = "en_US", $sid = NULL)
+    function get_all_lang($lang = "en_US", $sid = NULL, $sort = NULL, $dir = NULL)
     {
-        $sql = "SELECT * FROM lang_{$lang}";
-        $sql.= ( ! is_null($sid)) ? " WHERE s_id = {$sid}" : "";
+        $order_field = ( ! is_null($sort)) ? " ORDER BY {$sort}" : "";
+        $desc = ($dir == "desc") ? " DESC" : " ASC";
+        $sql = "SELECT * FROM lang_{$lang} {$order_field}";
+        $sql.= ( ! empty($order_field)) ? $desc : "";
         $res = $this->db->query($sql);
         return $res->result_array();
     }
