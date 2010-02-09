@@ -15,7 +15,7 @@ class Lang extends Controller {
         $data = array (
             'list' => $this->l10n_model->get_all_lang($this->_browser_lang),
         );
-        $this->load->view("rec_list", $data);
+        $this->load->view("show", $data);
     }
 
     function changes()
@@ -149,9 +149,21 @@ class Lang extends Controller {
             'userid' => $userid,
             'lang_arr' => $lang_arr,
             'use_lang' => $lang,
-            'div' => 'list' 
+            'div' => 'show' 
         );
         $this->load->view("l10n/index", $data);
+    }
+
+    function listit($lang = NULL)
+    {
+        $sort = $this->input->get('sort');
+        $dir = $this->input->get('dir');
+        $this->load->database();
+        $this->load->model("l10n_model");
+        $data = array (
+            'list' => $this->l10n_model->get_all_lang($this->_browser_lang, NULL, $sort, $dir),
+        );
+        $this->load->view("lang/listit", $data);
     }
 }
 ?>

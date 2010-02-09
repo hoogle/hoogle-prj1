@@ -10,8 +10,8 @@
 <div class="yui-t4">
 <div class="yui-main">
 <div class="yui-b">
-<?php if ($div == "list") : ?>
-<?php echo modules::run("lang"); ?>
+<?php if ($div == "show") : ?>
+<?php echo modules::run("lang/index"); ?>
 <?php elseif ($div == "add") : ?>
 <?php $this->load->view("lang/add"); ?>
 <?php elseif ($div == "edit") : ?>
