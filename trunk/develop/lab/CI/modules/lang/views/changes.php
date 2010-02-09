@@ -1,8 +1,26 @@
-<?php foreach ($rec as $lang => $trans) : ?>
-<ul id="changes">
-    <li class="first"><?php echo $lang; ?></li>
-<?php foreach ($trans as $k => $arr) : ?>
-    <li><?php echo $arr['key_word']." / ".$arr['translate']; ?></li>
-<?php endforeach ?>
+<?php
+$tab_tags = "";
+$tab_contents = "";
+foreach ($lang_arr as $k => $lang)
+{
+    $selected = ( ! $k) ? ' class="selected"' : '';
+    $tab_tags.= "    <li{$selected}><a href=\"#{$k}\"><em>{$lang['l_type']}</em></a></li>\n";
+    $tab_contents.= "    <div id=\"t{$k}\">\n";
+    foreach ($rec[$lang['l_type']] as $k => $arr)
+    {
+        $tab_contents.= "        <div>{$arr['key_word']} / {$arr['translate']}</div>\n";
+    }
+    $tab_contents.= "    </div>\n";
+}
+?>
+<div id="map-tab-all" class="yui-navset">
+<ul class="yui-nav">
+<?php echo $tab_tags; ?>
 </ul>
-<?php endforeach ?>
+<div class="yui-content">
+<?php echo $tab_contents; ?>
+</div>
+</div>
+<script>
+(function() { var tabView = new YAHOO.widget.TabView('map-tab-all'); })();
+</script>

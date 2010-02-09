@@ -300,12 +300,3 @@ td {
     padding-top:10px;
     border-top:1px solid gray;
 }
-#changes {
-    margin:10px 0;
-    padding:10px;
-    border:1px solid #BBDDFF;
-    background-color:#DDEEFF;
-}
-#changes .first {
-    margin-bottom:10px;
-}
