@@ -35,7 +35,10 @@ class Lang extends Controller {
                 $rec[$lang_item['l_type']][$k]['translate'] = $trans_arr[$k]['translate'];
             }
         }
-        $data = array('rec' => $rec);
+        $data = array(
+            'rec' => $rec,
+            'lang_arr' => $lang_arr,
+        );
         $this->load->view("changes", $data);
     }
 
