@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>我的旅行地圖 - 登入</title>
 <link rel="stylesheet" href="http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 </head>
 
@@ -26,7 +26,7 @@
           登入
         </div>
         <div id="openid">
-          <div style="font:15pt Verdana, Simhei;padding-right:10px;">使用<a href="https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php" onclick="return false;" class="rpxnow" style="color:#ff6200"><img src="/photos/img/icon_openid_s.gif" style="vertical-align:middle" />OpenID</a>?</div>
+          <div style="font:15pt Verdana, Simhei;padding-right:10px;">使用<a href="https://travelmap.rpxnow.com/openid/v2/signin?token_url=http://122.116.58.213/signup/signup.php" onclick="return false;" class="rpxnow" style="color:#ff6200"><img src="/static/img/icon_openid_s.gif" style="vertical-align:middle" />OpenID</a>?</div>
           <div style="text-align:right;padding-right:10px;"><a href="http://openid.net/" style="font:9pt Verdana;">什麼是 OpenID?</a></div>
         </div>
       </div>
@@ -51,7 +51,7 @@
           </li>
           <li>
             <input type="hidden" name="go_url" value="<?=$go_url?>" />
-            <input type="image" src="/photos/img/btn_signup.gif" style="vertical-align:middle;" onclick="return true" />
+            <input type="image" src="/static/img/btn_signup.gif" style="vertical-align:middle;" onclick="return true" />
           </li>
         </ul>
         </form>

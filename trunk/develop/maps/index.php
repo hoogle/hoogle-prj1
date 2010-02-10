@@ -38,7 +38,7 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/tabview/assets/skins/sam/tabview.css" />
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 <style type="text/css">
 #msgArea {
   margin:10px 0;
@@ -168,7 +168,7 @@ img {
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script> 
-<script type="text/javascript" src="/photos/js/glayer.js"></script>
+<script type="text/javascript" src="/static/js/glayer.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/element/element-min.js&2.7.0/build/tabview/tabview-min.js"></script>
 <script type="text/javascript">
   $j = jQuery.noConflict();
@@ -226,4 +226,4 @@ img {
   $j('#map-tab .tab-nav > li').eq(<?=($tab-1)?>).addClass('selected');
 })();
 </script>
-<script type="text/javascript" src="/photos/js/mymap.js"></script>
+<script type="text/javascript" src="/static/js/mymap.js"></script>
