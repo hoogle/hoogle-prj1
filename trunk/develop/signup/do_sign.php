@@ -19,9 +19,10 @@ $resp = recaptcha_check_answer ($privatekey,
   $usernk = $_POST['usernk'];
   $email = $_POST['email'];
   $birthday = sprintf("%s-%s-%s", $_POST['birth_y'], $_POST['birth_m'], $_POST['birth_d']);
-  require LIBRARY_PATH."function.inc";
+  require LIBRARY_PATH."function.php";
   $userIP = getUserIP();
-  require LIBRARY_PATH."mysql_cfg.inc";
+  //require LIBRARY_PATH."mysql_cfg.inc";
+  $db = Mysql::getInstance('localhost');
   $sql = "INSERT INTO users (userid, pw_opid, usernk, email, birthday, IP, reg_time) ";
   $sql.= "VALUES ('{$userid}', '{$userpw}', '{$usernk}', '{$email}', '{$birthday}', '{$userIP}', now())";
   $db->query($sql);
