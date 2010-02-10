@@ -275,9 +275,6 @@ a:link, a:visited {
 #culture-form .bd form .row * {
     vertical-align:baseline;
 }
-pre {background:#000;color:#fff;padding:8px;}
-pre code {font:normal 12px Calibri;line-height:1.5;}
-
 #header .logo {
     float:left;
     width:400px;
