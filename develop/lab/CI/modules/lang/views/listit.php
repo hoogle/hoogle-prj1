@@ -9,5 +9,5 @@ foreach($list as $k => $ary)
 }
 $ary = json_encode($listary);
 //header("Content-Type: application/json");
-echo "{\"recordsReturned\":{$k},\"totalRecords\":{$k},\"startIndex\":0,\"sort\":\"userid\",\"dir\":\"asc\",\"pageSize\":10,\"records\":{$ary}}";
+echo "{\"recordsReturned\":".($k+1).",\"totalRecords\":".($k+1).",\"startIndex\":0,\"sort\":\"userid\",\"dir\":\"asc\",\"pageSize\":10,\"records\":{$ary}}";
 ?>

@@ -7,6 +7,6 @@
 <link rel="stylesheet" type="text/css" href="/static/node-menunav.css">
 <link rel="stylesheet" type="text/css" href="/static/muchiii.css">
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.0.0/build/yui/yui-min.js&2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&2.7.0/build/element/element-min.js&2.7.0/build/tabview/tabview-min.js&2.7.0/build/connection/connection-min.js&2.7.0/build/json/json-min.js&2.7.0/build/datasource/datasource-min.js&2.7.0/build/datatable/datatable-min.js&2.7.0/build/paginator/paginator-min.js&2.7.0/build/get/get-min.js"></script>
-<script type="text/javascript" src="/static/muchiii.js"></script> 
+<script type="text/javascript" src="/static/muchiii.js"></script>
 </head>
 <body class="yui-skin-sam">
