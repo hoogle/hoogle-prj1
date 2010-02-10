@@ -9,7 +9,7 @@
   $userid = $_SESSION['userid'];
   $photoid = intval($_GET['pid']);
 
-  require LIBRARY_PATH."function.inc";
+  require LIBRARY_PATH."function.php";
   $picAry = getPicInfo($photoid);
   $abs_filename = getUserPath($userid).USER_MAX_SETID."/{$photoid}.jpg"; 
 ?>
