@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/datatable/assets/skins/sam/datatable.css" /> 
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" /> 
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.6.0/build/element/element-beta-min.js&amp;2.6.0/build/button/button-min.js&amp;2.6.0/build/uploader/uploader-experimental.js&amp;2.6.0/build/datasource/datasource-min.js&amp;2.6.0/build/datatable/datatable-min.js"></script> 
 <style type="text/css">
 body {
@@ -110,7 +110,7 @@ body {
 </div>
      
 
-<script type="text/javascript" src="/photos/js/upload.js"></script> 
+<script type="text/javascript" src="/static/js/upload.js"></script> 
 <script type="text/javascript">
   var $   = YAHOO.util.Dom.get;
   var BTN_upload = new YAHOO.widget.Button('btn_upload'); 

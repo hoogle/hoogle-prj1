@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssreset/reset-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css">
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 </head>
 
 <body>

@@ -32,7 +32,7 @@ $userpw = (isset($_POST['userpw'])) ? $_POST['userpw'] : "";
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>我的旅行地圖 - 註冊2</title>
 <link rel="stylesheet" href="http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 </head>
 
 <body>
@@ -52,17 +52,17 @@ $userpw = (isset($_POST['userpw'])) ? $_POST['userpw'] : "";
           <li>
             <strong>帳號</strong>
             <input class="form-input" type="text" name="userid" value="<?=$userid?>" />
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li>
             <strong>email信箱</strong>
             <input class="form-input" type="text" name="email" value="<?=$result['profile']['email']?>" />
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li>
             <strong>暱稱</strong>
             <input class="form-input" type="text" name="usernk" value="<?=$result['profile']['displayName']?>" />
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li>
             <strong>生日</strong>
@@ -86,17 +86,17 @@ $userpw = (isset($_POST['userpw'])) ? $_POST['userpw'] : "";
             </select>
             日
             </label>
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li>
             <strong>居住地</strong>
             <input class="form-input" type="text" name="livearea" />
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li>
             <strong>地標設定</strong>
             <input class="form-input" type="text" name="lnglat" />
-            <span class="checking"><img src="/photos/img/icon_spinner.gif" /></span>
+            <span class="checking"><img src="/static/img/icon_spinner.gif" /></span>
           </li>
           <li id="captcha">
 <?
@@ -108,7 +108,7 @@ echo recaptcha_get_html($publickey);
           <li style="padding-right:120px;">
             <input type="hidden" name="userid" value="<?=$userid?>" />
             <input type="hidden" name="userpw" value="<?=$userpw?>" />
-            <input type="image" src="/photos/img/btn_signup.gif" style="vertical-align:middle;" onclick="return true" />
+            <input type="image" src="/static/img/btn_signup.gif" style="vertical-align:middle;" onclick="return true" />
           </li>
         </ul>
         </form>

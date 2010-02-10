@@ -81,6 +81,6 @@ body {
   </div>
 </div>
 
-<script type="text/javascript" src="/photos/js/upload_single.js"></script> 
+<script type="text/javascript" src="/static/js/upload_single.js"></script> 
 </body> 
 </html> 

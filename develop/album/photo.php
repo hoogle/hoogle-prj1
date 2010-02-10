@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssreset/reset-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssfonts/fonts-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0pr2/build/cssgrids/grids.css">
-<link rel="stylesheet" type="text/css" href="/photos/css/layout.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
 <style type="text/css"> 
 /* 為了地圖 370px 而做的調整 */
 .yui-gc div.first {
@@ -157,7 +157,7 @@
 </style> 
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAACgMwIzz1hxRWf8JW8JfV_xSm_RB7Ggyimh49Ou8AB6bIEyBpGxR8tL4tZRT4WG6q1H-qkZUKQKQ9qg" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="/photos/js/gmarker.js"></script>
+<script type="text/javascript" src="/static/js/gmarker.js"></script>
 <script type="text/javascript">
   var map;
   var jsvar = {
@@ -187,7 +187,7 @@
         $j(img).attr({
           title: photo.curr_time,
             id: 'r' + id,
-            src: '/photos/upload/user/r/richardw/32767/thumb/t' + id + '.jpg',
+            src: '/static/upload/user/r/richardw/32767/thumb/t' + id + '.jpg',
 
             p_id: id }).hover(
               function() {
@@ -278,7 +278,7 @@
         <div class="bd">
           <div id="title"><?=$picAry[0]['title']?></div>
           <div class="cell">
-            <img src="/photos/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
+            <img src="/static/upload/user/r/richardw/32767/<?=$photoid?>.jpg" />
           </div>
           <div id="description"><?=$picAry[0]['description']?></div>
           <div class="nearby-info">此區內的其他照片：</div>
