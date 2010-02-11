@@ -72,13 +72,18 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
-    function get_all_lang($lang = "en_US", $sid = NULL, $sort = NULL, $dir = NULL)
+    function get_all_lang($params, &$total)
     {
-        $order_field = ( ! is_null($sort)) ? " ORDER BY {$sort}" : "";
-        $desc = ($dir == "desc") ? " DESC" : " ASC";
-        $sql = "SELECT * FROM lang_{$lang} {$order_field}";
-        $sql.= ( ! empty($order_field)) ? $desc : "";
+        $cond = ( ! empty($params['sid'])) ? "s_id = '{$params['sid']}'" : 1;
+        $order_field = ( ! empty($params['sort'])) ? " ORDER BY {$params['sort']}" : "";
+        $desc = ( ! empty($params['dir']) && $params['dir'] == "desc") ? " DESC" : " ASC";
+        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM lang_{$params['lang']} WHERE {$cond} {$order_field}";
+        $start = ( ! empty($order_field)) ? $params['start'] : "";
+        $results = ( ! empty($order_field)) ? $params['results'] : "";
+        $sql.= ( ! empty($order_field)) ? "{$desc} LIMIT {$start}, {$results}" : "";
         $res = $this->db->query($sql);
+        $total_res = $this->db->query("SELECT FOUND_ROWS() AS TOTAL_ROWS");
+        $total = $total_res->row()->TOTAL_ROWS;
         return $res->result_array();
     }
 
