@@ -35,7 +35,7 @@ YAHOO.example.InlineCellEditing = function() {
     var myConfigs = {
         initialRequest: "sort=s_id&dir=asc&startIndex=0&results=10",
         dynamicData: true, // Enables dynamic server-driven data
-        sortedBy : {key:"s_id", dir:YAHOO.widget.DataTable.CLASS_DESC},
+        sortedBy : {key:"s_id", dir:YAHOO.widget.DataTable.CLASS_ASC},
         paginator: new YAHOO.widget.Paginator({ rowsPerPage:10 }), // Enables pagination
         //scrollable:true, width:"900px"
     };

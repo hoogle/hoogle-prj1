@@ -12,8 +12,11 @@ class Lang extends Controller {
     {
         $this->load->database();
         $this->load->model("l10n_model");
+        $params = array (
+            'lang' => $this->_browser_lang,
+        );
         $data = array (
-            'list' => $this->l10n_model->get_all_lang($this->_browser_lang),
+            'list' => $this->l10n_model->get_all_lang($params, $total),
         );
         $this->load->view("show", $data);
     }
@@ -57,7 +60,11 @@ class Lang extends Controller {
         $this->load->model("l10n_model");
         foreach ($lang_arr as $lang_item)
         {
-            $trans_arr = $this->l10n_model->get_all_lang($lang_item['l_type'], $sid);
+            $params = array (
+                'lang' => $lang_item['l_type'],
+                'sid' => $sid,
+            );
+            $trans_arr = $this->l10n_model->get_all_lang($params, $total);
             $langs[$lang_item['l_type']]['translate'] = $trans_arr[0]['translate'];
             $langs[$lang_item['l_type']]['original'] = $trans_arr[0]['original'];
         }
@@ -158,10 +165,20 @@ class Lang extends Controller {
     {
         $sort = $this->input->get('sort');
         $dir = $this->input->get('dir');
+        $start = $this->input->get('startIndex');
+        $results = $this->input->get('results');
         $this->load->database();
         $this->load->model("l10n_model");
+        $params = array (
+            'lang' => $this->_browser_lang,
+            'sort' => $sort,
+            'dir' => $dir,
+            'start' => $start,
+            'results' => $results,
+        );
         $data = array (
-            'list' => $this->l10n_model->get_all_lang($this->_browser_lang, NULL, $sort, $dir),
+            'list' => $this->l10n_model->get_all_lang($params, $total),
+            'total' => $total,
         );
         $this->load->view("lang/listit", $data);
     }

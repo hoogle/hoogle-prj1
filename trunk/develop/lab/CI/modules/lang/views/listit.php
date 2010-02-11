@@ -8,6 +8,6 @@ foreach($list as $k => $ary)
     $listary[$k]['status'] = $ary['status'];
 }
 $ary = json_encode($listary);
-//header("Content-Type: application/json");
-echo "{\"recordsReturned\":".($k+1).",\"totalRecords\":".($k+1).",\"startIndex\":0,\"sort\":\"userid\",\"dir\":\"asc\",\"pageSize\":10,\"records\":{$ary}}";
+header("Content-Type: application/json");
+echo "{\"recordsReturned\":{$total},\"totalRecords\":{$total},\"startIndex\":0,\"sort\":\"userid\",\"dir\":\"asc\",\"pageSize\":10,\"records\":{$ary}}";
 ?>
