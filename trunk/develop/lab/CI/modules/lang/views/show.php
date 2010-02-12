@@ -40,14 +40,23 @@ YAHOO.example.InlineCellEditing = function() {
         //scrollable:true, width:"900px"
     };
 
+
     var myDataTable = new YAHOO.widget.DataTable("dynamicdata", myColumnDefs, myDataSource, myConfigs);
     myDataTable.subscribe("cellClickEvent", myDataTable.onEventShowCellEditor);
-    //myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);
+
+    YAHOO.util.Event.on("yui-textboxceditor0-container", "click", function(e) {
+        if (YAHOO.util.Dom.hasClass(YAHOO.util.Event.getTarget(e), "yui-dt-default")) {
+            var xx = YAHOO.util.Event.getTarget(e).parentNode.parentNode.firstChild.value;
+            alert('You updated to ' + xx);
+        }
+    });
+
+    //myDataTable.onEventShowCellEditor.apply(this.arguments);
 
     // Set up editing flow
     var highlightEditableCell = function(oArgs) {
         var elCell = oArgs.target;
-        if(YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
+        if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
             this.highlightCell(elCell);
         }
     };
