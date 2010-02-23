@@ -42,18 +42,13 @@ class L10n_model extends Model {
 
     function edit_lang($form_data)
     {
-        $userid = $this->session->userdata('user_id');
-        $lang_arr = $this->session->userdata('lang_perm');
-        foreach ($lang_arr as $lang_item)
-        {
-            $data = array (
-                'translate' => $this->db->escape_str($form_data['langs'][$lang_item['l_type']]),
-                'last_updater' => $userid,
-                'update_time' => date("Y-m-d H:i:s"),
-                'status' => LANG_RETRANSLATED
-            );
-            $this->db->update("lang_{$lang_item['l_type']}", $data, array("s_id" => $form_data['sid']));
-        }
+        $data = array (
+            'translate' => $this->db->escape_str($form_data['translate']),
+            'last_updater' => $form_data['userid'],
+            'update_time' => date("Y-m-d H:i:s"),
+            'status' => LANG_RETRANSLATED
+        );
+        $this->db->update("lang_{$form_data['l_type']}", $data, array("s_id" => $form_data['sid']));
     }
 
     function get_userdata($userid)
