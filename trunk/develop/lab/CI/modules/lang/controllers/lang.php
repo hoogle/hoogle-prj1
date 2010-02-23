@@ -80,6 +80,30 @@ class Lang extends Controller {
         $this->load->view("l10n/index", $data);
     }
 
+    //function haha($sid, $xx)
+    function update()
+    {
+        $this->load->library('session');
+        $userid = $this->session->userdata('user_id');
+
+        $this->load->database();
+        $this->load->model("l10n_model");
+
+        $sid = $this->input->post('s_id');
+        $translate = $this->input->post('translate');
+        //$l_type = $this->input->post('l_type');
+        $l_type = 'zh_TW';
+
+        $data = array(
+            'translate' => $translate,
+            'sid' => $sid,
+            'l_type' => $l_type,
+            'userid' => $userid,
+        );
+        $this->l10n_model->edit_lang($data);
+        //echo "{'sid':{$sid}, 'translate':'{$translate}'}";
+    }
+
     function upd($sid)
     {
         $this->load->library('session');
@@ -91,19 +115,23 @@ class Lang extends Controller {
             exit;
         }
         $lang_arr = $this->session->userdata('lang_perm');
+        $userid = $this->session->userdata('user_id');
+        $lang_arr = $this->session->userdata('lang_perm');
+
         $this->load->database();
         $this->load->model("l10n_model");
         foreach ($lang_arr as $lang_item)
         {
             $l_type = $lang_item['l_type'];
-            $langs[$l_type] = $this->input->post("{$l_type}_word");
+            $data = array(
+                'key_word'  => $this->input->post('key_word'),
+                'translate'  => $this->input->post("{$l_type}_word"),
+                'sid' => $sid,
+                'l_type' => $l_type,
+                'userid' => $userid,
+            );
+            $this->l10n_model->edit_lang($data);
         }
-        $data = array(
-            'key_word'  => $this->input->post('key_word'),
-            'langs'  => $langs,
-            'sid' => $sid,
-        );
-        $this->l10n_model->edit_lang($data);
         header("location:/lang/list_all");
         exit;
     }

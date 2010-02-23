@@ -3,6 +3,7 @@
 <script type="text/javascript"> 
 var $ = YAHOO.util.Dom.get;
 YAHOO.example.InlineCellEditing = function() {
+
     var formatTranslate = function(elCell, oRecord, oColumn, oData) {
         elCell.innerHTML = "<pre class=\"translate\">" + oData + "</pre>";
     };
@@ -36,30 +37,40 @@ YAHOO.example.InlineCellEditing = function() {
         initialRequest: "sort=s_id&dir=asc&startIndex=0&results=10",
         dynamicData: true, // Enables dynamic server-driven data
         sortedBy : {key:"s_id", dir:YAHOO.widget.DataTable.CLASS_ASC},
-        paginator: new YAHOO.widget.Paginator({ rowsPerPage:10 }), // Enables pagination
+        paginator: new YAHOO.widget.Paginator({ rowsPerPage:10 }) // Enables pagination
         //scrollable:true, width:"900px"
     };
 
-
     var myDataTable = new YAHOO.widget.DataTable("dynamicdata", myColumnDefs, myDataSource, myConfigs);
-    myDataTable.subscribe("cellClickEvent", myDataTable.onEventShowCellEditor);
+    myDataTable.subscribe("cellClickEvent", function(oArgs) {
+        current_sid = (document.uniqueID) ? oArgs.target.parentNode.firstChild.innerText : oArgs.target.parentNode.firstChild.textContent;
+        myDataTable.onEventShowCellEditor(oArgs);
+    }); 
 
     YAHOO.util.Event.on("yui-textboxceditor0-container", "click", function(e) {
-        if (YAHOO.util.Dom.hasClass(YAHOO.util.Event.getTarget(e), "yui-dt-default")) {
-            var xx = YAHOO.util.Event.getTarget(e).parentNode.parentNode.firstChild.value;
-            alert('You updated to ' + xx);
+        var targetEl = YAHOO.util.Event.getTarget(e);
+        if (YAHOO.util.Dom.hasClass(targetEl, "yui-dt-default")) {
+            var new_value = targetEl.parentNode.parentNode.getElementsByTagName('INPUT')[0].value;
+            alert('You changed to ' + new_value);
+            var dataStr = [
+                's_id='+current_sid,
+                'translate='+encodeURIComponent(new_value)
+            ].join('&'); 
+            YAHOO.util.Connect.asyncRequest('POST', 'lang/update/', null, dataStr);
         }
     });
 
     //myDataTable.onEventShowCellEditor.apply(this.arguments);
 
     // Set up editing flow
+    /*
     var highlightEditableCell = function(oArgs) {
         var elCell = oArgs.target;
         if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
             this.highlightCell(elCell);
         }
     };
+     */
 
     myDataTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
       oPayload.totalRecords = oResponse.meta.totalRecords;
