@@ -80,11 +80,15 @@ class Lang extends Controller {
         $this->load->view("l10n/index", $data);
     }
 
-    //function haha($sid, $xx)
     function update()
     {
         $this->load->library('session');
         $userid = $this->session->userdata('user_id');
+        echo $userid;
+        if ($userid == FALSE)
+        {
+            exit;
+        }
 
         $this->load->database();
         $this->load->model("l10n_model");
