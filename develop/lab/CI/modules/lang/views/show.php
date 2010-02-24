@@ -47,34 +47,46 @@ YAHOO.example.InlineCellEditing = function() {
         myDataTable.onEventShowCellEditor(oArgs);
     }); 
 
-    YAHOO.util.Event.on("yui-textboxceditor0-container", "click", function(e) {
-        var targetEl = YAHOO.util.Event.getTarget(e);
-        if (YAHOO.util.Dom.hasClass(targetEl, "yui-dt-default")) {
-            var new_value = targetEl.parentNode.parentNode.getElementsByTagName('INPUT')[0].value;
-            alert('You changed to ' + new_value);
-            var dataStr = [
-                's_id='+current_sid,
-                'translate='+encodeURIComponent(new_value)
-            ].join('&'); 
-            YAHOO.util.Connect.asyncRequest('POST', 'lang/update/', null, dataStr);
+    var updCallback = {
+        success: function(o) {
+            if (o.responseText == '') {
+                alert('Please login!');
+                window.location = '/login/';
+            } else {
+                alert('Translation OK!');
+            }
+        },
+        failure: function(o) {
+            alert('System busy, wait for a while... Code:' + o.responseText);
+            window.location = '/l10n/';
+        }
+    };
+
+    var updRequest = function(El) {
+        alert('el : ' + El.value);
+        var dataStr = [
+            's_id='+current_sid,
+            'translate='+encodeURIComponent(El.value)
+        ].join('&'); 
+        YAHOO.util.Connect.asyncRequest('POST', 'lang/update/', updCallback, dataStr);
+    };
+
+    myDataTable.subscribe("editorKeydownEvent", function(oArgs) {
+        if (oArgs.event.keyCode == 13) {
+            updRequest(oArgs.event.target);
         }
     });
 
-    //myDataTable.onEventShowCellEditor.apply(this.arguments);
-
-    // Set up editing flow
-    /*
-    var highlightEditableCell = function(oArgs) {
-        var elCell = oArgs.target;
-        if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
-            this.highlightCell(elCell);
+    YAHOO.util.Event.on("yui-textboxceditor0-container", "click", function(e) {
+        var targetEl = YAHOO.util.Event.getTarget(e);
+        if (YAHOO.util.Dom.hasClass(targetEl, "yui-dt-default")) {
+            updRequest(targetEl.parentNode.parentNode.getElementsByTagName('INPUT')[0]);
         }
-    };
-     */
+    });
 
     myDataTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
       oPayload.totalRecords = oResponse.meta.totalRecords;
-      $('totalRecords').innerHTML = '共 <span style="color:teal;">' + oPayload.totalRecords + '</span> 筆';
+      $('totalRecords').innerHTML = 'Total <span style="color:teal;">' + oPayload.totalRecords + '</span> records';
       return oPayload;
     }
 
