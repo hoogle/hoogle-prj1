@@ -17,7 +17,8 @@ class Login extends Controller {
         $this->load->library('session');
         $uid = $this->session->userdata('user_id'); 
         $is_login = ($uid) ? 1 : 0;
-        $go_url = ( ! is_null($go_url)) ? str_replace("-", "/", "/{$go_url}") : $_SERVER['HTTP_REFERER'];
+        $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : "/l10n/";
+        $go_url = ( ! is_null($go_url)) ? str_replace(",", "/", $go_url) : $url;
         $data = array(
             'userid' => $uid,
             'is_login' => $is_login,

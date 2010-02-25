@@ -51,7 +51,7 @@ class Lang extends Controller {
         $userid = $this->session->userdata('user_id');
         if ($userid === FALSE)
         {
-            $needlogin_view = $this->load->view("login/please_login", array("go_url" => "lang-list_all"), TRUE);
+            $needlogin_view = $this->load->view("login/please_login", array("go_url" => ",lang,list_all"), TRUE);
             echo $needlogin_view;
             exit;
         }
@@ -87,6 +87,7 @@ class Lang extends Controller {
         echo $userid;
         if ($userid == FALSE)
         {
+            //header("location:/login/".urlencode($_SERVER['REQUEST_URI']));
             exit;
         }
 
@@ -114,7 +115,7 @@ class Lang extends Controller {
         $userid = $this->session->userdata('user_id');
         if ($userid === FALSE)
         {
-            $needlogin_view = $this->load->view("login/please_login", array("go_url" => "lang-list_all"), TRUE);
+            $needlogin_view = $this->load->view("login/please_login", array("go_url" => ",lang,list_all"), TRUE);
             echo $needlogin_view;
             exit;
         }
@@ -152,7 +153,6 @@ class Lang extends Controller {
             'lang_arr' => $lang_arr,
             'div' => 'add',
         );
-        $this->load->view("l10n/index", $data);
     }
 
     function ins()
