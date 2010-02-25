@@ -51,7 +51,7 @@ YAHOO.example.InlineCellEditing = function() {
         success: function(o) {
             if (o.responseText == '') {
                 alert('Please login!');
-                window.location = '/login/';
+                window.location = '/login/index/' + location.pathname.replace(/\//g, ',');
             } else {
                 alert('Translation OK!');
             }
