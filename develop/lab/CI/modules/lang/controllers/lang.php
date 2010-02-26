@@ -190,7 +190,8 @@ class Lang extends Controller {
             'use_lang' => $lang,
             'div' => 'show' 
         );
-        $this->load->view("l10n/index", $data);
+        $this->load->library("layout", "layout_main");
+        $this->layout->view("l10n/index", $data);
     }
 
     function listit($lang = NULL)
