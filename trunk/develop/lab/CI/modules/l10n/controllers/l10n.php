@@ -23,6 +23,7 @@ class L10n extends Controller {
             'use_lang' => $this->_browser_lang,
             'div' => ( ! $is_login) ? 'home' : 'changes', 
         );
-        $this->load->view("index", $data);
+        $this->load->library("layout", "layout_main");
+        $this->layout->view("l10n/index", $data);
     }
 }
