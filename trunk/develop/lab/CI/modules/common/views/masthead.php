@@ -3,7 +3,7 @@
         <a href="/"><img src="/static/images/logo_muchiii.png" alt="logo"></a>
     </div>
     <div class="sel_lang">
-<?php if ($lang_arr) : ?>
+<?php if ( ! is_null($lang_arr)) : ?>
         <span>
             Now using language:
 <select id="use_lang" onchange="location.href='/lang/list_all/'+this.value">

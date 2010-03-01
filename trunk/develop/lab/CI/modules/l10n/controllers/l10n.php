@@ -19,11 +19,17 @@ class L10n extends Controller {
         $data = array(
             'userid' => $userid,
             'is_login' => $is_login,
-            'lang_arr' => $lang_arr,
+            'lang_arr' => ($is_login) ? $lang_arr : NULL,
             'use_lang' => $this->_browser_lang,
-            'div' => ( ! $is_login) ? 'home' : 'changes', 
         );
         $this->load->library("layout", "layout_main");
-        $this->layout->view("l10n/index", $data);
+        if ( ! $is_login)
+        {
+            $this->layout->view("l10n/index", $data);
+        }
+        else
+        {
+            echo modules::run("lang/changes", $data);
+        }
     }
 }
