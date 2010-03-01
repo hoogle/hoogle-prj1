@@ -53,7 +53,7 @@ YAHOO.example.InlineCellEditing = function() {
                 alert('Please login!');
                 window.location = '/login/index/' + location.pathname.replace(/\//g, ',');
             } else {
-                alert('Translation OK!');
+                alert('Re-translated OK!');
             }
         },
         failure: function(o) {
@@ -63,7 +63,6 @@ YAHOO.example.InlineCellEditing = function() {
     };
 
     var updRequest = function(El) {
-        alert('el : ' + El.value);
         var dataStr = [
             's_id='+current_sid,
             'translate='+encodeURIComponent(El.value)

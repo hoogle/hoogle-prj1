@@ -5,9 +5,8 @@
 <?php endif ?>
 <br/>
 <ul>
-    <li>list 1</li>
-    <li>list 2</li>
-    <li>list 3</li>
-    <li>list 4</li>
-    <li>list 5</li>
+    <li><a href="/lang/list_all">Item record list</a></li>
+    <li><a href="/lang/build">Build all</a></li>
+    <li><a href="/lang/changes">Changes</a></li>
+    <li><a href="/l10n/permission">Permission setting</a></li>
 </ul>

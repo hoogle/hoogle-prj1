@@ -5,7 +5,7 @@ $main_items = array(
 );
 $option_items = array(
     'list_all' => array('url' => '/lang/list_all', 'text' => 'List all'),
-    'add' => array('url' => '/lang/add', 'text' => 'New one', 'items' => array('url' => 'xxx', 'text' => 'OOO')),
+    'add' => array('url' => '/lang/add', 'text' => 'New one'),
 );
 $menu_items = ( ! $lang_arr) ? $main_items : array_merge($main_items, $option_items);
 
