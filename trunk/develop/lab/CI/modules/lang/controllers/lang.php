@@ -71,6 +71,7 @@ class Lang extends Controller {
         $this->load->library('session');
         $userid = $this->session->userdata('user_id');
         $lang_arr = $this->session->userdata('lang_perm');
+        $this->load->library("layout", "layout_main");
         if ($userid === FALSE)
         {
             $data = array(
@@ -78,7 +79,6 @@ class Lang extends Controller {
                 "lang_arr" => NULL,
                 "go_url" => ",lang,edit,{$sid}",
             );
-            $this->load->library("layout", "layout_main");
             $this->layout->view("login/please_login", $data);
         }
         else
@@ -104,7 +104,6 @@ class Lang extends Controller {
                 'sid' => $sid,
                 'div' => 'edit',
             );
-            $this->load->library("layout", "layout_main");
             $this->layout->view("lang/edit", $data);
         }
     }
@@ -213,13 +212,25 @@ class Lang extends Controller {
         $this->load->library('session');
         $userid = $this->session->userdata('user_id');
         $lang_arr = $this->session->userdata('lang_perm');
-        $data = array(
-            'userid' => $userid,
-            'lang_arr' => $lang_arr,
-            'use_lang' => $lang,
-        );
         $this->load->library("layout", "layout_main");
-        $this->layout->view("lang/show", $data);
+        if ($userid === FALSE)
+        {
+            $data = array(
+                "userid" => NULL,
+                "lang_arr" => NULL,
+                "go_url" => ",lang,list_all",
+            );
+            $this->layout->view("login/please_login", $data);
+        }
+        else
+        {
+            $data = array(
+                'userid' => $userid,
+                'lang_arr' => $lang_arr,
+                'use_lang' => $lang,
+            );
+            $this->layout->view("lang/show", $data);
+        }
     }
 
     function listit($lang = NULL)
