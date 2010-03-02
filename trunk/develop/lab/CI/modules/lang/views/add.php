@@ -1,5 +1,3 @@
-<?php if ($lang_arr) : ?>
-
 <form name="Fi" method="post" action="/lang/ins">
   <ul>
     <li>key: <input type="text" name="key_word"/></li>
@@ -9,9 +7,3 @@
   </ul>
   <input type="submit" name="send" value=" ADD NEW "/>
 </form>
-
-<?php else : ?>
-
-<?php $this->load->view("login/please_login.php"); ?>
-
-<?php endif ?>

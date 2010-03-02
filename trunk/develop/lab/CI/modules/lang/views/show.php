@@ -67,7 +67,7 @@ YAHOO.example.InlineCellEditing = function() {
             's_id='+current_sid,
             'translate='+encodeURIComponent(El.value)
         ].join('&'); 
-        YAHOO.util.Connect.asyncRequest('POST', 'lang/update/', updCallback, dataStr);
+        YAHOO.util.Connect.asyncRequest('POST', '/lang/update/', updCallback, dataStr);
     };
 
     myDataTable.subscribe("editorKeydownEvent", function(oArgs) {
