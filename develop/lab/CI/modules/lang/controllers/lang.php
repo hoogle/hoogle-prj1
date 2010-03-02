@@ -263,29 +263,42 @@ class Lang extends Controller {
         $this->load->model("l10n_model");
         $lang_arr = $this->session->userdata('lang_perm');
 
-        foreach ($lang_arr as $lang_item)
+        if ($userid === FALSE)
         {
-            $params = array (
-                'lang' => $lang_item['l_type'],
-                'sort' => "",
-                'dir' => "",
-                'start' => "",
-                'results' => "",
+            $data = array(
+                "userid" => NULL,
+                "lang_arr" => NULL,
+                "go_url" => ",lang,build",
             );
-            $arr = $this->l10n_model->get_all_lang($params, $total);
-            $gen_str = "<?php\n";
-            foreach ($arr as $ary)
-            {
-                $gen_str.= "\$lang['l10n_{$ary['key_word']}'] = '{$ary['translate']}';\n"; 
-            }
-            $gen_str.= "?>\n";
-            $filepath = APPPATH."language/{$lang_item['l_type']}/l10n_lang.php";
-            $fh = fopen($filepath, "w+");
-            fwrite($fh, $gen_str);
-            fclose($fh);
+            $this->load->library("layout", "layout_main");
+            $this->layout->view("login/please_login", $data);
         }
-        header('location:/lang/list_all');
-        exit;
+        else
+        {
+            foreach ($lang_arr as $lang_item)
+            {
+                $params = array (
+                    'lang' => $lang_item['l_type'],
+                    'sort' => "",
+                    'dir' => "",
+                    'start' => "",
+                    'results' => "",
+                );
+                $arr = $this->l10n_model->get_all_lang($params, $total);
+                $gen_str = "<?php\n";
+                foreach ($arr as $ary)
+                {
+                    $gen_str.= "\$lang['l10n_{$ary['key_word']}'] = '{$ary['translate']}';\n"; 
+                }
+                $gen_str.= "?>\n";
+                $filepath = APPPATH."language/{$lang_item['l_type']}/l10n_lang.php";
+                $fh = fopen($filepath, "w+");
+                fwrite($fh, $gen_str);
+                fclose($fh);
+            }
+            header('location:/lang/list_all');
+            exit;
+        }
     }
 }
 ?>

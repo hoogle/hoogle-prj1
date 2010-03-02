@@ -296,4 +296,11 @@ td {
     margin-top:20px;
     padding-top:10px;
     border-top:1px solid gray;
+    clear:both;
+}
+#masthead h2 {
+    float:left;
+}
+#masthead p {
+    float:right;
 }
