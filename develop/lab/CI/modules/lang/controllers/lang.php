@@ -1,5 +1,6 @@
 <?php
 class Lang extends Controller {
+    var $_browser_lang = "";
 
     function __construct()
     {
@@ -22,10 +23,10 @@ class Lang extends Controller {
 
     function index()
     {
-        $this->get_uselang();
         $this->load->database();
         $this->load->model("l10n_model");
         $this->load->library("session");
+        $this->_browser_lang = $this->session->userdata("use_lang");
         $params = array (
             "use_lang" => $this->_browser_lang,
         );
@@ -238,6 +239,31 @@ class Lang extends Controller {
             );
             $this->layout->view("lang/show", $data);
         }
+    }
+
+    function export()
+    {
+        $this->load->database();
+        $this->load->model("l10n_model");
+        $this->load->library("session");
+        $this->_browser_lang = $this->session->userdata("use_lang");
+        $params = array (
+            "use_lang" => $this->_browser_lang,
+        );
+        $res = $this->l10n_model->get_all_lang($params, $total);
+
+        $outstr = "";
+        foreach ($res as $k => $arr)
+        {
+            $outstr.= "{$arr['key_word']}|{$arr['translate']}\n";
+        }
+        $outstr = iconv("UTF-8", "big5//IGNORE", $outstr);
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: text/csv");
+        header("Content-disposition: inline; filename=\"lang_{$this->_browser_lang}.csv\";");
+        echo $outstr;
+        exit;
     }
 
     function listit($lang = NULL)
