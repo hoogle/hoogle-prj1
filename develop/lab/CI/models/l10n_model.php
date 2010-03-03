@@ -43,7 +43,7 @@ class L10n_model extends Model {
     function edit_lang($form_data)
     {
         $data = array (
-            'translate' => $this->db->escape_str($form_data['translate']),
+            'translate' => $form_data['translate'],
             'last_updater' => $form_data['userid'],
             'update_time' => date("Y-m-d H:i:s"),
             'status' => LANG_RETRANSLATED

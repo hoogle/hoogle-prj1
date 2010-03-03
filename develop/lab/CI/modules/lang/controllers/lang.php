@@ -297,7 +297,8 @@ class Lang extends Controller {
                 $gen_str = "<?php\n";
                 foreach ($arr as $ary)
                 {
-                    $gen_str.= "\$lang['l10n_{$ary["key_word"]}'] = \"{$ary['translate']}\";\n"; 
+                    $translate = str_replace("\"", "\\\"", $ary["translate"]);
+                    $gen_str.= "\$lang['l10n_{$ary["key_word"]}'] = \"{$translate}\";\n"; 
                 }
                 $gen_str.= "?>\n";
                 $filepath = APPPATH."language/{$lang_item["l_type"]}/l10n_lang.php";
