@@ -6,7 +6,7 @@
 <br/>
 <ul>
     <li><a href="/lang/list_all">Item record list</a></li>
-    <li><a href="/lang/build">Build all</a></li>
+    <li><a href="/lang/gen">Generate files</a></li>
     <li><a href="/lang/changes">Changes</a></li>
     <li><a href="/l10n/permission">Permission setting</a></li>
 </ul>

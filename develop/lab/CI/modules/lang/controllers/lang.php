@@ -264,7 +264,7 @@ class Lang extends Controller {
         $this->load->view("lang/listit", $data);
     }
 
-    function build($lang=null)
+    function gen($lang=null)
     {
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
@@ -277,7 +277,7 @@ class Lang extends Controller {
             $data = array(
                 "userid" => NULL,
                 "lang_arr" => NULL,
-                "go_url" => ",lang,build",
+                "go_url" => ",lang,gen",
             );
             $this->load->library("layout", "layout_main");
             $this->layout->view("login/please_login", $data);
