@@ -72,7 +72,7 @@ class L10n_model extends Model {
         $cond = ( ! empty($params['sid'])) ? "s_id = '{$params['sid']}'" : 1;
         $order_field = ( ! empty($params['sort'])) ? " ORDER BY {$params['sort']}" : "";
         $desc = ( ! empty($params['dir']) && $params['dir'] == "desc") ? " DESC" : " ASC";
-        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM lang_{$params['lang']} WHERE {$cond} {$order_field}";
+        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM lang_{$params['use_lang']} WHERE {$cond} {$order_field}";
         $start = ( ! empty($order_field)) ? $params['start'] : "";
         $results = ( ! empty($order_field)) ? $params['results'] : "";
         $sql.= ( ! empty($order_field)) ? "{$desc} LIMIT {$start}, {$results}" : "";
