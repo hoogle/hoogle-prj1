@@ -11,16 +11,28 @@ class Api extends Controller {
     {
     }
 
+    function getDirectoryFiles($path)
+    {
+        $this->load->helper("directory");
+        $this->load->helper("file");
+        $dir_ary = directory_map($path, TRUE);
+        $fileattr_arr = array('name', 'size', 'date', 'is_dir');
+        foreach ($dir_ary as $file)
+        {
+            $files_arr[] = get_file_info($path.$file, $fileattr_arr);
+        }
+        return $files_arr;
+    }
+
     function getFileList()
     {
         $path = $this->base_path.$this->input->get("path");
-        $this->load->helper("file");
-        $folder_arr = get_dir_file_info($path);
-        $json_arr = array();
-        $json_arr['errno'] = "";
-        $json_arr['count'] = count($folder_arr);
-        $json_arr['files'] = $folder_arr;
-        $ary = json_encode($json_arr);
+        $files_arr = $this->getDirectoryFiles($path);
+        $info_arr = array();
+        $info_arr['errno'] = "";
+        $info_arr['count'] = count($files_arr);
+        $info_arr['files'] = $files_arr;
+        $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
         echo $ary;
@@ -33,15 +45,11 @@ class Api extends Controller {
         //if (mkdir($dirname, 0700))
         if (1)
         {
-            $this->load->helper("directory");
-            $this->load->helper("file");
-            $ary = directory_map($path, TRUE);
-            $fileattr_arr = array('name', 'size', 'date', 'is_dir');
-            foreach ($ary as $f)
-            {
-                $arr[] = get_file_info($path.$f, $fileattr_arr);
-            }
-            $json_ary = json_encode($arr);
+            //$files_arr = $this->getDirectoryFiles($path);
+            $info_arr = array();
+            $info_arr['errno'] = "";
+            //$info_arr['files'] = $files_arr;
+            $json_ary = json_encode($info_arr);
             header("Cache-Control: no-cache");
             header("Content-Type: application/json");
             echo $json_ary;
@@ -50,6 +58,39 @@ class Api extends Controller {
         {
             echo 0;
         }
+    }
+
+    function uploadFile()
+    {
+        $path = $this->base_path.$this->input->post("path");
+        $browse_file = $this->input->post("browse_file");
+        //$files_arr = $this->getDirectoryFiles($path);
+        $info_arr = array();
+        $info_arr['errno'] = "";
+        //$info_arr['files'] = $files_arr;
+        $json_ary = json_encode($info_arr);
+        header("Cache-Control: no-cache");
+        header("Content-Type: application/json");
+        echo $json_ary;
+    }
+
+    function deleteFiles()
+    {
+        $path = $this->base_path.$this->input->post("path");
+        $file_arr = $this->input->post("del_files");
+        $status = array(1, 0, 1, 1);
+        foreach($file_arr as $k => $df)
+        {
+            $df_arr[$k]['name'] = $df;
+            $df_arr[$k]['status'] = $status[$k];
+        }
+        $info_arr = array();
+        $info_arr['errno'] = "";
+        $info_arr['files'] = $df_arr; 
+        $json_ary = json_encode($info_arr);
+        header("Cache-Control: no-cache");
+        header("Content-Type: application/json");
+        echo $json_ary;
     }
 }
 ?>
