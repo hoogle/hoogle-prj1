@@ -37,6 +37,15 @@ ul li {
                     <input type="text" id="dirname" class="input_text"/>
                     <input type="button" id="create_dir" value=" CREATE Directory "/>
                 </li>
+                <li>
+                    <form name="upform" method="post" enctype="multipart/form-data">
+                        <input type="file" id="browse_file" name="browse_file" class="input_text"/><br/>
+                        <input type="button" id="upfile" value=" upload file "/> 
+                    </form>
+                </li>
+                <li>
+                    <input type="button" id="del_files" value=" DELETE files "/>
+                </li>
             </ul>
         </div>
     </div>
@@ -47,6 +56,8 @@ ul li {
 var $ = YAHOO.util.Dom.get;
 var PB1 = new YAHOO.widget.Button("get_filelist");
 var PB2 = new YAHOO.widget.Button("create_dir");
+var PB3 = new YAHOO.widget.Button("upfile");
+var PB4 = new YAHOO.widget.Button("del_files");
 PB1.on('click', function() {
     YAHOO.util.Connect.asyncRequest(
         'GET',
@@ -76,5 +87,35 @@ PB2.on('click', function() {
             }
         }
     );
+});
+
+PB3.on('click', function() {
+    if ($('browse_file').value == "") {
+        alert('browse upload file, please');
+    } else {
+        var url = 'http://122.116.58.213:8080/api/uploadFile?';
+        var dataStr = [
+            'path=./',
+            'browse_file='+$('browse_file').value,
+            't='+new Date().valueOf()
+        ].join('&');
+        YAHOO.util.Connect.asyncRequest(
+            'POST',
+            url,
+            {
+                success: function(o) {
+                    $('result').innerHTML = o.responseText;
+                },
+                failure: function(o) {
+                    $('result').innerHTML = o.statusText;
+                }
+            },
+            dataStr
+        );
+    }
+});
+
+PB4.on('click', function() {
+    window.location.href="http://122.116.58.213/lab/delfile.php";
 });
 </script>
