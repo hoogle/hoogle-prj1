@@ -23,6 +23,7 @@ class Api extends Controller {
 
     function getRouter()
     {
+        $callback = $this->input->get("callback");
         $time_stamp = $this->input->get("t");
         $expire = $this->input->get("expires");
         $routerKeyid = $this->input->get("routerAccessKeyId");
@@ -31,17 +32,17 @@ class Api extends Controller {
         $info_arr['router']['vid'] = "venderID";
         $info_arr['router']['pid'] = "productID";
         $info_arr['router']['sn'] = "serialnumber";
-        $info_arr['router']['mac'] = "MAC";
+        $info_arr['router']['mac'] = "ROUTER_MAC";
         $info_arr['router']['model'] = "DIR615";
         $info_arr['router']['ws_ip'] = "192.168.0.1";
         $info_arr['router']['ws_port'] = "81";
-        $info_arr['router']['external_ip'] = "253.34.45.23";
+        $info_arr['router']['external_ip'] = "213.34.45.23";
         $info_arr['router']['external_port'] = "5555";
         $info_arr['user_mac'] = "USER_MAC";
         $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
-        echo $ary;
+        echo "{$callback}({$ary})";
     }
 
     function listShareDevices()
@@ -79,6 +80,7 @@ class Api extends Controller {
     function getFileList()
     {
         $time_stamp = $this->input->get("t");
+        $callback = $this->input->get("callback");
         $expire = $this->input->get("expires");
         $routerKeyid = $this->input->get("routerAccessKeyId");
         $sig = $this->input->get("sig");
@@ -95,7 +97,7 @@ class Api extends Controller {
         $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
-        echo $ary;
+        echo "{$callback}({$ary})";
     }
 
     function createDirectory()
