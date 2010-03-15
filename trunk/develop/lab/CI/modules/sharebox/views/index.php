@@ -120,7 +120,7 @@ PB0.on('click', function() {
 });
 
 PB1.on('click', function() {
-    var url = 'http://122.116.58.213:8080/api/getRouter?sig=6t2eUYr23R&expires=123234235&routerAccessKeyId=WE32w4hjk3er46&t=' + new Date().valueOf();
+    var url = 'http://122.116.58.213:8080/api/getRouter?sig=6t2eUYr23R&expires=123234235&routerAccessKeyId=WE32w4hjk3er46&callback=callback&t=' + new Date().valueOf();
     YAHOO.util.Connect.asyncRequest(
         'GET',
         url,
