@@ -1,6 +1,7 @@
 <?php
 class Api extends Controller {
     var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
+    var $up_path = "/home/www/develop/lab/thumb/.thumbs/";
 
     function __construct()
     {
@@ -70,13 +71,15 @@ class Api extends Controller {
 
     function getDirectoryFiles($path)
     {
+        //$path = preg_replace("/(.*)\/$/", "\\1", $path);
+        $path = rtrim($path, "/")."/";
         $this->load->helper("directory");
         $this->load->helper("file");
         $dir_ary = directory_map($path, TRUE);
-        $fileattr_arr = array('name', 'server_path', 'size', 'date', 'is_dir', 'mime_type');
+        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'is_dir', 'mime_type', 'md5');
         foreach ($dir_ary as $file)
         {
-            $files_arr[] = get_file_info($path.$file, $fileattr_arr);
+            $files_arr[] = get_file_info($path.$file, $file_attr_arr);
         }
         return $files_arr;
     }
@@ -88,12 +91,12 @@ class Api extends Controller {
         $expire = $this->input->get("expires");
         $routerKeyid = $this->input->get("routerAccessKeyId");
         $sig = $this->input->get("sig");
-        $path = $this->base_path.$this->input->get("path");
+        $dir_path = $this->base_path.$this->input->get("path");
         $pgoffset = $this->base_path.$this->input->get("pageoffset");
         $maxcount = $this->base_path.$this->input->get("maxcount");
         $sortby = $this->base_path.$this->input->get("sortby");
         $sort_arr = array("+name", "-name", "+date", "-date", "+type", "-type", "+size", "-size");
-        $files_arr = $this->getDirectoryFiles($path);
+        $files_arr = $this->getDirectoryFiles($dir_path);
         $info_arr = array();
         $info_arr['errno'] = "";
         $info_arr['count'] = count($files_arr);
@@ -129,16 +132,22 @@ class Api extends Controller {
 
     function uploadFile()
     {
-        $path = $this->base_path.$this->input->post("path");
-        $browse_file = $this->input->post("browse_file");
+        $thumbing = $this->input->post("thumbing");
+        $path = ( ! empty($thumbing)) ? $this->up_path : $this->base_path.$this->input->post("path");
+        $config['upload_path'] = $path;
+        $config['allowed_types'] = "jpg|gif|txt";
+        $this->load->library("upload", $config);
+        $this->upload->do_upload("browse_file");
+        $data = $this->upload->data();
         $callback = $this->input->post("callback");
-        //$files_arr = $this->getDirectoryFiles($path);
+        $status = ( ! count($this->upload->error_msg)) ? "ok" : "fail";
         $info_arr = array();
+        $info_arr['status'] = $status;
         $info_arr['errno'] = "";
-        //$info_arr['files'] = $files_arr;
+        $info_arr['errmsg'] = $this->upload->error_msg;
         $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
-        header("Content-Type: application/json");
+        //header("Content-Type: application/json");
         echo "{$callback}({$ary})";
     }
 
@@ -219,14 +228,15 @@ class Api extends Controller {
         echo "{$callback}({$ary})";
     }
 
-    function getFileContent()
+    function downloadFile()
     {
         //var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
-        $mime = $this->input->get("mime");
-        $file = $this->input->get("file");
+        //$mime = $this->input->get("mime");
+        $file = urldecode($this->input->get("fullfilename"));
         $path_file = $this->base_path.$file;
         if (file_exists($path_file))
         {
+            /*
             if ($mime != "null")
             {
                 header("Content-Type: {$mime}");
@@ -235,6 +245,7 @@ class Api extends Controller {
             {
                 header("Content-Type: application/force-download");
             }
+             */
             header("Content-Disposition: attachment; filename=".basename($path_file));
             header("Content-Transfer-Encoding: binary");
             header("Content-Length: " . filesize($path_file));
