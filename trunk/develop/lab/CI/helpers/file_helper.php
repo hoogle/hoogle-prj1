@@ -262,7 +262,7 @@ if ( ! function_exists('get_dir_file_info'))
 *
 * Given a file and path, returns the name, path, size, date modified
 * Second parameter allows you to explicitly declare what information you want returned
-* Options are: name, server_path, size, date, readable, writable, executable, fileperms
+* Options are: name, doc_path, size, date, readable, writable, executable, fileperms
 * Returns FALSE if the file cannot be found.
 *
 * @access	public
@@ -272,7 +272,7 @@ if ( ! function_exists('get_dir_file_info'))
 */
 if ( ! function_exists('get_file_info'))
 {
-	function get_file_info($file, $returned_values = array('name', 'server_path', 'size', 'date'))
+	function get_file_info($file, $returned_values = array('name', 'doc_path', 'size', 'date'))
 	{
 
 		if ( ! file_exists($file))
@@ -289,11 +289,14 @@ if ( ! function_exists('get_file_info'))
 		{
 			switch ($key)
 			{
+				case 'base64_name':
+					$fileinfo['base64_name'] = base64_encode(substr(strrchr($file, DIRECTORY_SEPARATOR), 1));
+					break;
 				case 'name':
 					$fileinfo['name'] = substr(strrchr($file, DIRECTORY_SEPARATOR), 1);
 					break;
-				case 'server_path':
-					$fileinfo['server_path'] = $file;
+				case 'doc_path':
+					$fileinfo['doc_path'] = $file;
 					break;
 				case 'size':
 					$fileinfo['size'] = filesize($file);
@@ -316,6 +319,14 @@ if ( ! function_exists('get_file_info'))
 					break;
                 case 'is_dir':
                     $fileinfo['is_dir'] = is_dir($file);
+                    break;
+                case 'mime_type':
+                    $size_arr = getimagesize($file);
+                    $fileinfo['mime_type'] = $size_arr['mime'];
+                    //mime will be "image/jpeg" or null
+                    break;
+                case 'md5':
+                    $fileinfo['md5'] = md5_file($file);
                     break;
 			}
 		}
