@@ -76,7 +76,7 @@ class Api extends Controller {
         $this->load->helper("directory");
         $this->load->helper("file");
         $dir_ary = directory_map($path, TRUE);
-        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'is_dir', 'mime_type', 'md5');
+        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'mtime', 'is_dir', 'mime_type', 'md5');
         foreach ($dir_ary as $file)
         {
             $files_arr[] = get_file_info($path.$file, $file_attr_arr);
@@ -232,7 +232,7 @@ class Api extends Controller {
     {
         //var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
         //$mime = $this->input->get("mime");
-        $file = urldecode($this->input->get("fullfilename"));
+        $file = $this->input->get("fullfilename");
         $path_file = $this->base_path.$file;
         if (file_exists($path_file))
         {

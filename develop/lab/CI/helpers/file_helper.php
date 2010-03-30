@@ -293,7 +293,7 @@ if ( ! function_exists('get_file_info'))
 					$fileinfo['base64_name'] = base64_encode(substr(strrchr($file, DIRECTORY_SEPARATOR), 1));
 					break;
 				case 'name':
-					$fileinfo['name'] = substr(strrchr($file, DIRECTORY_SEPARATOR), 1);
+					$fileinfo['name'] = mb_convert_encoding(substr(strrchr($file, DIRECTORY_SEPARATOR), 1), "utf-8", "big5");
 					break;
 				case 'doc_path':
 					$fileinfo['doc_path'] = $file;
@@ -303,6 +303,9 @@ if ( ! function_exists('get_file_info'))
 					break;
 				case 'date':
 					$fileinfo['date'] = filectime($file);
+					break;
+                case 'mtime':
+                    $fileinfo['mtime'] = filemtime($file);
 					break;
 				case 'readable':
 					$fileinfo['readable'] = is_readable($file);
