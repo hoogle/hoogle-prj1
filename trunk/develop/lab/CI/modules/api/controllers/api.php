@@ -36,13 +36,13 @@ class Api extends Controller {
         $info_arr['router']['vid'] = "venderID";
         $info_arr['router']['pid'] = "productID";
         $info_arr['router']['sn'] = "serialnumber";
-        $info_arr['router']['mac'] = "ROUTER_MAC";
+        $info_arr['router']['mac'] = "00:13:46:3D:F8:AF";
         $info_arr['router']['model'] = "DIR615";
         $info_arr['router']['ws_ip'] = "192.168.0.1";
         $info_arr['router']['ws_port'] = "81";
         $info_arr['router']['external_ip'] = "213.34.45.23";
         $info_arr['router']['external_port'] = "5555";
-        $info_arr['user_mac'] = "USER_MAC";
+        $info_arr['user_mac'] = "00:26:5E:E9:5A:2E";
         $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
@@ -69,19 +69,36 @@ class Api extends Controller {
         echo "{$callback}({$ary})";
     }
 
-    function getDirectoryFiles($path)
+    function getDirectoryFiles($path, $sortby = "name", $sign = "+")
     {
-        //$path = preg_replace("/(.*)\/$/", "\\1", $path);
         $path = rtrim($path, "/")."/";
         $this->load->helper("directory");
         $this->load->helper("file");
         $dir_ary = directory_map($path, TRUE);
         $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'mtime', 'is_dir', 'mime_type', 'md5');
+        $files_arr = array();
         foreach ($dir_ary as $file)
         {
-            $files_arr[] = get_file_info($path.$file, $file_attr_arr);
+            $tmp_arr = get_file_info($path.$file, $file_attr_arr);
+            $files_arr[$tmp_arr[$sortby]] = get_file_info($path.$file, $file_attr_arr);
+            //$files_arr[] = get_file_info($path.$file, $file_attr_arr);
         }
-        return $files_arr;
+
+        if ($sign == "-")
+        {
+            krsort($files_arr);
+        }
+        else
+        {
+            ksort($files_arr);
+        }
+
+        foreach ($files_arr as $file_arr)
+        {
+            $ordered_arr[] = $file_arr;
+        }
+
+        return $ordered_arr;
     }
 
     function getFileList()
@@ -94,9 +111,18 @@ class Api extends Controller {
         $dir_path = $this->base_path.$this->input->get("path");
         $pgoffset = $this->base_path.$this->input->get("pageoffset");
         $maxcount = $this->base_path.$this->input->get("maxcount");
-        $sortby = $this->base_path.$this->input->get("sortby");
-        $sort_arr = array("+name", "-name", "+date", "-date", "+type", "-type", "+size", "-size");
-        $files_arr = $this->getDirectoryFiles($dir_path);
+        $sortby = $this->input->get("sortby");
+        if ( ! isset($sortyby) || empty($sortby))
+        {
+            $sign = "+"; 
+            $sort = "name";
+        }
+        else
+        {
+            $sign = substr($sortby, 0, 1);
+            $sort = substr($sortby, 1, 4);
+        }
+        $files_arr = $this->getDirectoryFiles($dir_path, $sort, $sign);
         $info_arr = array();
         $info_arr['errno'] = "";
         $info_arr['count'] = count($files_arr);
@@ -115,7 +141,7 @@ class Api extends Controller {
         if (mkdir($dirname, 0700))
         //if (1)
         {
-            $files_arr = $this->getDirectoryFiles($path);
+            $files_arr = $this->getDirectoryFiles($path, "name");
             $info_arr = array();
             $info_arr['errno'] = "";
             $info_arr['files'] = $files_arr;
@@ -135,9 +161,9 @@ class Api extends Controller {
         $thumbing = $this->input->post("thumbing");
         $path = ( ! empty($thumbing)) ? $this->up_path : $this->base_path.$this->input->post("path");
         $config['upload_path'] = $path;
-        $config['allowed_types'] = "jpg|gif|txt";
+        $config['allowed_types'] = "jpg|gif|png";
         $this->load->library("upload", $config);
-        $this->upload->do_upload("browse_file");
+        $this->upload->do_upload("Filedata");
         $data = $this->upload->data();
         $callback = $this->input->post("callback");
         $status = ( ! count($this->upload->error_msg)) ? "ok" : "fail";
