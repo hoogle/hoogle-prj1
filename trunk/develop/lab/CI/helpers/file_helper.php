@@ -311,7 +311,6 @@ if ( ! function_exists('get_file_info'))
 					$fileinfo['readable'] = is_readable($file);
 					break;
 				case 'writable':
-					// There are known problems using is_weritable on IIS.  It may not be reliable - consider fileperms()
 					$fileinfo['writable'] = is_writable($file);
 					break;
 				case 'executable':
@@ -323,10 +322,8 @@ if ( ! function_exists('get_file_info'))
                 case 'is_dir':
                     $fileinfo['is_dir'] = is_dir($file);
                     break;
-                case 'mime_type':
-                    $size_arr = getimagesize($file);
-                    $fileinfo['mime_type'] = $size_arr['mime'];
-                    //mime will be "image/jpeg" or null
+                case 'type':
+                    $fileinfo['type'] = ( ! is_dir($file)) ? get_mime_by_extension($file) : FALSE;
                     break;
                 case 'md5':
                     $fileinfo['md5'] = md5_file($file);
@@ -357,7 +354,7 @@ if ( ! function_exists('get_mime_by_extension'))
 {
 	function get_mime_by_extension($file)
 	{
-		$extension = substr(strrchr($file, '.'), 1);
+		$extension = strtolower(substr(strrchr($file, '.'), 1));
 
 		global $mimes;
 
