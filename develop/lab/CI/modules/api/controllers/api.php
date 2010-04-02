@@ -75,13 +75,13 @@ class Api extends Controller {
         $this->load->helper("directory");
         $this->load->helper("file");
         $dir_ary = directory_map($path, TRUE);
-        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'mtime', 'is_dir', 'mime_type', 'md5');
+        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'mtime', 'is_dir', 'type', 'md5');
         $files_arr = array();
         foreach ($dir_ary as $file)
         {
             $tmp_arr = get_file_info($path.$file, $file_attr_arr);
-            $files_arr[$tmp_arr[$sortby]] = get_file_info($path.$file, $file_attr_arr);
-            //$files_arr[] = get_file_info($path.$file, $file_attr_arr);
+            $addmd5 = ($sortby == "type") ? "_{$tmp_arr['md5']}" : "";
+            $files_arr[$tmp_arr[$sortby].$addmd5] = get_file_info($path.$file, $file_attr_arr);
         }
 
         if ($sign == "-")
@@ -93,9 +93,9 @@ class Api extends Controller {
             ksort($files_arr);
         }
 
-        foreach ($files_arr as $file_arr)
+        foreach ($files_arr as $f_arr)
         {
-            $ordered_arr[] = $file_arr;
+            $ordered_arr[] = $f_arr;
         }
 
         return $ordered_arr;
@@ -112,7 +112,7 @@ class Api extends Controller {
         $pgoffset = $this->base_path.$this->input->get("pageoffset");
         $maxcount = $this->base_path.$this->input->get("maxcount");
         $sortby = $this->input->get("sortby");
-        if ( ! isset($sortyby) || empty($sortby))
+        if (empty($sortby))
         {
             $sign = "+"; 
             $sort = "name";
