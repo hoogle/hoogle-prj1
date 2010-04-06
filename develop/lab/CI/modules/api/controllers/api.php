@@ -125,6 +125,7 @@ class Api extends Controller {
         $files_arr = $this->getDirectoryFiles($dir_path, $sort, $sign);
         $info_arr = array();
         $info_arr['errno'] = "";
+        $info_arr['status'] = "ok";
         $info_arr['count'] = count($files_arr);
         $info_arr['files'] = $files_arr;
         $ary = json_encode($info_arr);
