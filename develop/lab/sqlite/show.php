@@ -1,6 +1,7 @@
 <?php
     $filename = $_GET['filename'];
-    $db = new PDO("sqlite:/home/www/develop/lab/sqlite/file.db3");
+    $path = dirname(__FILE__);
+    $db = new PDO("sqlite:{$path}/file.db3");
     $sql = "SELECT content FROM filelist WHERE filename = '{$filename}'";
     $res = $db->query($sql);
     $res->setFetchMode(PDO::FETCH_ASSOC);
