@@ -1,6 +1,8 @@
 <?php
 class Api extends Controller {
     var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
+    //var $base_path = "/home/www/develop/lab/thumb/miiicasa/";
+    //var $up_path = "/home/www/develop/lab/thumb/miiicasa/";
     var $up_path = "/home/www/develop/lab/thumb/.thumbs/";
 
     function __construct()
@@ -109,8 +111,8 @@ class Api extends Controller {
         $routerKeyid = $this->input->get("routerAccessKeyId");
         $sig = $this->input->get("sig");
         $dir_path = $this->base_path.$this->input->get("path");
-        $pgoffset = $this->base_path.$this->input->get("pageoffset");
-        $maxcount = $this->base_path.$this->input->get("maxcount");
+        $pgoffset = $this->input->get("pageoffset");
+        $maxcount = $this->input->get("maxcount");
         $sortby = $this->input->get("sortby");
         if (empty($sortby))
         {
@@ -257,7 +259,7 @@ class Api extends Controller {
 
     function downloadFile()
     {
-        //var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
+        //var $base_path = "/home/www/develop/lab/thumb/miiicasa/";
         //$mime = $this->input->get("mime");
         $file = $this->input->get("fullfilename");
         $path_file = $this->base_path.$file;
