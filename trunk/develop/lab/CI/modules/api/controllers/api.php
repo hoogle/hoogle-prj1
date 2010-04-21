@@ -1,9 +1,9 @@
 <?php
 class Api extends Controller {
-    var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
-    //var $base_path = "/home/www/develop/lab/thumb/miiicasa/";
-    //var $up_path = "/home/www/develop/lab/thumb/miiicasa/";
-    var $up_path = "/home/www/develop/lab/thumb/.thumbs/";
+    //var $base_path = "/home/www/develop/lab/thumb/album/tiger/";
+    var $base_path = "/home/www/develop/lab/thumb/miiicasa/";
+    var $up_path = "/home/www/develop/lab/thumb/miiicasa/Photos/folder_1/";
+    //var $up_path = "/home/www/develop/lab/thumb/.thumbs/";
 
     function __construct()
     {
@@ -77,12 +77,12 @@ class Api extends Controller {
         $this->load->helper("directory");
         $this->load->helper("file");
         $dir_ary = directory_map($path, TRUE);
-        $file_attr_arr = array('base64_name', 'name', 'size', 'date', 'mtime', 'is_dir', 'type', 'md5');
+        $file_attr_arr = array('name', 'size', 'date', 'mtime', 'type', 'mime', 'md5');
         $files_arr = array();
         foreach ($dir_ary as $file)
         {
             $tmp_arr = get_file_info($path.$file, $file_attr_arr);
-            $addmd5 = ($sortby == "type") ? "_{$tmp_arr['md5']}" : "";
+            $addmd5 = ($sortby == "mime") ? "_{$tmp_arr['md5']}" : "";
             $files_arr[$tmp_arr[$sortby].$addmd5] = get_file_info($path.$file, $file_attr_arr);
         }
 
@@ -139,32 +139,32 @@ class Api extends Controller {
     function createDirectory()
     {
         $path = $this->base_path.$this->input->get("path");
-        $dirname = $path.$this->input->get("dirname");
+        $dirname = $path."/".$this->input->get("dirname");
         $callback = $this->input->get("callback");
-        if (mkdir($dirname, 0700))
-        //if (1)
+        $info_arr = array();
+        if (mkdir($dirname, 0755, TRUE))
         {
-            $files_arr = $this->getDirectoryFiles($path, "name");
-            $info_arr = array();
             $info_arr['errno'] = "";
-            $info_arr['files'] = $files_arr;
-            $ary = json_encode($info_arr);
-            header("Cache-Control: no-cache");
-            header("Content-Type: application/json");
-            echo "{$callback}({$ary})";
+            $info_arr['errmsg'] = "";
         }
         else
         {
-            echo 0;
+            $info_arr['errno'] = 100;
+            $info_arr['errmsg'] = "failure";
         }
+        $json = json_encode($info_arr);
+        header("Cache-Control: no-cache");
+        header("Content-Type: application/json");
+        echo ($callback) ? "{$callback}({$json})" : $json;
     }
 
     function uploadFile()
     {
-        $thumbing = $this->input->post("thumbing");
-        $path = ( ! empty($thumbing)) ? $this->up_path : $this->base_path.$this->input->post("path");
+        //var $base_path = "/home/www/develop/lab/thumb/miiicasa/";
+        //var $up_path = "/home/www/develop/lab/thumb/miiicasa/Photos/folder_1/";
+        $path = $this->base_path.$this->input->post("path");
         $config['upload_path'] = $path;
-        $config['allowed_types'] = "jpg|gif|png";
+        $config['allowed_types'] = "txt|jpg|gif|png";
         $this->load->library("upload", $config);
         $this->upload->do_upload("Filedata");
         $data = $this->upload->data();
@@ -176,7 +176,6 @@ class Api extends Controller {
         $info_arr['errmsg'] = $this->upload->error_msg;
         $ary = json_encode($info_arr);
         header("Cache-Control: no-cache");
-        //header("Content-Type: application/json");
         echo "{$callback}({$ary})";
     }
 
