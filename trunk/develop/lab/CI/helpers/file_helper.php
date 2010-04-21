@@ -289,9 +289,9 @@ if ( ! function_exists('get_file_info'))
 		{
 			switch ($key)
 			{
-				case 'base64_name':
-					$fileinfo['base64_name'] = base64_encode(substr(strrchr($file, DIRECTORY_SEPARATOR), 1));
-					break;
+				//case 'base64_name':
+					//$fileinfo['base64_name'] = base64_encode(substr(strrchr($file, DIRECTORY_SEPARATOR), 1));
+					//break;
 				case 'name':
 					$fileinfo['name'] = mb_convert_encoding(substr(strrchr($file, DIRECTORY_SEPARATOR), 1), "utf-8", "big5");
 					break;
@@ -319,11 +319,11 @@ if ( ! function_exists('get_file_info'))
 				case 'fileperms':
 					$fileinfo['fileperms'] = fileperms($file);
 					break;
-                case 'is_dir':
-                    $fileinfo['is_dir'] = is_dir($file);
-                    break;
                 case 'type':
-                    $fileinfo['type'] = ( ! is_dir($file)) ? get_mime_by_extension($file) : FALSE;
+                    $fileinfo['type'] = (is_dir($file)) ? 2 : 1;
+                    break;
+                case 'mime':
+                    $fileinfo['mime'] = ( ! is_dir($file)) ? get_mime_by_extension($file) : FALSE;
                     break;
                 case 'md5':
                     $fileinfo['md5'] = md5_file($file);
