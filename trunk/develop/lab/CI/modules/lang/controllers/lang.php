@@ -83,6 +83,7 @@ class Lang extends Controller {
 
     function edit($sid)
     {
+        $this->get_uselang();
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
         $lang_arr = $this->session->userdata("lang_perm");
@@ -104,6 +105,7 @@ class Lang extends Controller {
             {
                 $params = array (
                     "lang" => $lang_item["l_type"],
+                    "use_lang" => $this->_browser_lang,
                     "sid" => $sid,
                 );
                 $trans_arr = $this->l10n_model->get_all_lang($params, $total);
@@ -171,6 +173,12 @@ class Lang extends Controller {
                 "userid" => $userid,
             );
             $this->l10n_model->edit_lang($data);
+            $log_data = array (
+                "l_id" => $lang_item['l_id'],
+                "s_id" => $sid,
+                "comment" => 2
+            );
+            $this->l10n_model->add_log($log_data);
         }
         header("location:/lang/list_all");
         exit;
@@ -328,9 +336,7 @@ class Lang extends Controller {
                 }
                 $gen_str.= "?>\n";
                 $filepath = APPPATH."language/{$lang_item["l_type"]}/l10n_lang.php";
-                $fh = fopen($filepath, "w+");
-                fwrite($fh, $gen_str);
-                fclose($fh);
+                file_put_contents($filepath, $gen_tr);
             }
             header("location:/lang/list_all");
             exit;
