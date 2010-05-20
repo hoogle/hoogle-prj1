@@ -14,6 +14,14 @@ class L10n_model extends Model {
         $this->db->query($sql);
     }
 
+    function add_log($log_arr)
+    {
+        $userid = $this->session->userdata('user_id');
+        $sql = "INSERT INTO commit_log (l_id, s_id, commit_user, comment, commit_time) ";
+        $sql.= "VALUES ({$log_arr['l_id']}, {$log_arr['s_id']}, '{$userid}', '{$log_arr['comment']}', '".date("Y-m-d H:i:s")."')";
+        $this->db->query($sql);
+    }
+
     function add_newlang($data)
     {
         $userid = $this->session->userdata('user_id');

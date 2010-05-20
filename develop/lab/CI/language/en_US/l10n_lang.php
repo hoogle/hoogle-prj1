@@ -11,4 +11,5 @@ $lang['l10n_one'] = "One";
 $lang['l10n_two'] = "Two";
 $lang['l10n_three'] = "Three";
 $lang['l10n_hoogle'] = "Hoogle";
+$lang['l10n_MIIICASA_SERVICE_name'] = "MiiiCasa";
 ?>
