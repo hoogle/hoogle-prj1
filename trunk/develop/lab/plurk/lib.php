@@ -56,7 +56,7 @@ switch($func)
         $limited_to = ($priv == "true") ? "[$uid]" : "";
         $post_data = array(
             "qualifier" => $qualifier,
-            "content" => $msg,
+            "content" => "!FB {$msg}",
             "lang" => "tr_ch",
             "limited_to" => $limited_to,
             "no_comments" => 0,
