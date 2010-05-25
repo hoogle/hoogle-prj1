@@ -327,19 +327,74 @@ class Lang extends Controller {
 
     function do_imp()
     {
-        $config['upload_path'] = $this->_import_file_path;
-        $config['allowed_types'] = "csv";
-        $filename = preg_replace("/^(.*)\.(\w+)$/", "\\1", $_FILES['importFile']['name'])."_".date("His");
-        $config['file_name'] = $filename;
-        $this->load->library("upload", $config);
-        if ( ! $this->upload->do_upload("importFile"))
+        $this->get_uselang($this->_browser_lang);
+        $this->load->library("session");
+        $userid = $this->session->userdata("user_id");
+        $lang_arr = $this->session->userdata("lang_perm");
+        $import_lang = $this->input->post("import_lang");
+        $this->load->library("layout", "layout_main");
+        if ($userid === FALSE)
         {
-            echo "error: {$this->upload->error_msg}";
+            $data = array(
+                "userid" => NULL,
+                "lang_arr" => NULL,
+                "go_url" => ",lang,import",
+            );
+            $this->layout->view("login/please_login", $data);
         }
         else
         {
-            $this->upload->data();
-            header("location:/lang/list_all");
+            $config['upload_path'] = $this->_import_file_path;
+            $config['allowed_types'] = "csv";
+            $filename = preg_replace("/^(.*)\.(\w+)$/", "\\1", $_FILES['importFile']['name'])."_".date("His");
+            $config['file_name'] = $filename;
+            $this->load->library("upload", $config);
+            if ( ! $this->upload->do_upload("importFile"))
+            {
+                $error_str = $this->upload->error_msg[0];
+                $data = array(
+                    "userid" => $userid,
+                    "use_lang" => $this->_browser_lang,
+                    "lang_arr" => $lang_arr,
+                    "error_str" => $error_str
+                );
+                $this->layout->view("lang/error", $data);
+            }
+            else
+            {
+                $this->upload->data();
+                $imp_file = $this->_import_file_path.$this->upload->file_name;
+                if ( ! file_exists($imp_file))
+                {
+                    $error_str = "File NOT found!!";
+                    $data = array(
+                        "userid" => $userid,
+                        "use_lang" => $this->_browser_lang,
+                        "lang_arr" => $lang_arr,
+                        "error_str" => $error_str
+                    );
+                    $this->layout->view("lang/error", $data);
+                }
+                else
+                {
+                    $fh = fopen($imp_file, "r");
+                    while( ! feof($fh))
+                    {
+                        $line = trim(fgets($fh, 1024));
+                        if (strlen($line))
+                        {
+                            if ($import_lang == "zh_TW")
+                            {
+                                $line = iconv("BIG5", "UTF-8//IGNORE", $line);
+                            }
+                            list($lang_key, $lang_str) = explode("|", $line);
+                            echo "key: {$lang_key}\tstr: {$lang_str}<br>";
+                        }
+                    }
+                    fclose($fh);
+                    //header("location:/lang/list_all");
+                }
+            }
         }
     }
 
