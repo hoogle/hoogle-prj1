@@ -3,7 +3,7 @@ $tab_tags = "";
 $tab_contents = "";
 foreach ($lang_arr as $k => $lang)
 {
-    $selected = ( ! $k) ? ' class="selected"' : '';
+    $selected = ($lang['l_type'] == $use_lang) ? ' class="selected"' : '';
     $tab_tags.= "    <li{$selected}><a href=\"#{$k}\"><em>{$lang['l_type']}</em></a></li>\n";
     $tab_contents.= "    <div id=\"t{$k}\">\n";
     foreach ($rec[$lang['l_type']] as $k => $arr)
