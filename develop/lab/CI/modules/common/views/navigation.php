@@ -4,8 +4,10 @@ $main_items = array(
     'home'  => array('url' => '/l10n', 'text' => 'Home'),
 );
 $option_items = array(
+    'add' => array('url' => '/lang/add', 'text' => 'Add new'),
     'list_all' => array('url' => '/lang/list_all', 'text' => 'List all'),
-    'add' => array('url' => '/lang/add', 'text' => 'New one'),
+    'import' => array('url' => '/lang/import', 'text' => 'Import'),
+    'export' => array('url' => '/lang/export', 'text' => 'Export'),
 );
 $menu_items = ( ! $lang_arr) ? $main_items : array_merge($main_items, $option_items);
 
