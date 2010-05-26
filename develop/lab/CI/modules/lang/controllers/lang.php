@@ -10,22 +10,31 @@ class Lang extends Controller {
 
     function get_uselang($lang = NULL)
     {
+        global $lang_arr;
+        if ( ! require_once(APPPATH.'config/languages.php'))
+        {
+            return FALSE;
+        }
+
         if ( ! is_null($lang) && ! empty($lang))
         {
             $this->_browser_lang = $lang;
+            $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
         }
         else
         {
             $this->load->library("session");
-            if ( ! is_null($this->session->userdata("use_lang")))
+            if (isset($this->session->userdata->use_lang))
             {
                 $this->_browser_lang = $this->session->userdata("use_lang");
+                $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
             }
             else
             {
                 $accept_lang_arr = explode(",", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
                 list($lang_lang, $lang_country) = explode("-", $accept_lang_arr[0]);
                 $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
+                $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
             }
         }
     }
@@ -136,16 +145,17 @@ class Lang extends Controller {
 
     function update()
     {
+        $this->get_uselang($this->_browser_lang);
+        $sid = $this->input->post("s_id");
+        $translate = $this->input->post("translate");
+
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
+        $l_type = $this->session->userdata("use_lang");
         echo $userid;
 
         $this->load->database();
         $this->load->model("l10n_model");
-
-        $sid = $this->input->post("s_id");
-        $translate = $this->input->post("translate");
-        $l_type = $this->session->userdata("use_lang");
 
         $data = array(
             "translate" => $translate,
@@ -154,6 +164,12 @@ class Lang extends Controller {
             "userid" => $userid,
         );
         $this->l10n_model->edit_lang($data);
+        $log_data = array (
+            "l_id" => $this->_browser_lid,
+            "s_id" => $sid,
+            "comment" => 2
+        );
+        $this->l10n_model->add_log($log_data);
     }
 
     function upd($sid)

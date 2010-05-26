@@ -64,6 +64,7 @@ YAHOO.example.InlineCellEditing = function() {
 
     var updRequest = function(El) {
         var dataStr = [
+            'use_lang=<?php echo $use_lang; ?>',
             's_id='+current_sid,
             'translate='+encodeURIComponent(El.value)
         ].join('&'); 
