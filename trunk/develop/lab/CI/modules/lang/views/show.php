@@ -16,7 +16,7 @@ YAHOO.example.InlineCellEditing = function() {
     ];
 
     // DataSource instance
-    var dataSourceURL = 'http://122.116.58.213:8080/lang/listit?'+new Date().valueOf()+'&';
+    var dataSourceURL = 'http://122.116.58.213:8080/lang/jsonlist?'+new Date().valueOf()+'&';
     var myDataSource = new YAHOO.util.DataSource(dataSourceURL);
     myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     myDataSource.responseSchema = {
