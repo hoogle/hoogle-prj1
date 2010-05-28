@@ -57,6 +57,7 @@ class L10n extends Controller {
             $data = array(
                 "use_lang" => $this->_browser_lang,
                 "userid" => $userid,
+                "lang_perm" => $lang_perm,
                 "lang_arr" => $lang_arr,
             );
             $this->layout->view("l10n/permission", $data);
