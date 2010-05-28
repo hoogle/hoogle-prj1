@@ -9,7 +9,7 @@ $option_items = array(
     'chenges' => array('url' => '/lang/changes', 'text' => 'Changes'),
     'export' => array('url' => '/lang/export', 'text' => 'Export'),
 );
-$menu_items = ( ! $lang_arr) ? $main_items : array_merge($main_items, $option_items);
+$menu_items = ( ! $lang_perm) ? $main_items : array_merge($main_items, $option_items);
 
 ?>
 <div id="navigation" class="yui-menu yui-menu-horizontal yui-menubuttonnav">

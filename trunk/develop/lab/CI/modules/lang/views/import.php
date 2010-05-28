@@ -2,7 +2,7 @@
     Importing CSV lang file:
     <select id="import_lang" name="import_lang">
         <option value="0">Using language</option>
-    <?php foreach($lang_arr as $lang_item) : ?>
+    <?php foreach($lang_perm as $lang_item) : ?>
         <option value="<?php echo $lang_item['l_type']?>"><?php echo $lang_item['l_name']?></option>
     <?php endforeach ?>
     </select>

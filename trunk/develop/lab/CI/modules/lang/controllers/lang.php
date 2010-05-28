@@ -24,9 +24,10 @@ class Lang extends Controller {
         else
         {
             $this->load->library("session");
-            if (isset($this->session->userdata->use_lang))
+            $use_lang = $this->session->userdata("use_lang");
+            if (isset($use_lang))
             {
-                $this->_browser_lang = $this->session->userdata("use_lang");
+                $this->_browser_lang = $use_lang;
                 $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
             }
             else
@@ -36,6 +37,26 @@ class Lang extends Controller {
                 $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
                 $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
             }
+        }
+    }
+
+    function is_login($lang, $go_url)
+    {
+        $this->get_uselang($lang);
+        $this->load->library("session");
+        $userid = $this->session->userdata("user_id");
+        if ($userid === FALSE)
+        {
+            $data = array(
+                "lang_perm" => NULL,
+                "go_url" => $go_url,
+            );
+            $this->load->library("layout", "layout_main");
+            $this->layout->view("login/please_login", $data);
+        }
+        else
+        {
+            return TRUE;
         }
     }
 
@@ -49,7 +70,7 @@ class Lang extends Controller {
             "use_lang" => $this->_browser_lang,
         );
         $data = array (
-            "lang_arr" => $this->session->userdata("lang_perm"),
+            "lang_perm" => $this->session->userdata("lang_perm"),
             "userid" => $this->session->userdata("user_id"),
             "use_lang" => $this->_browser_lang,
             "list" => $this->l10n_model->get_all_lang($params, $total),
@@ -60,26 +81,15 @@ class Lang extends Controller {
 
     function changes()
     {
-        $this->get_uselang($this->_browser_lang);
-        $this->load->library("session");
-        $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
-        if ($userid === FALSE)
+        if ($this->is_login($this->_browser_lang, ",lang,changes"))
         {
-            $data = array(
-                "userid" => NULL,
-                "lang_arr" => NULL,
-                "go_url" => ",lang,changes"
-            );
-            $this->load->library("layout", "layout_main");
-            $this->layout->view("login/please_login", $data);
-        }
-        else
-        {
+            $lang_perm = $this->session->userdata("lang_perm");
+            $userid = $this->session->userdata("user_id");
             $this->load->database();
             $this->load->model("l10n_model");
+            $this->load->library("layout", "layout_main");
 
-            foreach ($lang_arr as $lang_item)
+            foreach ($lang_perm as $lang_item)
             {
                 $trans_arr = $this->l10n_model->get_retranslated($lang_item["l_type"]);
                 foreach ($trans_arr as $k => $arr)
@@ -92,38 +102,25 @@ class Lang extends Controller {
                 "rec" => $rec,
                 "use_lang" => $this->_browser_lang,
                 "userid" => $userid,
-                "lang_arr" => $lang_arr,
+                "lang_perm" => $lang_perm,
             );
-            $this->load->library("layout", "layout_main");
             $this->layout->view("lang/changes", $data);
         }
     }
 
     function edit($sid)
     {
-        $this->get_uselang($this->_browser_lang);
-        $this->load->library("session");
-        $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
-        $this->load->library("layout", "layout_main");
-        if ($userid === FALSE)
-        {
-            $data = array(
-                "userid" => NULL,
-                "lang_arr" => NULL,
-                "go_url" => ",lang,edit,{$sid}",
-            );
-            $this->layout->view("login/please_login", $data);
-        }
-        else
+        if ($this->is_login($this->_browser_lang, ",lang,edit,{$sid}"))
         {
             $this->load->database();
             $this->load->model("l10n_model");
-            foreach ($lang_arr as $lang_item)
+            $lang_perm = $this->session->userdata("lang_perm");
+            $userid = $this->session->userdata("user_id");
+
+            foreach ($lang_perm as $lang_item)
             {
                 $params = array (
-                    "lang" => $lang_item["l_type"],
-                    "use_lang" => $this->_browser_lang,
+                    "use_lang" => $lang_item["l_type"],
                     "sid" => $sid,
                 );
                 $trans_arr = $this->l10n_model->get_all_lang($params, $total);
@@ -134,11 +131,12 @@ class Lang extends Controller {
             $data = array(
                 "userid" => $userid,
                 "use_lang" => $this->_browser_lang,
-                "lang_arr" => $lang_arr,
+                "lang_perm" => $lang_perm,
                 "list" => $langs,
                 "sid" => $sid,
                 "div" => "edit",
             );
+            $this->load->library("layout", "layout_main");
             $this->layout->view("lang/edit", $data);
         }
     }
@@ -149,7 +147,6 @@ class Lang extends Controller {
         $sid = $this->input->post("s_id");
         $translate = $this->input->post("translate");
 
-        $this->load->library("session");
         $userid = $this->session->userdata("user_id");
         $l_type = $this->session->userdata("use_lang");
         echo $userid;
@@ -174,53 +171,48 @@ class Lang extends Controller {
 
     function upd($sid)
     {
-        $this->load->library("session");
-        $userid = $this->session->userdata("user_id");
-        if ($userid === FALSE)
+        if ($this->is_login($this->_browser_lang, ",lang,edit,{$sid}"))
         {
-            $needlogin_view = $this->load->view("login/please_login", array("go_url" => ",lang,list_all"), TRUE);
-            echo $needlogin_view;
+            $this->load->database();
+            $this->load->model("l10n_model");
+            $userid = $this->session->userdata("user_id");
+            $lang_perm = $this->session->userdata("lang_perm");
+
+            foreach ($lang_perm as $lang_item)
+            {
+                $l_type = $lang_item["l_type"];
+                $data = array(
+                    "key_word"  => $this->input->post("key_word"),
+                    "translate"  => $this->input->post("{$l_type}_word"),
+                    "sid" => $sid,
+                    "l_type" => $l_type,
+                    "userid" => $userid,
+                );
+                $this->l10n_model->edit_lang($data);
+                $log_data = array (
+                    "l_id" => $lang_item['l_id'],
+                    "s_id" => $sid,
+                    "comment" => 2
+                );
+                $this->l10n_model->add_log($log_data);
+            }
+            header("location:/lang/list_all");
             exit;
         }
-        $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
-
-        $this->load->database();
-        $this->load->model("l10n_model");
-        foreach ($lang_arr as $lang_item)
-        {
-            $l_type = $lang_item["l_type"];
-            $data = array(
-                "key_word"  => $this->input->post("key_word"),
-                "translate"  => $this->input->post("{$l_type}_word"),
-                "sid" => $sid,
-                "l_type" => $l_type,
-                "userid" => $userid,
-            );
-            $this->l10n_model->edit_lang($data);
-            $log_data = array (
-                "l_id" => $lang_item['l_id'],
-                "s_id" => $sid,
-                "comment" => 2
-            );
-            $this->l10n_model->add_log($log_data);
-        }
-        header("location:/lang/list_all");
-        exit;
     }
 
     function add()
     {
         $this->load->library("session");
-        $lang_arr = $this->session->userdata("lang_perm");
+        $lang_perm = $this->session->userdata("lang_perm");
 
         $data = array(
             "userid" => $this->session->userdata("user_id"),
             "use_lang" => $this->session->userdata("use_lang"),
-            "lang_arr" => $lang_arr,
+            "lang_perm" => $lang_perm,
         );
         $this->load->library("layout", "layout_main");
-        $view_page = ($lang_arr) ? "lang/add" : "login/please_login";
+        $view_page = ($lang_perm) ? "lang/add" : "login/please_login";
         $this->layout->view($view_page, $data);
     }
 
@@ -229,8 +221,8 @@ class Lang extends Controller {
         $this->load->database();
         $this->load->model("l10n_model");
         $this->load->library("session");
-        $lang_arr = $this->session->userdata("lang_perm");
-        foreach ($lang_arr as $lang_item)
+        $lang_perm = $this->session->userdata("lang_perm");
+        foreach ($lang_perm as $lang_item)
         {
             $l_type = $lang_item["l_type"];
             $langs[$l_type] = $this->input->post("{$l_type}_word");
@@ -258,7 +250,7 @@ class Lang extends Controller {
         {
             $data = array(
                 "userid" => NULL,
-                "lang_arr" => NULL,
+                "lang_perm" => NULL,
                 "go_url" => ",lang,list_all",
             );
             $this->layout->view("login/please_login", $data);
@@ -267,7 +259,7 @@ class Lang extends Controller {
         {
             $data = array(
                 "userid" => $userid,
-                "lang_arr" => $this->session->userdata("lang_perm"),
+                "lang_perm" => $this->session->userdata("lang_perm"),
                 "use_lang" => $this->_browser_lang,
             );
             $this->layout->view("lang/show", $data);
@@ -276,28 +268,11 @@ class Lang extends Controller {
 
     function export()
     {
-        $this->get_uselang($this->_browser_lang);
-        $this->load->library("session");
-        $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
-        $this->load->library("layout", "layout_main");
-        if ($userid === FALSE)
-        {
-            $data = array(
-                "userid" => NULL,
-                "lang_arr" => NULL,
-                "go_url" => ",lang,export",
-            );
-            $this->layout->view("login/please_login", $data);
-        }
-        else
+        if ($this->is_login($this->_browser_lang, ",lang,export"))
         {
             $this->load->database();
             $this->load->model("l10n_model");
-            $params = array (
-                "use_lang" => $this->_browser_lang,
-            );
-            $res = $this->l10n_model->get_all_lang($params, $total);
+            $res = $this->l10n_model->get_all_lang(array("use_lang" => $this->_browser_lang), $total);
 
             $outstr = "";
             foreach ($res as $k => $arr)
@@ -314,18 +289,19 @@ class Lang extends Controller {
         }
     }
 
+    /*
     function import()
     {
         $this->get_uselang($this->_browser_lang);
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
+        $lang_perm = $this->session->userdata("lang_perm");
         $this->load->library("layout", "layout_main");
         if ($userid === FALSE)
         {
             $data = array(
                 "userid" => NULL,
-                "lang_arr" => NULL,
+                "lang_perm" => NULL,
                 "go_url" => ",lang,import",
             );
             $this->layout->view("login/please_login", $data);
@@ -335,7 +311,7 @@ class Lang extends Controller {
             $data = array(
                 "userid" => $userid,
                 "use_lang" => $this->_browser_lang,
-                "lang_arr" => $lang_arr,
+                "lang_perm" => $lang_perm,
             );
             $this->layout->view("lang/import", $data);
         }
@@ -346,14 +322,14 @@ class Lang extends Controller {
         $this->get_uselang($this->_browser_lang);
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
+        $lang_perm = $this->session->userdata("lang_perm");
         $import_lang = $this->input->post("import_lang");
         $this->load->library("layout", "layout_main");
         if ($userid === FALSE)
         {
             $data = array(
                 "userid" => NULL,
-                "lang_arr" => NULL,
+                "lang_perm" => NULL,
                 "go_url" => ",lang,import",
             );
             $this->layout->view("login/please_login", $data);
@@ -371,7 +347,7 @@ class Lang extends Controller {
                 $data = array(
                     "userid" => $userid,
                     "use_lang" => $this->_browser_lang,
-                    "lang_arr" => $lang_arr,
+                    "lang_perm" => $lang_perm,
                     "error_str" => $error_str
                 );
                 $this->layout->view("lang/error", $data);
@@ -386,7 +362,7 @@ class Lang extends Controller {
                     $data = array(
                         "userid" => $userid,
                         "use_lang" => $this->_browser_lang,
-                        "lang_arr" => $lang_arr,
+                        "lang_perm" => $lang_perm,
                         "error_str" => $error_str
                     );
                     $this->layout->view("lang/error", $data);
@@ -413,8 +389,9 @@ class Lang extends Controller {
             }
         }
     }
+     */
 
-    function listit($lang = NULL)
+    function jsonlist($lang = NULL)
     {
         $this->get_uselang($lang);
         $sort = $this->input->get("sort");
@@ -435,7 +412,7 @@ class Lang extends Controller {
             "list" => $this->l10n_model->get_all_lang($params, $total),
             "total" => $total,
         );
-        $this->load->view("lang/listit", $data);
+        $this->load->view("lang/jsonlist", $data);
     }
 
     function gen($lang = NULL)
@@ -443,7 +420,7 @@ class Lang extends Controller {
         $this->get_uselang($lang);
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
-        $lang_arr = $this->session->userdata("lang_perm");
+        $lang_perm = $this->session->userdata("lang_perm");
         $this->load->database();
         $this->load->model("l10n_model");
 
@@ -451,7 +428,7 @@ class Lang extends Controller {
         {
             $data = array(
                 "userid" => NULL,
-                "lang_arr" => NULL,
+                "lang_perm" => NULL,
                 "go_url" => ",lang,gen",
             );
             $this->load->library("layout", "layout_main");
@@ -459,7 +436,7 @@ class Lang extends Controller {
         }
         else
         {
-            foreach ($lang_arr as $lang_item)
+            foreach ($lang_perm as $lang_item)
             {
                 $params = array (
                     "use_lang" => $lang_item["l_type"],

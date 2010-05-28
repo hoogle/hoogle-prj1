@@ -1,9 +1,9 @@
-<?php if ($lang_arr) : ?>
+<?php if (is_array($lang_perm)) : ?>
 
 <form name="Fe" method="post" action="/lang/upd/<?php echo $sid; ?>">
   <ul>
     <li>key: <input type="text" name="key_word" value="<?php echo $list['key_word']; ?>"/></li>
-<?php foreach($lang_arr as $lang_item) : ?>
+<?php foreach($lang_perm as $lang_item) : ?>
     <li><?php echo $lang_item['l_name']?>: <input type="text" name="<?php echo $lang_item['l_type']?>_word" value="<?php echo $list[$lang_item['l_type']]['translate']; ?>"/> Original: <?php echo $list[$lang_item['l_type']]['original']; ?></li>
 <?php endforeach ?>
   </ul>
