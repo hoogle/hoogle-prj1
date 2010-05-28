@@ -25,7 +25,7 @@ class Lang extends Controller {
         {
             $this->load->library("session");
             $use_lang = $this->session->userdata("use_lang");
-            if (isset($use_lang))
+            if ( ! empty($use_lang))
             {
                 $this->_browser_lang = $use_lang;
                 $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
