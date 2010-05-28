@@ -9,10 +9,12 @@
 </form>
 
 <script type="text/javascript">
-var $ = YAHOO.util.Dom.get,
-    PB = new YAHOO.widget.Button("btn_new");
+(function() {
+    var $ = YAHOO.util.Dom.get,
+        PB = new YAHOO.widget.Button("btn_new");
 
-PB.on('click', function() {
-    $('Fadd').submit();
-});
+    PB.on('click', function() {
+        $('Fadd').submit();
+    });
+})();
 </script>

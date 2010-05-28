@@ -14,6 +14,6 @@ foreach ($lang_arr as $k => $lang)
 test
 </div>
 </div>
-<script>
+<script type="text/javascript">
 (function() { var tabView = new YAHOO.widget.TabView('map-tab-all'); })();
 </script>
