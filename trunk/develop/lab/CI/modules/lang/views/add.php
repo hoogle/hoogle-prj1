@@ -7,6 +7,7 @@
   </ul>
   <input type="button" id="btn_new" name="send" value=" ADD NEW "/>
 </form>
+
 <script type="text/javascript">
 var $ = YAHOO.util.Dom.get,
     PB = new YAHOO.widget.Button("btn_new");
