@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+<head> 
+<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<title>Using the Button ARIA Plugin</title> 
+ 
+<style type="text/css"> 
+body {
+    margin:0;
+    padding:0;
+}
+</style> 
+ 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/menu/assets/skins/sam/menu.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/button/assets/skins/sam/button.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/container/container_core-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/menu/menu-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.8.1/build/button/button-min.js"></script> 
+</head> 
+ 
+<body class="yui-skin-sam"> 
+ 
+<form id="button-example-form" name="button-example-form" method="post"> 
+ 
+    <div id="menubutton-example" style="margin-left:20px;">
+        <input type="button" id="menubutton-1" name="menubutton-1" value="Select"> 
+        <select id="menubutton-1-menu" name="menubutton-1-menu"> 
+            <option value="0">ZERO</option> 
+            <option value="1">ONE</option> 
+            <option value="2">TWO</option>                
+        </select> 
+    </div> 
+ 
+</form> 
+ 
+<script type="text/javascript"> 
+(function () {
+    var Event = YAHOO.util.Event,
+        Button = YAHOO.widget.Button;
+
+    Event.onContentReady("menubutton-example", function () {
+        var oMenuButton = new Button("menubutton-1", { type: "menu", menu: "menubutton-1-menu" });
+    });
+}());
+</script> 
+ 
+</body> 
+</html> 
