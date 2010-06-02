@@ -75,6 +75,30 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
+    function get_parent_cate()
+    {
+    }
+
+    function get_child_cate($pid = 0)
+    {
+        $sql = "SELECT * FROM page_cate WHERE up_page = {$pid}";
+        $res = $this->db->query($sql);
+        $arr = $res->result_array();
+        $aaa = array();
+        if (COUNT($arr))
+        {
+            foreach($arr as $a)
+            {
+                $aaa[$a['page_name']] = $this->get_child_cate($a['page_id']);
+            }
+        }
+        else
+        {
+            $aaa = 0;
+        }
+        return $aaa;
+    }
+
     function get_all_lang($params, &$total)
     {
         $cond = ( ! empty($params['sid'])) ? "s_id = '{$params['sid']}'" : 1;
