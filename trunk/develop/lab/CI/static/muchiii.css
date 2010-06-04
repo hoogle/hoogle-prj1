@@ -304,3 +304,10 @@ td {
 #masthead p {
     float:right;
 }
+.oops strong {
+    font:bold 25px Verdana;
+    color:red;
+}
+form li {
+    margin:5px 2px;
+}
