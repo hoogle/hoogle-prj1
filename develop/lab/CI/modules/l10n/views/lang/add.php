@@ -1,4 +1,4 @@
-<form id="Fadd" name="Fi" method="post" action="/lang/ins">
+<form id="Fadd" name="Fi" method="post" action="/l10n/lang/ins">
   <ul>
     <li>key: <input type="text" name="key_word"/></li>
 <?php foreach($lang_perm as $lang_item) : ?>
