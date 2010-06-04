@@ -6,7 +6,7 @@
 <?php if ( is_array($lang_perm)) : ?>
         <span>
             Now using language:
-<select id="use_lang" onchange="location.href='/lang/list_all/'+this.value">
+<select id="use_lang" onchange="location.href='/l10n/lang/list_all/'+this.value">
 <?php foreach($lang_perm as $lang_item) : ?>
     <option value="<?php echo $lang_item['l_type']?>"<?php echo ($use_lang == $lang_item['l_type']) ? 'selected="selected"' : ''; ?>><?php echo $lang_item['l_name']?></option>
 <?php endforeach ?>

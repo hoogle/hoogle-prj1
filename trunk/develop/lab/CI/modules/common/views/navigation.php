@@ -4,10 +4,10 @@ $main_items = array(
     'home'  => array('url' => '/l10n', 'text' => 'Home'),
 );
 $option_items = array(
-    'add' => array('url' => '/lang/add', 'text' => 'Add new'),
-    'list_all' => array('url' => '/lang/list_all', 'text' => 'List all'),
-    'chenges' => array('url' => '/lang/changes', 'text' => 'Changes'),
-    'export' => array('url' => '/lang/export', 'text' => 'Export'),
+    'add' => array('url' => '/l10n/lang/add', 'text' => 'Add new'),
+    'list_all' => array('url' => '/l10n/lang/list_all', 'text' => 'List all'),
+    'chenges' => array('url' => '/l10n/lang/changes', 'text' => 'Changes'),
+    'export' => array('url' => '/l10n/lang/export', 'text' => 'Export'),
 );
 $menu_items = ( ! $lang_perm) ? $main_items : array_merge($main_items, $option_items);
 
