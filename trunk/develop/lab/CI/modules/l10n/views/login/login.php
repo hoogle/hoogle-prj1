@@ -14,4 +14,4 @@
     </form>
 </div>
 <?php endif ?>
-<?php $this->load->view("common/after_body.php"); ?>
+<?php $this->load->view("common/after_body"); ?>
