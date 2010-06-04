@@ -311,3 +311,6 @@ td {
 form li {
     margin:5px 2px;
 }
+.page_cate li {
+    display:inline;
+}
