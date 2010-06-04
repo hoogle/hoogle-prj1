@@ -35,7 +35,7 @@ function do_act($target_url, $data, $cookie_file = NULL)
 
 $nick = "hoogle"; 
 $pwd = "qUs4obog"; 
-$msg = "Hoogle time now: ".date("H:i:s");
+$msg = date("H:i")." 了，還沒關機!!";
 $qualifier = "says"; 
 $priv = "true"; 
 $uid = getUserID($nick);
