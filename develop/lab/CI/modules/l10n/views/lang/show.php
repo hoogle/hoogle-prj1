@@ -1,3 +1,4 @@
+<?php echo modules::run("l10n/component/show_cate_select"); ?>
 <span id="totalRecords">Loading...</span>
 <div id="dynamicdata"></div>
 <script type="text/javascript"> 
@@ -51,7 +52,7 @@ YAHOO.example.InlineCellEditing = function() {
         success: function(o) {
             if (o.responseText == '') {
                 alert('Please login!');
-                window.location = '/login/index/' + location.pathname.replace(/\//g, ',');
+                window.location = '/l10n/login/index/' + location.pathname.replace(/\//g, ',');
             } else {
                 alert('Re-translated OK!');
             }

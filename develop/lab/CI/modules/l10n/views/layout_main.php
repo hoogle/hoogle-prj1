@@ -1,8 +1,8 @@
-<?php $this->load->view("common/before_body.php"); ?>
+<?php $this->load->view("common/before_body"); ?>
 <div id="hd">
     <div class="yui-d3">
-<?php $this->load->view("common/masthead.php"); ?>
-<?php $this->load->view("common/navigation.php"); ?>
+<?php $this->load->view("common/masthead"); ?>
+<?php $this->load->view("common/navigation"); ?>
     </div>
 </div>
 <div id="bd">
@@ -24,4 +24,4 @@
 <?php $this->load->view("common/mastfoot"); ?>
     </div><!-- .yui-d3 (end) -->
 </div><!-- #ft (end) -->
-<?php $this->load->view("common/after_body.php"); ?>
+<?php $this->load->view("common/after_body"); ?>

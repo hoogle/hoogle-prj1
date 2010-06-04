@@ -99,6 +99,32 @@ class L10n_model extends Model {
         return $aaa;
     }
 
+    function get_page_cate()
+    {
+        $arr_str = "\$page_cate = array (\n";
+        $sql = "SELECT up_page FROM page_cate GROUP BY up_page";
+        $res = $this->db->query($sql);
+        $grp = $res->result_array();
+        foreach ($grp as $g) 
+        {
+            $arr_str.= "\t'{$g['up_page']}' => array (\n";
+            $sql = "SELECT * FROM page_cate WHERE up_page = {$g['up_page']}";
+            $res2 = $this->db->query($sql);
+            $cat = $res2->result_array();
+            foreach($cat as $k => $c)
+            {
+                $arr_str.= "\t\t'{$k}' => array (\n";
+                $arr_str.= "\t\t\t'page_id' => '{$c['page_id']}',\n";
+                $arr_str.= "\t\t\t'page_name' => '{$c['page_name']}',\n";
+                $arr_str.= "\t\t\t'up_page' => '{$c['up_page']}',\n";
+                $arr_str.= "\t\t),\n";
+            }
+            $arr_str.= "\t),\n";
+        }
+        $arr_str.= ");\n";
+        return $arr_str;
+    }
+
     function get_all_lang($params, &$total)
     {
         $cond = ( ! empty($params['sid'])) ? "s_id = '{$params['sid']}'" : 1;
