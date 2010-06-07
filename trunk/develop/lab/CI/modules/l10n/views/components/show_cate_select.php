@@ -23,14 +23,16 @@
         var opt = [];
         var i = 0;
         for (var item in cate_json[val]) {
+            if (i == 0) var first_value = cate_json[val][item]['page_id'];
             opt[i++] = '<option value="' + cate_json[val][item]['page_id'] + '">' + cate_json[val][item]['page_name'] + '</option>';
         }
         sel.innerHTML = opt.join();
+        return first_value;
     };
 
     YAHOO.util.Event.on('pagecate1', 'change', function(e) {
-        show_item(2, e.target.value);
-        YAHOO.util.Dom.get('pagecate3').innerHTML = '';
+        var first_value = show_item(2, e.target.value);
+        show_item(3, first_value);
     });
 
     YAHOO.util.Event.on('pagecate2', 'change', function(e) {
