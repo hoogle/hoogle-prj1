@@ -1,7 +1,7 @@
-<?php if (isset($userid)) : ?>
-<div>hello, <?php echo $userid; ?> | <a href="/login/logout">logout</a></div>
+<?php if ( ! empty($userid)) : ?>
+<div>hello, <?php echo $userid; ?> | <a href="/l10n/login/logout">logout</a></div>
 <?php else : ?>
-<div>Hi, guest! <a href="/login/">login</a></div>
+<div>Hi, guest! <a href="/l10n/login/">login</a></div>
 <?php endif ?>
 <br/>
 <ul>
