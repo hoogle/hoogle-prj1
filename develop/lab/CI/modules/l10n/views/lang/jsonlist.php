@@ -3,6 +3,7 @@ $listary = array();
 foreach($list as $k => $ary)
 {
     $listary[$k]['s_id'] = $ary['s_id'];
+    $listary[$k]['page_id'] = $ary['page_id'];
     $listary[$k]['key_word'] = $ary['key_word'];
     $listary[$k]['translate'] = $ary['translate'];
     $listary[$k]['status'] = $ary['status'];
