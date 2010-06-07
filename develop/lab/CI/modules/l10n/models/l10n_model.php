@@ -113,7 +113,7 @@ class L10n_model extends Model {
             $cat = $res2->result_array();
             foreach($cat as $k => $c)
             {
-                $arr_str.= "\t\t'{$k}' => array (\n";
+                $arr_str.= "\t\t'{$c['page_id']}' => array (\n";
                 $arr_str.= "\t\t\t'page_id' => '{$c['page_id']}',\n";
                 $arr_str.= "\t\t\t'page_name' => '{$c['page_name']}',\n";
                 $arr_str.= "\t\t\t'up_page' => '{$c['up_page']}',\n";
