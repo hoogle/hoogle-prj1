@@ -38,8 +38,8 @@ class L10n_model extends Model {
                 $id_fields = "s_id, ";
                 $id_value = "{$new_sid}, ";
             }
-            $sql = "INSERT INTO lang_{$lang_item['l_type']} ({$id_fields}key_word, translate, original, create_time, update_time, last_updater, status) VALUES ";
-            $sql.= "({$id_value}'{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', ".LANG_TRANSLATE_NEW.")";
+            $sql = "INSERT INTO lang_{$lang_item['l_type']} ({$id_fields}page_id, key_word, translate, original, create_time, update_time, last_updater, status) VALUES ";
+            $sql.= "({$id_value}'{$data['page_id']}', '{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', ".LANG_TRANSLATE_NEW.")";
             $this->db->query($sql);
             if ($lang_item['l_type'] == "en_US")
             {
@@ -127,7 +127,7 @@ class L10n_model extends Model {
 
     function get_all_lang($params, &$total)
     {
-        $cond = ( ! empty($params['sid'])) ? "s_id = '{$params['sid']}'" : 1;
+        $cond = ( ! empty($params['page_id'])) ? "page_id = '{$params['page_id']}'" : 1;
         $order_field = ( ! empty($params['sort'])) ? " ORDER BY {$params['sort']}" : "";
         $desc = ( ! empty($params['dir']) && $params['dir'] == "desc") ? " DESC" : " ASC";
         $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM lang_{$params['use_lang']} WHERE {$cond} {$order_field}";
