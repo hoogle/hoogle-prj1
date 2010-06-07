@@ -89,13 +89,17 @@ class Lang extends Controller {
             $this->load->model("l10n_model");
             $this->load->library("layout", "layout_main");
 
+            $rec = array();
             foreach ($lang_perm as $lang_item)
             {
                 $trans_arr = $this->l10n_model->get_retranslated($lang_item["l_type"]);
-                foreach ($trans_arr as $k => $arr)
+                if (COUNT($trans_arr))
                 {
-                    $rec[$lang_item["l_type"]][$k]["key_word"] = $trans_arr[$k]["key_word"];
-                    $rec[$lang_item["l_type"]][$k]["translate"] = $trans_arr[$k]["translate"];
+                    foreach ($trans_arr as $k => $arr)
+                    {
+                        $rec[$lang_item["l_type"]][$k]["key_word"] = $trans_arr[$k]["key_word"];
+                        $rec[$lang_item["l_type"]][$k]["translate"] = $trans_arr[$k]["translate"];
+                    }
                 }
             }
             $data = array(
@@ -242,6 +246,7 @@ class Lang extends Controller {
             $langs[$l_type] = $this->input->post("{$l_type}_word");
         }
         $data = array(
+            "page_id" => $this->input->post("page_id"),
             "key_word"  => $this->input->post("key_word"),
             "langs"  => $langs,
         );
@@ -307,6 +312,7 @@ class Lang extends Controller {
     {
         $this->get_uselang($lang);
         $sort = $this->input->get("sort");
+        $page_id = $this->input->get("page_id");
         $dir = $this->input->get("dir");
         $start = $this->input->get("startIndex");
         $results = $this->input->get("results");
@@ -316,6 +322,7 @@ class Lang extends Controller {
         $params = array (
             "use_lang" => $this->session->userdata("use_lang"),
             "sort" => $sort,
+            "page_id" => $page_id,
             "dir" => $dir,
             "start" => $start,
             "results" => $results,

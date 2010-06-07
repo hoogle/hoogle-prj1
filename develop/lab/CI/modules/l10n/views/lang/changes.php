@@ -6,9 +6,12 @@ foreach ($lang_perm as $k => $lang)
     $selected = ($lang['l_type'] == $use_lang) ? ' class="selected"' : '';
     $tab_tags.= "    <li{$selected}><a href=\"#{$k}\"><em>{$lang['l_type']}</em></a></li>\n";
     $tab_contents.= "    <div id=\"t{$k}\">\n";
-    foreach ($rec[$lang['l_type']] as $k => $arr)
+    if (COUNT($rec))
     {
-        $tab_contents.= "        <div>{$arr['key_word']} / {$arr['translate']}</div>\n";
+        foreach ($rec[$lang['l_type']] as $k => $arr)
+        {
+            $tab_contents.= "        <div>{$arr['key_word']} / {$arr['translate']}</div>\n";
+        }
     }
     $tab_contents.= "    </div>\n";
 }
