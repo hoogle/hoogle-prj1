@@ -2,7 +2,6 @@
 <span id="totalRecords">Loading...</span>
 <div id="dynamicdata"></div>
 <script type="text/javascript"> 
-var $ = YAHOO.util.Dom.get;
 YAHOO.example.InlineCellEditing = function() {
 
     var formatTranslate = function(elCell, oRecord, oColumn, oData) {
@@ -87,7 +86,7 @@ YAHOO.example.InlineCellEditing = function() {
 
     myDataTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
       oPayload.totalRecords = oResponse.meta.totalRecords;
-      $('totalRecords').innerHTML = 'Total <span style="color:teal;">' + oPayload.totalRecords + '</span> records';
+      YAHOO.util.Dom.get('totalRecords').innerHTML = 'Total <span style="color:teal;">' + oPayload.totalRecords + '</span> records';
       return oPayload;
     }
 
