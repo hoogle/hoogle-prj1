@@ -46,7 +46,7 @@ class L10n extends Controller {
                 "lang_perm" => NULL,
                 "go_url" => ",l10n,permission",
             );
-            $this->layout->view("login/please_login", $data);
+            $this->layout->view("l10n/login/please_login", $data);
         }
         else
         {
@@ -60,7 +60,7 @@ class L10n extends Controller {
                 "lang_perm" => $lang_perm,
                 "lang_arr" => $lang_arr,
             );
-            $this->layout->view("l10n/permission", $data);
+            $this->layout->view("l10n/l10n/permission", $data);
         }
     }
 }
