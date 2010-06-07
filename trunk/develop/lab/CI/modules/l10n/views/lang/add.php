@@ -1,3 +1,4 @@
+<?php echo modules::run("l10n/component/show_cate_select"); ?>
 <form id="Fadd" name="Fi" method="post" action="/l10n/lang/ins">
   <ul>
     <li>key: <input type="text" name="key_word"/></li>
