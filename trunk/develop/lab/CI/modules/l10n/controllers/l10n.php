@@ -50,10 +50,9 @@ class L10n extends Controller {
         }
         else
         {
-            if ( ! require_once(APPPATH.'config/languages.php'))
-            {
-                return FALSE;
-            }
+            $this->load->model("l10n_model");
+            $lang_arr = $this->l10n_model->load_languages();
+
             $data = array(
                 "use_lang" => $this->_browser_lang,
                 "userid" => $userid,
