@@ -282,10 +282,10 @@ class Lang extends Controller {
         }
     }
 
-    public function get_pagecate_prefix($page_id)
+    public function get_keyword_prefix($page_id)
     {
         $this->load->model("l10n_model");
-        return $this->l10n_model->get_pagecate_prefix($page_id);
+        return $this->l10n_model->get_keyword_prefix($page_id);
     }
 
     public function export()
@@ -299,7 +299,8 @@ class Lang extends Controller {
             $outstr = "";
             foreach ($res as $k => $arr)
             {
-                $outstr.= "{$arr['key_word']}|{$arr['translate']}\n";
+                $keyword_prefix = $this->get_keyword_prefix($arr['page_id']);
+                $outstr.= "{$keyword_prefix}_{$arr['key_word']}|{$arr['translate']}\n";
             }
             $outstr = iconv("UTF-8", "big5//IGNORE", $outstr);
             header("Content-Type: application/force-download");
@@ -373,7 +374,7 @@ class Lang extends Controller {
                 foreach ($arr as $ary)
                 {
                     $translate = str_replace("\"", "\\\"", $ary["translate"]);
-                    $keyword_prefix = $this->get_pagecate_prefix($ary['page_id']);
+                    $keyword_prefix = $this->get_keyword_prefix($ary['page_id']);
                     $gen_str.= "\$lang['{$keyword_prefix}_{$ary['key_word']}'] = \"{$translate}\";\n"; 
                 }
                 $gen_str.= "?>\n";
