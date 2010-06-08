@@ -6,7 +6,7 @@ foreach ($lang_perm as $k => $lang)
     $selected = ($lang['l_type'] == $use_lang) ? ' class="selected"' : '';
     $tab_tags.= "    <li{$selected}><a href=\"#{$k}\"><em>{$lang['l_type']}</em></a></li>\n";
     $tab_contents.= "    <div id=\"t{$k}\">\n";
-    if (COUNT($rec))
+    if (is_array($lang['l_type']) && COUNT($rec[$lang['l_type']]))
     {
         foreach ($rec[$lang['l_type']] as $k => $arr)
         {
