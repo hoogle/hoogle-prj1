@@ -3,17 +3,23 @@ $tab_tags = "";
 $tab_contents = "";
 foreach ($lang_perm as $k => $lang)
 {
-    $selected = ($lang['l_type'] == $use_lang) ? ' class="selected"' : '';
+    $curr_lang = $lang['l_type'];
+    $selected = ($curr_lang == $use_lang) ? ' class="selected"' : '';
     $tab_tags.= "    <li{$selected}><a href=\"#{$k}\"><em>{$lang['l_type']}</em></a></li>\n";
     $tab_contents.= "    <div id=\"t{$k}\">\n";
-    if (is_array($lang['l_type']) && COUNT($rec[$lang['l_type']]))
+    if ( ! isset($rec[$curr_lang]))
     {
-        foreach ($rec[$lang['l_type']] as $k => $arr)
+        $tab_contents.= "    </div>\n";
+        continue;
+    }
+    if (COUNT($rec[$curr_lang]))
+    {
+        foreach ($rec[$curr_lang] as $k => $arr)
         {
             $tab_contents.= "        <div>{$arr['key_word']} / {$arr['translate']}</div>\n";
         }
+        $tab_contents.= "    </div>\n";
     }
-    $tab_contents.= "    </div>\n";
 }
 ?>
 <div id="map-tab-all" class="yui-navset">
