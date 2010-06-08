@@ -115,7 +115,7 @@ class L10n_model extends Model {
         return $lang_arr;
     }
 
-    public function get_pagecate_prefix($page_id)
+    public function get_keyword_prefix($page_id)
     {
         $page_cate = $this->load_page_cate();
         $new_page_cate = array();
