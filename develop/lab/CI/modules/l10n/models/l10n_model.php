@@ -1,12 +1,12 @@
 <?php
 class L10n_model extends Model {
 
-    function __construct()
+    public function __construct()
     {
         parent::Model();
     }
 
-    function set_user_stat($userid)
+    public function set_user_stat($userid)
     {
         $now_time = date("Y-m-d H:i:s");
         $sql = "UPDATE users SET last_login = '{$now_time}' ";
@@ -14,7 +14,7 @@ class L10n_model extends Model {
         $this->db->query($sql);
     }
 
-    function add_log($log_arr)
+    public function add_log($log_arr)
     {
         $userid = $this->session->userdata('user_id');
         $sql = "INSERT INTO commit_log (l_id, s_id, commit_user, comment, commit_time) ";
@@ -22,7 +22,7 @@ class L10n_model extends Model {
         $this->db->query($sql);
     }
 
-    function add_newlang($data)
+    public function add_newlang($data)
     {
         $userid = $this->session->userdata('user_id');
         $lang_arr = $this->session->userdata('lang_perm');
@@ -48,7 +48,7 @@ class L10n_model extends Model {
         }
     }
 
-    function edit_lang($form_data)
+    public function edit_lang($form_data)
     {
         $data = array (
             'translate' => $form_data['translate'],
@@ -59,7 +59,7 @@ class L10n_model extends Model {
         $this->db->update("lang_{$form_data['l_type']}", $data, array("s_id" => $form_data['sid']));
     }
 
-    function get_userdata($userid)
+    public function get_userdata($userid)
     {
         $sql = "SELECT * FROM users WHERE user_id = '{$userid}'";
         $res = $this->db->query($sql);
@@ -67,7 +67,7 @@ class L10n_model extends Model {
         return $user_arr[0];
     }
 
-    function get_languages($bit_arr = NULL)
+    public function get_languages($bit_arr = NULL)
     {
         $sql = "SELECT * FROM languages";
         if ( ! is_null($bit_arr)) $sql.= " WHERE bit_id in ({$bit_arr})";
@@ -75,11 +75,7 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
-    function get_parent_cate()
-    {
-    }
-
-    function get_child_cate($pid = 0)
+    public function get_child_cate($pid = 0)
     {
         $sql = "SELECT * FROM page_cate WHERE up_page = {$pid}";
         $res = $this->db->query($sql);
@@ -99,7 +95,51 @@ class L10n_model extends Model {
         return $aaa;
     }
 
-    function get_page_cate()
+    public function load_page_cate()
+    {
+        global $page_cate;
+        if ( ! require_once(APPPATH.'config/page_cate.php'))
+        {
+            return FALSE;
+        }
+        return $page_cate;
+    }
+
+    public function load_languages()
+    {
+        global $lang_arr;
+        if ( ! require_once(APPPATH.'config/languages.php'))
+        {
+            return FALSE;
+        }
+        return $lang_arr;
+    }
+
+    public function get_pagecate_prefix($page_id)
+    {
+        $page_cate = $this->load_page_cate();
+        $new_page_cate = array();
+        foreach ($page_cate as $p_arr)
+        {
+            foreach ($p_arr as $k => $arr)
+            {
+                $new_page_cate[$k] = $arr;
+            }
+        }
+
+        $up_pid = $page_id;
+        $prefix_arr = array();
+        do
+        {
+            $prefix_arr[] = $new_page_cate[$up_pid]['page_name'];
+            $up_pid = $new_page_cate[$up_pid]['up_page'];
+        }
+        while($up_pid != 0);
+
+        return implode("_", array_reverse($prefix_arr));
+    }
+
+    public function get_page_cate()
     {
         $arr_str = "\$page_cate = array (\n";
         $sql = "SELECT up_page FROM page_cate GROUP BY up_page";
@@ -125,7 +165,7 @@ class L10n_model extends Model {
         return $arr_str;
     }
 
-    function get_all_lang($params, &$total)
+    public function get_all_lang($params, &$total)
     {
         $cond = ( ! empty($params['page_id'])) ? "page_id = '{$params['page_id']}'" : 1;
         $order_field = ( ! empty($params['sort'])) ? " ORDER BY {$params['sort']}" : "";
@@ -140,7 +180,7 @@ class L10n_model extends Model {
         return $res->result_array();
     }
 
-    function get_retranslated($lang = "en_US")
+    public function get_retranslated($lang = "en_US")
     {
         $sql = "SELECT * FROM lang_{$lang} WHERE status = ".LANG_RETRANSLATED;
         $res = $this->db->query($sql);
