@@ -11,6 +11,7 @@ function getUserID($nick)
     curl_close($ch);
     preg_match('/var GLOBAL = \{.*"uid": ([\d]+),.*\}/imU', $contents, $pid);
     $uid = $pid[1];
+    print_r($pid);
     return $uid;
 }
 
@@ -58,5 +59,5 @@ $post_data = array(
     "no_comments" => 0,
     "uid" => $uid
 );
-echo do_act($post_url, $post_data, $cookie_file);
+do_act($post_url, $post_data, $cookie_file);
 ?>
