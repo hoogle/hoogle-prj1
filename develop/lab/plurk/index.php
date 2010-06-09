@@ -52,15 +52,19 @@
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         var msg = $('#msg').val();
-        var qualifier = $('#qualifier').val();
-        var priv = $('#priv').attr()[0].checked;
-        $('#stat').html('發送中...');
-        $.post('lib.php', {func:'plurking', nick:nick, pwd:pwd, msg:msg, qualifier:qualifier, priv:priv}, function(data) {
-            console.dir(data);
-            if (data['error'] == null) {
-                $('#stat').html('發送成功!!');
-            }
-        }, 'json');
+        if (nick == "" || pwd == "" | msg == "") {
+            alert('未填 nick, pwd, msg');
+        } else {
+            var qualifier = $('#qualifier').val();
+            var priv = $('#priv')[0].checked;
+            $('#stat').html('發送中...');
+            $.post('lib.php', {func:'plurking', nick:nick, pwd:pwd, msg:msg, qualifier:qualifier, priv:priv}, function(data) {
+                console.dir(data);
+                if (data['error'] == null) {
+                    $('#stat').html('發送成功!!');
+                }
+            }, 'json');
+        }
     });
 
     $('#getit').click(function() {
