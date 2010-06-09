@@ -108,11 +108,15 @@ class L10n_model extends Model {
     public function load_languages()
     {
         global $lang_arr;
-        if ( ! require_once(APPPATH.'config/languages.php'))
+        if ( ! file_exists(APPPATH.'config/languages.php'))
         {
             return FALSE;
         }
-        return $lang_arr;
+        else
+        {
+            require_once(APPPATH.'config/languages.php');
+            return $lang_arr;
+        }
     }
 
     public function get_keyword_prefix($page_id)

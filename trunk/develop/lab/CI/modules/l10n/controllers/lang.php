@@ -12,27 +12,39 @@ class Lang extends Controller {
     {
         $this->load->model("l10n_model");
         $lang_arr = $this->l10n_model->load_languages();
-
-        if ( ! is_null($lang) && ! empty($lang))
+        if ($lang_arr == FALSE)
         {
-            $this->_browser_lang = $lang;
-            $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
+            $data = array (
+                "error_str" => "Language config file is required!",
+                "lang_perm" => null,
+            );
+            $this->load->library("layout", "layout_main");
+            $this->layout->view("l10n/lang/error", $data);
+            return false;
         }
         else
         {
-            $this->load->library("session");
-            $use_lang = $this->session->userdata("use_lang");
-            if ( ! empty($use_lang))
+            if ( ! is_null($lang) && ! empty($lang))
             {
-                $this->_browser_lang = $use_lang;
+                $this->_browser_lang = $lang;
                 $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
             }
             else
             {
-                $accept_lang_arr = explode(",", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-                list($lang_lang, $lang_country) = explode("-", $accept_lang_arr[0]);
-                $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
-                $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
+                $this->load->library("session");
+                $use_lang = $this->session->userdata("use_lang");
+                if ( ! empty($use_lang))
+                {
+                    $this->_browser_lang = $use_lang;
+                    $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
+                }
+                else
+                {
+                    $accept_lang_arr = explode(",", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+                    list($lang_lang, $lang_country) = explode("-", $accept_lang_arr[0]);
+                    $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
+                    $this->_browser_lid = $lang_arr[$this->_browser_lang]['l_id'];
+                }
             }
         }
     }
