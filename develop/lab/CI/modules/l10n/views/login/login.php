@@ -1,4 +1,4 @@
-<?php $this->load->view("common/before_body.php"); ?>
+<?php $this->load->view("l10n/l10n/before_body.php"); ?>
 <?php if ($is_login) : ?>
 <div style="border:1px solid gray; padding:5px;">
     Hello, <?php echo $userid; ?><br/>
@@ -14,4 +14,4 @@
     </form>
 </div>
 <?php endif ?>
-<?php $this->load->view("common/after_body"); ?>
+<?php $this->load->view("l10n/l10n/after_body"); ?>
