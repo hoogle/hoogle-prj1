@@ -18,8 +18,7 @@ class Lang extends Controller {
                 "error_str" => "Language config file is required!",
                 "lang_perm" => null,
             );
-            $this->load->library("layout", "layout_main");
-            $this->layout->view("l10n/lang/error", $data);
+            $this->load->view("l10n/lang/error", $data);
             return false;
         }
         else
