@@ -1,5 +1,6 @@
 <?php
-class L10n extends Controller {
+class L10n extends Controller
+{
     private $_browser_lang = "";
 
     public function __construct()
@@ -7,7 +8,7 @@ class L10n extends Controller {
         parent::Controller();
         $accept_lang_arr = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         list($lang_lang, $lang_country) = explode("-", $accept_lang_arr[0]);
-        $this->_browser_lang = (is_null($lang_country)) ? "en_US" : strtolower($lang_lang)."_".strtoupper($lang_country);
+        $this->_browser_lang = ( ! isset($lang_country)) ? "en_US" : mb_strtolower($lang_lang) . "_" . mb_strtoupper($lang_country);
     }
 
     public function index()
@@ -69,6 +70,7 @@ class L10n extends Controller {
             {
                 $data = array (
                     "error_str" => "Permission denied, you have no create new layer permission!",
+                    "userid" => $userid,
                     "lang_perm" => NULL,
                 );
                 $this->load->library("layout", "layout_main");
@@ -77,3 +79,5 @@ class L10n extends Controller {
         }
     }
 }
+
+?>
