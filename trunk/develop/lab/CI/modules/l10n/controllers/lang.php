@@ -128,10 +128,10 @@ class Lang extends Controller
             $this->load->database();
             $this->load->model("l10n_model");
             $level = $this->session->userdata("level");
+            $userid = $this->session->userdata("user_id");
             if ( ! $level)
             {
                 $lang_perm = $this->session->userdata("lang_perm");
-                $userid = $this->session->userdata("user_id");
 
                 foreach ($lang_perm as $lang_item)
                 {
@@ -159,6 +159,7 @@ class Lang extends Controller
             {
                 $data = array (
                     "error_str" => "Permission denied, you have no editing permission!",
+                    "userid" => $userid,
                     "lang_perm" => NULL,
                 );
                 $this->load->library("layout", "layout_main");
