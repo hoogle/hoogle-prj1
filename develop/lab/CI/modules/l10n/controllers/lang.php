@@ -94,7 +94,7 @@ class Lang extends Controller
         {
             $lang_perm = $this->session->userdata("lang_perm");
             $userid = $this->session->userdata("user_id");
-            $this->load->database("L10n");
+            $this->load->database("");
             $this->load->model("l10n_model");
             $this->load->library("layout", "layout_main");
 
@@ -245,7 +245,7 @@ class Lang extends Controller
 
     public function ins()
     {
-        $this->load->database("L10n");
+        $this->load->database("");
         $this->load->model("l10n_model");
         $this->load->library("session");
         $lang_perm = $this->session->userdata("lang_perm");
@@ -305,7 +305,7 @@ class Lang extends Controller
     {
         if ($this->is_login($this->_browser_lang, ",lang,export"))
         {
-            $this->load->database("L10n");
+            $this->load->database("");
             $this->load->model("l10n_model");
             $res = $this->l10n_model->get_all_lang(array("use_lang" => $this->_browser_lang), $total);
 
@@ -333,7 +333,7 @@ class Lang extends Controller
         $dir = $this->input->get("dir");
         $start = $this->input->get("startIndex");
         $results = $this->input->get("results");
-        $this->load->database("L10n");
+        $this->load->database("");
         $this->load->model("l10n_model");
         $this->load->library("session");
         $params = array (
@@ -357,7 +357,7 @@ class Lang extends Controller
         $this->load->library("session");
         $userid = $this->session->userdata("user_id");
         $lang_perm = $this->session->userdata("lang_perm");
-        $this->load->database("L10n");
+        $this->load->database("");
         $this->load->model("l10n_model");
 
         if ($userid === FALSE)
