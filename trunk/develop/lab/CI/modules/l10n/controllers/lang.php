@@ -287,6 +287,7 @@ class Lang extends Controller {
             $data = array(
                 "userid" => $userid,
                 "lang_perm" => $this->session->userdata("lang_perm"),
+                "level" => $this->session->userdata("level"),
                 "use_lang" => $this->_browser_lang,
             );
             $this->layout->view("l10n/lang/show", $data);

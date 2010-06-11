@@ -24,12 +24,20 @@ YAHOO.util.Event.addListener(window, "load", function() {
     var show_langs = function() {
         YAHOO.example.InlineCellEditing = function() {
 
+            var formatLink = function(elCell, oRecord, oColumn, oData) {
+                elCell.innerHTML = "<a href=\"/l10n/lang/edit/" + oData + "\">" + oData + "</a>";
+            };
+
             var formatTranslate = function(elCell, oRecord, oColumn, oData) {
                 elCell.innerHTML = "<pre class=\"translate\">" + oData + "</pre>";
             };
 
             var myColumnDefs = [
+<?php if ( ! $level) : ?>
+                {key:"s_id", label:"ID", sortable:true, formatter:formatLink},
+<?php else : ?>
                 {key:"s_id", label:"ID", sortable:true},
+<?php endif ?>
                 {key:"key_word", label:"Key word", sortable:true},
                 {key:"translate", editor: new YAHOO.widget.TextboxCellEditor(), formatter:formatTranslate},
                 {key:"status", label:"Status", sortable:true}
