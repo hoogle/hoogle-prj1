@@ -167,6 +167,16 @@ class Lang extends Controller
         }
     }
 
+    public function add_layer()
+    {
+        if ($this->is_login($this->_browser_lang, ",l10n,permission"))
+        {
+            echo "<pre>";
+            print_r($_POST);
+            exit;
+        }
+    }
+
     public function update()
     {
         $this->get_uselang($this->_browser_lang);
