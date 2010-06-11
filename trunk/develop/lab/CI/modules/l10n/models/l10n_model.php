@@ -102,14 +102,13 @@ class L10n_model extends Model
 
     public function load_page_cate()
     {
-        if ( ! file_exists(APPPATH . 'config/page_cate.php'))
+        if ( ! file_exists(APPPATH . "config/page_cate.php"))
         {
             return FALSE;
         }
         else
         {
-            require_once (APPPATH . 'config/page_cate.php');
-            return $page_cate;
+            return require APPPATH . "config/page_cate.php";
         }
     }
 
@@ -121,8 +120,7 @@ class L10n_model extends Model
         }
         else
         {
-            require_once (APPPATH . 'config/languages.php');
-            return $lang_arr;
+            return require_once (APPPATH . 'config/languages.php');
         }
     }
 
