@@ -1,8 +1,6 @@
 <ul class="page_cate">
-    <li class="page-layers">
-        Page cate:
-    </li>
-    <li class="page-layers">
+    <li>Page cate:</li>
+    <li>
         <select id="pagecate1" name="layer_procuct">
             <option>=== Select ===</option>
 <?php foreach ($page_cate[0] as $prd => $arr) : ?>
@@ -10,10 +8,10 @@
 <?php endforeach ?>
         </select>
     </li>
-    <li class="page-layers">
+    <li>
         <select id="pagecate2" name="layer_category"></select>
     </li>
-    <li class="page-layers">
+    <li>
         <select id="pagecate3" name="layer_page"></select>
     </li>
 </ul>

@@ -37,6 +37,7 @@ class L10n extends Controller {
     {
         $this->load->library('session');
         $lang_perm = $this->session->userdata('lang_perm');
+        $level = $this->session->userdata('level');
         $userid = $this->session->userdata('user_id');
         $is_login = ($userid) ? 1 : 0;
         $this->load->library("layout", "layout_main");
@@ -50,16 +51,29 @@ class L10n extends Controller {
         }
         else
         {
-            $this->load->model("l10n_model");
-            $lang_arr = $this->l10n_model->load_languages();
+            if ( ! $level)
+            {
+                $this->load->model("l10n_model");
+                $lang_arr = $this->l10n_model->load_languages();
 
-            $data = array(
-                "use_lang" => $this->_browser_lang,
-                "userid" => $userid,
-                "lang_perm" => $lang_perm,
-                "lang_arr" => $lang_arr,
-            );
-            $this->layout->view("l10n/l10n/permission", $data);
+                $data = array(
+                    "use_lang" => $this->_browser_lang,
+                    "userid" => $userid,
+                    "level" => $level,
+                    "lang_perm" => $lang_perm,
+                    "lang_arr" => $lang_arr,
+                );
+                $this->layout->view("l10n/l10n/permission", $data);
+            }
+            else
+            {
+                $data = array (
+                    "error_str" => "Permission denied, you have no create new layer permission!",
+                    "lang_perm" => NULL,
+                );
+                $this->load->library("layout", "layout_main");
+                $this->layout->view("l10n/lang/error", $data);
+            }
         }
     }
 }
