@@ -1,5 +1,6 @@
 <?php
-class L10n_model extends Model {
+class L10n_model extends Model
+{
 
     public function __construct()
     {
@@ -18,7 +19,7 @@ class L10n_model extends Model {
     {
         $userid = $this->session->userdata('user_id');
         $sql = "INSERT INTO commit_log (l_id, s_id, commit_user, comment, commit_time) ";
-        $sql.= "VALUES ({$log_arr['l_id']}, {$log_arr['s_id']}, '{$userid}', '{$log_arr['comment']}', '".date("Y-m-d H:i:s")."')";
+        $sql.= "VALUES ({$log_arr['l_id']}, {$log_arr['s_id']}, '{$userid}', '{$log_arr['comment']}', '" . date("Y-m-d H:i:s") . "')";
         $this->db->query($sql);
     }
 
@@ -39,7 +40,7 @@ class L10n_model extends Model {
                 $id_value = "{$new_sid}, ";
             }
             $sql = "INSERT INTO lang_{$lang_item['l_type']} ({$id_fields}page_id, key_word, translate, original, create_time, update_time, last_updater, status) VALUES ";
-            $sql.= "({$id_value}'{$data['page_id']}', '{$data['key_word']}', ".$this->db->escape($data['langs'][$lang_item['l_type']]).", ".$this->db->escape($data['langs'][$lang_item['l_type']]).", NOW(), NOW(), '{$userid}', ".LANG_TRANSLATE_NEW.")";
+            $sql.= "({$id_value}'{$data['page_id']}', '{$data['key_word']}', " . $this->db->escape($data['langs'][$lang_item['l_type']]) . ", " . $this->db->escape($data['langs'][$lang_item['l_type']]) . ", NOW(), NOW(), '{$userid}', " . LANG_TRANSLATE_NEW . ")";
             $this->db->query($sql);
             if ($lang_item['l_type'] == "en_US")
             {
@@ -85,9 +86,9 @@ class L10n_model extends Model {
         $res = $this->db->query($sql);
         $arr = $res->result_array();
         $aaa = array();
-        if (COUNT($arr))
+        if (count($arr))
         {
-            foreach($arr as $a)
+            foreach ($arr as $a)
             {
                 $aaa[$a['page_name']] = $this->get_child_cate($a['page_id']);
             }
@@ -101,24 +102,26 @@ class L10n_model extends Model {
 
     public function load_page_cate()
     {
-        global $page_cate;
-        if ( ! require_once(APPPATH.'config/page_cate.php'))
-        {
-            return FALSE;
-        }
-        return $page_cate;
-    }
-
-    public function load_languages()
-    {
-        global $lang_arr;
-        if ( ! file_exists(APPPATH.'config/languages.php'))
+        if ( ! file_exists(APPPATH . 'config/page_cate.php'))
         {
             return FALSE;
         }
         else
         {
-            require_once(APPPATH.'config/languages.php');
+            require_once (APPPATH . 'config/page_cate.php');
+            return $page_cate;
+        }
+    }
+
+    public function load_languages()
+    {
+        if ( ! file_exists(APPPATH . 'config/languages.php'))
+        {
+            return FALSE;
+        }
+        else
+        {
+            require_once (APPPATH . 'config/languages.php');
             return $lang_arr;
         }
     }
@@ -142,7 +145,7 @@ class L10n_model extends Model {
             $prefix_arr[] = $new_page_cate[$up_pid]['page_name'];
             $up_pid = $new_page_cate[$up_pid]['up_page'];
         }
-        while($up_pid != 0);
+        while ($up_pid != 0);
 
         return implode("_", array_reverse($prefix_arr));
     }
@@ -153,13 +156,13 @@ class L10n_model extends Model {
         $sql = "SELECT up_page FROM page_cate GROUP BY up_page";
         $res = $this->db->query($sql);
         $grp = $res->result_array();
-        foreach ($grp as $g) 
+        foreach ($grp as $g)
         {
             $arr_str.= "\t'{$g['up_page']}' => array (\n";
             $sql = "SELECT * FROM page_cate WHERE up_page = {$g['up_page']}";
             $res2 = $this->db->query($sql);
             $cat = $res2->result_array();
-            foreach($cat as $k => $c)
+            foreach ($cat as $k => $c)
             {
                 $arr_str.= "\t\t'{$c['page_id']}' => array (\n";
                 $arr_str.= "\t\t\t'page_id' => '{$c['page_id']}',\n";
@@ -202,9 +205,10 @@ class L10n_model extends Model {
 
     public function get_retranslated($lang = "en_US")
     {
-        $sql = "SELECT * FROM lang_{$lang} WHERE status = ".LANG_RETRANSLATED;
+        $sql = "SELECT * FROM lang_{$lang} WHERE status = " . LANG_RETRANSLATED;
         $res = $this->db->query($sql);
         return $res->result_array();
     }
 }
+
 ?>
