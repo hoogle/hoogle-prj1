@@ -13,20 +13,50 @@
 </form>
 <script type="text/javascript"> 
 (function() {
-    var $ = YAHOO.util.Dom.get;
-    YAHOO.util.Event.on('pagecate1', 'change', function(e) {
+    var $ = YAHOO.util.Dom.get,
+        YUD = YAHOO.util.Dom;
+        YUE = YAHOO.util.Event;
+
+    YUE.on('pagecate1', 'change', function(e) {
         var sel_val2 = show_item(2, e.target.value);
         var sel_val3 = show_item(3, sel_val2);
         page_cate_pid = (sel_val3 == undefined) ? sel_val2 : sel_val3;
     });
 
-    YAHOO.util.Event.on('pagecate2', 'change', function(e) {
+    YUE.on('pagecate2', 'change', function(e) {
         var sel_val3 = show_item(3, e.target.value);
         page_cate_pid = (sel_val3 == undefined) ? e.target.value : sel_val3;
     });
 
-    YAHOO.util.Event.on('pagecate3', 'change', function(e) {
+    YUE.on('pagecate3', 'change', function(e) {
         page_cate_pid = e.target.value;
+    });
+
+    var disable_input = function(el) {
+        var layer1 = el.value;
+
+        if (layer1.length > 0) {
+            for (var i=0; i<3; i++) {
+                YUD.getElementsByClassName('new_layer')[i].disabled = true;
+            }
+            el.disabled = false;
+        } else {
+            for (var i=0; i<3; i++) {
+                YUD.getElementsByClassName('new_layer')[i].disabled = false;
+            }
+        }
+    };
+
+    YUE.on('layer_prod', 'keyup', function(e) {
+        disable_input($('layer_prod'));
+    });
+
+    YUE.on('layer_cate', 'keyup', function(e) {
+        disable_input($('layer_cate'));
+    });
+
+    YUE.on('layer_page', 'keyup', function(e) {
+        disable_input($('layer_page'));
     });
 
     var PB_new = new YAHOO.widget.Button("btn_addcate");
@@ -43,7 +73,7 @@
             console.dir(page_cate);
             $('cate_ids').value = page_cate;
             if ($('layer_prod').value == '' && $('layer_cate').value == '' && $('layer_page').value == '') {
-                alert('You have to input new layer name');
+                alert('You have to input new layer name!');
                 $('layer_prod').focus();
             } else {
                 $('Fadd').submit();
