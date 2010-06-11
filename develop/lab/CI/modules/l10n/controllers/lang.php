@@ -125,32 +125,45 @@ class Lang extends Controller
     {
         if ($this->is_login($this->_browser_lang, ",lang,edit,{$sid}"))
         {
-            //$this->load->database();
+            $this->load->database();
             $this->load->model("l10n_model");
-            $lang_perm = $this->session->userdata("lang_perm");
-            $userid = $this->session->userdata("user_id");
-
-            foreach ($lang_perm as $lang_item)
+            $level = $this->session->userdata("level");
+            if ( ! $level)
             {
-                $params = array (
-                    "use_lang" => $lang_item["l_type"],
+                $lang_perm = $this->session->userdata("lang_perm");
+                $userid = $this->session->userdata("user_id");
+
+                foreach ($lang_perm as $lang_item)
+                {
+                    $params = array (
+                        "use_lang" => $lang_item["l_type"],
+                        "sid" => $sid,
+                    );
+                    $trans_arr = $this->l10n_model->get_all_lang($params, $total);
+                    $langs[$lang_item["l_type"]]["translate"] = $trans_arr[0]["translate"];
+                    $langs[$lang_item["l_type"]]["original"] = $trans_arr[0]["original"];
+                }
+                $langs["key_word"] = $trans_arr[0]["key_word"];
+                $data = array(
+                    "userid" => $userid,
+                    "use_lang" => $this->_browser_lang,
+                    "lang_perm" => $lang_perm,
+                    "list" => $langs,
                     "sid" => $sid,
+                    "div" => "edit",
                 );
-                $trans_arr = $this->l10n_model->get_all_lang($params, $total);
-                $langs[$lang_item["l_type"]]["translate"] = $trans_arr[0]["translate"];
-                $langs[$lang_item["l_type"]]["original"] = $trans_arr[0]["original"];
+                $this->load->library("layout", "layout_main");
+                $this->layout->view("l10n/lang/edit", $data);
             }
-            $langs["key_word"] = $trans_arr[0]["key_word"];
-            $data = array(
-                "userid" => $userid,
-                "use_lang" => $this->_browser_lang,
-                "lang_perm" => $lang_perm,
-                "list" => $langs,
-                "sid" => $sid,
-                "div" => "edit",
-            );
-            $this->load->library("layout", "layout_main");
-            $this->layout->view("l10n/lang/edit", $data);
+            else
+            {
+                $data = array (
+                    "error_str" => "Permission denied, you have no editing permission!",
+                    "lang_perm" => NULL,
+                );
+                $this->load->library("layout", "layout_main");
+                $this->layout->view("l10n/lang/error", $data);
+            }
         }
     }
 
