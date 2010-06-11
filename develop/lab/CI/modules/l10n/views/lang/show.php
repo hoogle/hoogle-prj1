@@ -44,7 +44,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             ];
 
             // DataSource instance
-            var dataSourceURL = 'http://122.116.58.213:8080/l10n/lang/jsonlist?page_id='+page_cate_pid+'&t='+new Date().valueOf()+'&';
+            var dataSourceURL = '/l10n/lang/jsonlist?page_id='+page_cate_pid+'&t='+new Date().valueOf()+'&';
             var myDataSource = new YAHOO.util.DataSource(dataSourceURL);
             myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
             myDataSource.responseSchema = {
