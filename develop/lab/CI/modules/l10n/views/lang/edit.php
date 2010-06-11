@@ -1,4 +1,4 @@
-<form id="Fedit" name="Fe" method="post" action="/l10n//lang/upd/<?php echo $sid; ?>">
+<form id="Fedit" name="Fe" method="post" action="/l10n/lang/upd/<?php echo $sid; ?>">
   <ul>
     <li>key: <input type="text" name="key_word" value="<?php echo $list['key_word']; ?>"/></li>
 <?php foreach($lang_perm as $lang_item) : ?>

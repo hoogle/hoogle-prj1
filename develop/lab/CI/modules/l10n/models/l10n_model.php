@@ -50,8 +50,12 @@ class L10n_model extends Model {
 
     public function edit_lang($form_data)
     {
+        $sql = "SELECT translate FROM lang_{$form_data['l_type']} WHERE s_id = {$form_data['sid']}";
+        $res = $this->db->query($sql);
+        $row = $res->row();
         $data = array (
             'translate' => $form_data['translate'],
+            'original' => $row->translate,
             'last_updater' => $form_data['userid'],
             'update_time' => date("Y-m-d H:i:s"),
             'status' => LANG_RETRANSLATED
@@ -172,6 +176,18 @@ class L10n_model extends Model {
     public function get_all_lang($params, &$total)
     {
         $cond = ( ! empty($params['page_id'])) ? "page_id = '{$params['page_id']}'" : 1;
+        if (isset($params['sid']))
+        {
+            $cond = "s_id = '{$params['sid']}'";
+        }
+        else if (isset($params['page_id']))
+        {
+            $cond = "page_id = '{$params['page_id']}'";
+        }
+        else
+        {
+            $cond = 1;
+        }
         $order_field = ( ! empty($params['sort'])) ? " ORDER BY {$params['sort']}" : "";
         $desc = ( ! empty($params['dir']) && $params['dir'] == "desc") ? " DESC" : " ASC";
         $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM lang_{$params['use_lang']} WHERE {$cond} {$order_field}";
