@@ -114,13 +114,13 @@ class L10n_model extends Model
 
     public function load_languages()
     {
-        if ( ! file_exists(APPPATH . 'config/languages.php'))
+        if ( ! file_exists(APPPATH . "config/languages.php"))
         {
             return FALSE;
         }
         else
         {
-            return require_once (APPPATH . 'config/languages.php');
+            return require APPPATH . "config/languages.php";
         }
     }
 
