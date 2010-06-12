@@ -177,7 +177,7 @@ class Lang extends Controller
             $new_layer = $this->input->post("new_cate");
             $up_arr = explode(",", $this->input->post("cate_ids"));
             $up_layer = $up_arr[$this->input->post("loc")-1];
-            $this->load->database("L10n");
+            $this->load->database("");
             $this->load->model("l10n_model");
             $this->l10n_model->add_page_cate($new_layer, $up_layer);
             header("location:/l10n/lang/gen_page_cate");
