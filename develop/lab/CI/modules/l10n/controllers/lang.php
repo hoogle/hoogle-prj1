@@ -125,7 +125,7 @@ class Lang extends Controller
     {
         if ($this->is_login($this->_browser_lang, ",lang,edit,{$sid}"))
         {
-            $this->load->database();
+            $this->load->database("");
             $this->load->model("l10n_model");
             $level = $this->session->userdata("level");
             $userid = $this->session->userdata("user_id");
@@ -172,9 +172,15 @@ class Lang extends Controller
     {
         if ($this->is_login($this->_browser_lang, ",l10n,permission"))
         {
-            echo "<pre>";
-            print_r($_POST);
-            exit;
+            $this->load->model("l10n_model");
+            $page_cate = $this->l10n_model->load_page_cate();
+            $new_layer = $this->input->post("new_cate");
+            $up_arr = explode(",", $this->input->post("cate_ids"));
+            $up_layer = $up_arr[$this->input->post("loc")-1];
+            $this->load->database("L10n");
+            $this->load->model("l10n_model");
+            $this->l10n_model->add_page_cate($new_layer, $up_layer);
+            header("location:/l10n/lang/gen_page_cate");
         }
     }
 
@@ -240,7 +246,7 @@ class Lang extends Controller
 
     public function gen_page_cate()
     {
-        //$this->load->database();
+        $this->load->database("");
         $this->load->model("l10n_model");
         $arr_str = $this->l10n_model->get_page_cate();
         $gen_str = "<?php\n\n";
@@ -249,7 +255,7 @@ class Lang extends Controller
         $gen_str.= "?>";
         $filepath = APPPATH . "config/page_cate.php";
         file_put_contents($filepath, $gen_str);
-        echo "page_cate.php Done!";
+        header("location:/l10n/l10n/permission");
     }
 
     public function add()

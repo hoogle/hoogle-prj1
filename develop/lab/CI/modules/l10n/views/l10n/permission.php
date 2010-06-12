@@ -2,10 +2,12 @@
 <form id="Fadd" name="Fi" method="post" action="/l10n/lang/add_layer">
 <ul class="add_cate">
     <li>Add cate:</li>
-    <li><input type="text" id="layer_prod" name="layer0" class="new_layer"></li>
-    <li><input type="text" id="layer_cate" name="layer1" class="new_layer"></li>
-    <li><input type="text" id="layer_page" name="layer2" class="new_layer"></li>
+    <li><input type="text" id="layer0" name="layer0" class="new_layer"></li>
+    <li><input type="text" id="layer1" name="layer1" class="new_layer"></li>
+    <li><input type="text" id="layer2" name="layer2" class="new_layer"></li>
     <li>
+        <input type="hidden" id="new_cate" name="new_cate">
+        <input type="hidden" id="loc" name="loc">
         <input type="hidden" id="cate_ids" name="cate_ids">
         <input type="button" id="btn_addcate" value="Add new layer">
     </li>
@@ -47,16 +49,16 @@
         }
     };
 
-    YUE.on('layer_prod', 'keyup', function(e) {
-        disable_input($('layer_prod'));
+    YUE.on('layer0', 'keyup', function(e) {
+        disable_input($('layer0'));
     });
 
-    YUE.on('layer_cate', 'keyup', function(e) {
-        disable_input($('layer_cate'));
+    YUE.on('layer1', 'keyup', function(e) {
+        disable_input($('layer1'));
     });
 
-    YUE.on('layer_page', 'keyup', function(e) {
-        disable_input($('layer_page'));
+    YUE.on('layer2', 'keyup', function(e) {
+        disable_input($('layer2'));
     });
 
     var PB_new = new YAHOO.widget.Button("btn_addcate");
@@ -70,12 +72,19 @@
             for (var i=1; i<=3; i++) {
                 page_cate[(i-1)] = $('pagecate'+i).value;
             }
-            console.dir(page_cate);
             $('cate_ids').value = page_cate;
-            if ($('layer_prod').value == '' && $('layer_cate').value == '' && $('layer_page').value == '') {
+            if ($('layer0').value == '' && $('layer1').value == '' && $('layer2').value == '') {
                 alert('You have to input new layer name!');
-                $('layer_prod').focus();
+                $('layer0').focus();
             } else {
+                for (var i=0; i<3; i++) {
+                    if ($('layer'+i).value.length > 0) {
+                        var new_layer = $('layer'+i).value;
+                        $('loc').value = i;
+                        break;
+                    }
+                }
+                $('new_cate').value = new_layer;
                 $('Fadd').submit();
             }
         }
