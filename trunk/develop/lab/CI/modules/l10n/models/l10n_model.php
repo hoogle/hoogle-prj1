@@ -15,6 +15,13 @@ class L10n_model extends Model
         $this->db->query($sql);
     }
 
+    public function add_page_cate($new_layer, $up_layer)
+    {
+        $sql = "INSERT INTO page_cate (page_name, up_page) ";
+        $sql.= "VALUES ('{$new_layer}', '{$up_layer}')";
+        $this->db->query($sql);
+    }
+
     public function add_log($log_arr)
     {
         $userid = $this->session->userdata('user_id');
@@ -150,7 +157,7 @@ class L10n_model extends Model
 
     public function get_page_cate()
     {
-        $arr_str = "\$page_cate = array (\n";
+        $arr_str = "return array (\n";
         $sql = "SELECT up_page FROM page_cate GROUP BY up_page";
         $res = $this->db->query($sql);
         $grp = $res->result_array();
