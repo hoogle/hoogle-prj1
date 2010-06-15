@@ -311,6 +311,9 @@ td {
 form li {
     margin:5px 2px;
 }
-.page_cate li {
+.page_cate li, .add_cate li {
     display:inline;
+}
+.new_layer {
+    width:115px;
 }

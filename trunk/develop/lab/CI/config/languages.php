@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lang_arr = array(
+return array(
     "en_US" => array(
         "l_id" => 1,
         "l_type" => "en_US",
