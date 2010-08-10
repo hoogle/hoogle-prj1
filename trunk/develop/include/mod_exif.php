@@ -172,7 +172,7 @@
       # 分數 < 1
       case "ExposureTime":
         $unit = "秒";
-        $arr = split("/",$exif[$key]);
+        $arr = explode("/",$exif[$key]);
         if(count($arr) != 2)
           return $exif[$key];
         if($arr[0] !=0)
@@ -198,7 +198,7 @@
       case "MaxApertureValue":
       case "XResolution":
       case "YResolution":
-        $arr = split("/",$exif[$key]);
+        $arr = explode("/",$exif[$key]);
         if(count($arr) != 2)
           return $exif[$key];
         if($arr[1] !=0)
@@ -228,7 +228,7 @@
   function calc_faction($val)
   {
     $unit = "秒";
-    $arr = split("/",$val);
+    $arr = explode("/",$val);
     if(count($arr) != 2)
       return $val;
     $arr[0] = intval($arr[0]);
