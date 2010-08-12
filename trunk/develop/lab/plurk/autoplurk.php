@@ -11,7 +11,6 @@ function getUserID($nick)
     curl_close($ch);
     preg_match('/var GLOBAL = \{.*"uid": ([\d]+),.*\}/imU', $contents, $pid);
     $uid = $pid[1];
-    print_r($pid);
     return $uid;
 }
 
@@ -30,14 +29,15 @@ function do_act($target_url, $data, $cookie_file = NULL)
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 
     $result = curl_exec($ch);
+    print_r($result);
     curl_close($ch);
     return $result;
 }
 
 $nick = "hoogle"; 
 $pwd = "qUs4obog"; 
-$msg = date("H:i")." 了，還沒關機!!";
-$qualifier = "says"; 
+$msg = date("H:i")." 了，還沒關機喔!!";
+$qualifier = "has"; 
 $priv = "true"; 
 $uid = getUserID($nick);
 $cookie_file = "/tmp/plurk_cookie";
