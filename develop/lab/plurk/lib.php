@@ -90,7 +90,7 @@ switch($func)
         echo do_act($target_url, $data, $cookie_file);
         break;
 
-    case "getcs":
+    case "getnew":
         $target_url = $_POST['url']; 
         header("Cache-Control: no-cache");
         header("Content-Type: application/json");
