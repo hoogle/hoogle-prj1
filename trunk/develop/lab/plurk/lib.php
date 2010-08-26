@@ -30,10 +30,15 @@ function do_act($target_url, $data, $cookie_file = NULL)
 
     $result = curl_exec($ch);
     curl_close($ch);
+    if (end(explode("/", $target_url)) != "login") {
+        echo $result;
+        exit;
+    }
     return $result;
 }
 
 $func = strip_tags($_POST['func']);
+$cookie_file = "/tmp/plurk_cookie";
 switch($func)
 {
     case "plurking":
@@ -43,7 +48,6 @@ switch($func)
         $qualifier = $_POST['qualifier'];
         $priv = $_POST['priv'];
         $uid = getUserID($nick);
-        $cookie_file = "/tmp/plurk_cookie";
         $login_url = "http://www.plurk.com/Users/login"; 
         $login_data = array(
             "api_key" => API_KEY,
@@ -65,10 +69,38 @@ switch($func)
         echo do_act($post_url, $post_data, $cookie_file);
         break;
 
+    case "getchannel":
+        $nick = $_POST['nick'];
+        $pwd = $_POST['pwd'];
+        $target_url = "http://www.plurk.com/API/Users/login";
+        $data = array(
+            "api_key" => API_KEY,
+            "username" => $nick,
+            "password" => $pwd 
+        );
+        do_act($target_url, $data, $cookie_file);
+
+        $target_url = "http://www.plurk.com/API/Realtime/getUserChannel";
+        $data = array(
+            "api_key" => API_KEY,
+        );
+        header("Cache-Control: no-cache");
+        header("Content-Type: application/json");
+
+        echo do_act($target_url, $data, $cookie_file);
+        break;
+
+    case "getcs":
+        $target_url = $_POST['url']; 
+        header("Cache-Control: no-cache");
+        header("Content-Type: application/json");
+
+        echo do_act($target_url, NULL, $cookie_file);
+        break;
+
     case "getplurks":
         $nick = $_POST['nick'];
         $pwd = $_POST['pwd'];
-        $cookie_file = "/tmp/plurk_cookie";
         $target_url = "http://www.plurk.com/API/Users/login";
         $data = array(
             "api_key" => API_KEY,
