@@ -44,7 +44,7 @@ $cookie_file = "/tmp/plurk_cookie";
 $login_url = "http://www.plurk.com/Users/login"; 
 $login_data = array(
     "api_key" => API_KEY,
-    "nick_name" => $nick,
+    "username" => $nick,
     "password" => $pwd
 );
 do_act($login_url, $login_data, $cookie_file);
