@@ -9,8 +9,8 @@
 
 <body>
 <div>
-    nick: <input type="text" id="nick"/><br/>
-    pwd: <input type="password" id="pwd"/><br/>
+    nick: <input type="text" id="nick" value="hoogle"/><br/>
+    pwd: <input type="password" id="pwd" value="qUs4obog"/><br/>
     msg: <input type="text" id="msg"/>
     <select id="qualifier">
         <option value="loves">loves</option>
@@ -41,6 +41,7 @@
 <div>
     <input type="button" id="getit" value="取得噗"/> 
     <input type="button" id="get_who_limited_me" value="誰私噗給我"/> 
+    <input type="button" id="get_data" value=" Get data "/> 
     <div id="show"></div> 
     <div id="nick"></div>
     <div id="karma"></div>
@@ -103,6 +104,43 @@
             uids+= '</ul>\n';
             $('#show').html(uids);
             console.dir(data);
+        }, 'json');
+    });
+
+    var comet_server = '';
+    var getNewPlurk = function(data) {
+        var new_offset = data['new_offset'];
+        var url = comet_server + new_offset;
+        console.log('url = ', url);
+        if (data['data'] == undefined) {
+            url = comet_server + data['new_offset'];
+            console.log('re-getcs : ', url);
+            $.post('lib.php', {func:'getcs', url:url}, function(resp) {
+                var rsp = resp['data'][0]['response']['content_raw'];
+                console.log('response 0 : ', rsp);
+            }, 'json');
+        } else if (data['new_offset'] == -3) {
+            url = comet_server + '0';
+            console.log('-3, re-getcs : ', url);
+            $.post('lib.php', {func:'getcs', url:url}, function(resp) {
+                var rsp = resp['data'][0]['response']['content_raw'];
+                console.log('response 1 : ', rsp);
+            }, 'json');
+        } else {
+            var rsp = data['data'][0]['response']['content_raw'];
+            console.log('response 2 : ', rsp);
+        }
+    };
+
+    $('#get_data').click(function() {
+        var nick = $('#nick').val();
+        var pwd = $('#pwd').val();
+        //$('#show').html('getdata查詢中...');
+        $.post('lib.php', {func:'getchannel', nick:nick, pwd:pwd}, function(data) {
+            comet_server = data['comet_server'];
+            console.log('url = ', comet_server);
+            //comet_server = comet_server.replace("offset=0", "offset=");
+            $.post('lib.php', {func:'getcs', url:comet_server}, getNewPlurk, 'json');
         }, 'json');
     });
 </script>
