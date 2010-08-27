@@ -118,14 +118,14 @@
         console.log('url = ', url);
         if (data['data'] == undefined) {
             url = comet_server + data['new_offset'];
-            console.log('re-getnew1: ', url);
+            console.log('re-getnew(no-data): ', url);
             $.post('lib.php', {func:'getnew', url:url}, function(resp) {
                 var rsp = resp['data'][0]['response']['content_raw'];
                 console.log('response 0 : ', rsp);
             }, 'json');
         } else if (data['new_offset'] == -3) {
             url = comet_server + '0';
-            console.log('-3, re-getnew2: ', url);
+            console.log('-3, re-getnew(-3): ', url);
             $.post('lib.php', {func:'getnew', url:url}, function(resp) {
                 var rsp = resp['data'][0]['response']['content_raw'];
                 console.log('response 1 : ', rsp);
