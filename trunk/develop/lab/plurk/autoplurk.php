@@ -1,5 +1,5 @@
 <?php
-require "config.php";
+require "/home/laudieh/plurk_config.php";
 $uid = getUserID(USERNAME);
 
 function getUserID()
