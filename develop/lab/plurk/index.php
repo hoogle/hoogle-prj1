@@ -39,7 +39,7 @@
     <div id="stat"></div>
 </div>
 <div>
-    <input type="button" id="getit" value="取得噗"/> 
+    <input type="button" id="getit" value="河道上的人"/> 
     <input type="button" id="get_who_limited_me" value="誰私噗給我"/> 
     <input type="button" id="get_new" value=" 最新噗/回應 "/> 
     <div id="show"></div> 
@@ -69,6 +69,7 @@
     });
 
     $('#getit').click(function() {
+        $('#getit').attr('disabled', true);
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         $('#show').html('geting...');
@@ -80,10 +81,12 @@
             uids+= '</ul>\n';
             $('#show').html('users: '+uids);
             console.dir(data);
+            $('#getit').attr('disabled', false);
         }, 'json');
     });
 
     $('#get_who_limited_me').click(function() {
+        $('#get_who_limited_me').attr('disabled', true);
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         $('#show').html('查詢中...');
@@ -104,6 +107,7 @@
             uids+= '</ul>\n';
             $('#show').html(uids);
             console.dir(data);
+            $('#get_who_limited_me').attr('disabled', false);
         }, 'json');
     });
 
@@ -114,14 +118,14 @@
         console.log('url = ', url);
         if (data['data'] == undefined) {
             url = comet_server + data['new_offset'];
-            console.log('re-getnew: ', url);
+            console.log('re-getnew1: ', url);
             $.post('lib.php', {func:'getnew', url:url}, function(resp) {
                 var rsp = resp['data'][0]['response']['content_raw'];
                 console.log('response 0 : ', rsp);
             }, 'json');
         } else if (data['new_offset'] == -3) {
             url = comet_server + '0';
-            console.log('-3, re-getnew: ', url);
+            console.log('-3, re-getnew2: ', url);
             $.post('lib.php', {func:'getnew', url:url}, function(resp) {
                 var rsp = resp['data'][0]['response']['content_raw'];
                 console.log('response 1 : ', rsp);
@@ -130,16 +134,21 @@
             var rsp = data['data'][0]['response']['content_raw'];
             console.log('response 2 : ', rsp);
         }
+        $('#show').html(rsp);
+        $('#get_new').attr('disabled', false);
+        console.log('free');
     };
 
     $('#get_new').click(function() {
+        $('#get_new').attr('disabled', true);
+        console.log('disabled');
         var nick = $('#nick').val();
         var pwd = $('#pwd').val();
         //$('#show').html('getdata查詢中...');
         $.post('lib.php', {func:'getchannel', nick:nick, pwd:pwd}, function(data) {
             comet_server = data['comet_server'];
             console.log('url = ', comet_server);
-            //comet_server = comet_server.replace("offset=0", "offset=");
+            comet_server = comet_server.replace("offset=0", "offset=");
             $.post('lib.php', {func:'getnew', url:comet_server}, getNewPlurk, 'json');
         }, 'json');
     });
