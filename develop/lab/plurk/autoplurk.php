@@ -67,26 +67,36 @@ switch ($func)
         do
         {
             $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
-            $arr = json_decode(do_act($target_url, NULL), TRUE);
+            $data = json_decode(do_act($target_url, NULL), TRUE);
         }
-        while ( ! array_key_exists("comet_server", $arr));
+        while ( ! array_key_exists("comet_server", $data));
 
-        $comet_server_uri = substr($arr["comet_server"], 0, strlen($arr["comet_server"])-1);
-        echo $arr["comet_server"] . "\n";
+        $comet_server_uri = substr($data["comet_server"], 0, strlen($data["comet_server"])-1);
+        echo $data["comet_server"] . "\n";
 
-        $url = $arr["comet_server"];
-        $arr = json_decode(do_act($url, NULL), TRUE);
-        echo "offset={$arr['new_offset']}\t";
-        while (array_key_exists("data", $arr) && $arr["new_offset"] != -3)
+        while(1)
         {
-            $user_arr = $arr["data"][0]["response"]["user_id"];
-            $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
-            $post = $arr["data"][0]["response"]["content_raw"] . "\n";
-            echo iconv("utf-8", "big5", trim($poster)) . " => " . iconv("utf-8", "big5", trim($post)) . "\n";
-            $new_offset = $arr["new_offset"] + 1;
-            $url = $comet_server_uri . $new_offset;
-            echo "offset={$new_offset}\t";
+            $url = $data["comet_server"];
             $arr = json_decode(do_act($url, NULL), TRUE);
+            while (array_key_exists("data", $arr) && $arr["new_offset"] != -3)
+            {
+                if ($arr["data"][0]["type"] == "new_plurk")
+                {
+                    $poster_arr = $arr["data"][0];
+                    echo "({$poster_arr["_cid"]}) [NEW!] " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                }
+                else
+                {
+                    $user_arr = $arr["data"][0]["response"]["user_id"];
+                    $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
+                    $post = $arr["data"][0]["response"]["content_raw"] . "\n";
+                    echo "({$arr["new_offset"]})" . iconv("utf-8", "big5", trim($poster)) . " => " . iconv("utf-8", "big5", trim($post)) . "\n";
+                }
+                $new_offset = $arr["new_offset"] + 1;
+                $url = $comet_server_uri . $new_offset;
+                //echo "offset={$new_offset}\t";
+                $arr = json_decode(do_act($url, NULL), TRUE);
+            }
         }
         break;
 }
