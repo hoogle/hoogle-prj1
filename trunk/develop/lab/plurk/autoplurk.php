@@ -1,7 +1,5 @@
 <?php
-define('API_KEY', 'gmgTvNs50xWhK0eN6IVFuhTzkZsyDHJ4');
-define('USERNAME', 'hoogle');
-define('PASSWORD', 'qUs4obog');
+require "config.php";
 $uid = getUserID(USERNAME);
 
 function getUserID()
@@ -42,6 +40,7 @@ $login_data = array(
     "api_key" => API_KEY,
     "username" => USERNAME,
     "password" => PASSWORD,
+    "no_data" => 1,
 );
 do_act($login_url, $login_data);
 
@@ -65,15 +64,30 @@ switch ($func)
         break;
 
     case "morning":
-        $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
-        $arr = json_decode(do_act($target_url, NULL), TRUE);
-        $comet_server_uri = substr($arr["comet_server"], 0, strlen($arr["comet_server"])-1);
+        do
+        {
+            $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
+            $arr = json_decode(do_act($target_url, NULL), TRUE);
+        }
+        while ( ! array_key_exists("comet_server", $arr));
 
-        $arr = json_decode(do_act($arr["comet_server"], NULL), TRUE);
-        $user_arr = $arr["data"][0]["response"]["user_id"];
-        $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
-        $post = $arr["data"][0]["response"]["content_raw"] . "\n";
-        echo iconv("utf-8", "big5", $poster) . "\n" . iconv("utf-8", "big5", $post);
+        $comet_server_uri = substr($arr["comet_server"], 0, strlen($arr["comet_server"])-1);
+        echo $arr["comet_server"] . "\n";
+
+        $url = $arr["comet_server"];
+        $arr = json_decode(do_act($url, NULL), TRUE);
+        echo "offset={$arr['new_offset']}\t";
+        while (array_key_exists("data", $arr) && $arr["new_offset"] != -3)
+        {
+            $user_arr = $arr["data"][0]["response"]["user_id"];
+            $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
+            $post = $arr["data"][0]["response"]["content_raw"] . "\n";
+            echo iconv("utf-8", "big5", trim($poster)) . " => " . iconv("utf-8", "big5", trim($post)) . "\n";
+            $new_offset = $arr["new_offset"] + 1;
+            $url = $comet_server_uri . $new_offset;
+            echo "offset={$new_offset}\t";
+            $arr = json_decode(do_act($url, NULL), TRUE);
+        }
         break;
 }
 echo "\n";
