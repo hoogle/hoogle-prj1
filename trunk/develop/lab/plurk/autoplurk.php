@@ -83,14 +83,16 @@ switch ($func)
                 if ($arr["data"][0]["type"] == "new_plurk")
                 {
                     $poster_arr = $arr["data"][0];
-                    echo "({$poster_arr["_cid"]}) [NEW!] " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                    echo "({$poster_arr["_cid"]}) ===== [NEW!] ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
                 }
                 else
                 {
+                    /*
                     $user_arr = $arr["data"][0]["response"]["user_id"];
                     $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
                     $post = $arr["data"][0]["response"]["content_raw"] . "\n";
                     echo "({$arr["new_offset"]})" . iconv("utf-8", "big5", trim($poster)) . " => " . iconv("utf-8", "big5", trim($post)) . "\n";
+                     */
                 }
                 $new_offset = $arr["new_offset"] + 1;
                 $url = $comet_server_uri . $new_offset;
