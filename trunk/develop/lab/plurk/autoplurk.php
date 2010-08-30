@@ -83,7 +83,8 @@ switch ($func)
                 if ($arr["data"][0]["type"] == "new_plurk")
                 {
                     $poster_arr = $arr["data"][0];
-                    echo "({$poster_arr["_cid"]}) ===== [NEW!] ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                    $t = date("m/d H:i:s", strtotime($poster_arr["posted"]));
+                    echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
                 }
                 else
                 {
