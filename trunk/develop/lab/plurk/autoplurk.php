@@ -63,7 +63,7 @@ switch ($func)
         do_act($post_url, $post_data);
         break;
 
-    case "morning":
+    case "new_plurk":
         do
         {
             $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
