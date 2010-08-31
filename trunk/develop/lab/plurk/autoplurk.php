@@ -86,7 +86,8 @@ switch ($func)
                 {
                     $poster_arr = $arr["data"][0];
                     $t = date("m/d H:i:s", strtotime($poster_arr["posted"]));
-                    if (preg_match($pattern, $poster_arr["content_raw"]))
+                    $now_h = date("H");
+                    if ($now_h >= 4 && $now_h <= 11 && preg_match($pattern, $poster_arr["content_raw"]))
                     {
                         $user_id = $poster_arr["user_id"];
                         $plurk_id = $poster_arr["plurk_id"];
