@@ -64,6 +64,8 @@ switch ($func)
         break;
 
     case "new_plurk":
+        $pattern = "/早[安|\~|\!|！]/";
+        $response_text = "您也早安啊！";
         do
         {
             $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
@@ -84,7 +86,19 @@ switch ($func)
                 {
                     $poster_arr = $arr["data"][0];
                     $t = date("m/d H:i:s", strtotime($poster_arr["posted"]));
-                    echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                    if (preg_match($pattern, $poster_arr["content_raw"]))
+                    {
+                        $user_id = $poster_arr["user_id"];
+                        $plurk_id = $poster_arr["plurk_id"];
+                        $post_url = "http://www.plurk.com/API/Profile/getPublicProfile?api_key=" . API_KEY . "&user_id={$user_id}";
+                        $pf_arr = json_decode(do_act($post_url, NULL), TRUE);
+                        $plurk_nick = $pf_arr["user_info"]["nick_name"];
+                        $response_text = "@{$plurk_nick}: {$response_text}";
+                        $post_url = "http://www.plurk.com/API/Responses/responseAdd?api_key=" . API_KEY . "&plurk_id={$plurk_id}&content=" . urlencode($response_text) . "&qualifier=says";
+                        do_act($post_url, NULL);
+                        echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                        echo USERNAME . iconv("utf-8", "big5", " says: {$response_text}\n\n");
+                    }
                 }
                 else
                 {
