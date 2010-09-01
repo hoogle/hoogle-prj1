@@ -65,7 +65,7 @@ switch ($func)
 
     case "new_plurk":
         $pattern = "/早[安|\~|\!|！]/";
-        $response_text = "您也早安啊！";
+        $robot_say = "您也早安啊！";
         do
         {
             $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
@@ -94,7 +94,7 @@ switch ($func)
                         $post_url = "http://www.plurk.com/API/Profile/getPublicProfile?api_key=" . API_KEY . "&user_id={$user_id}";
                         $pf_arr = json_decode(do_act($post_url, NULL), TRUE);
                         $plurk_nick = $pf_arr["user_info"]["nick_name"];
-                        $response_text = "@{$plurk_nick}: {$response_text}";
+                        $response_text = "@{$plurk_nick}: {$robot_say}";
                         $post_url = "http://www.plurk.com/API/Responses/responseAdd?api_key=" . API_KEY . "&plurk_id={$plurk_id}&content=" . urlencode($response_text) . "&qualifier=says";
                         do_act($post_url, NULL);
                         echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
