@@ -64,7 +64,7 @@ switch ($func)
         break;
 
     case "new_plurk":
-        $pattern = "/早[安|\~|\!|！]/";
+        $pattern = "/大家早|早[安|\~|\!|！]/";
         $robot_say = "您也早安啊！";
         do
         {
