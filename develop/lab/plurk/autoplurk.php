@@ -64,8 +64,11 @@ switch ($func)
         break;
 
     case "new_plurk":
-        $pattern = "/大家早|早[安|～|~|\!|！]/";
-        $robot_say = "您也早安啊！";
+        $pattern = "/晚安|大家早|早[安|～|~|\!|！]/";
+        $resp_text = array(
+            "早安！",
+            "晚安囉！",
+        );
         do
         {
             $target_url = "http://www.plurk.com/API/Realtime/getUserChannel?api_key=" . API_KEY;
@@ -86,29 +89,43 @@ switch ($func)
                 {
                     $poster_arr = $arr["data"][0];
                     $t = date("m/d H:i:s", strtotime($poster_arr["posted"]));
-                    $now_h = date("H");
-                    if ($now_h >= 4 && $now_h <= 11 && preg_match($pattern, $poster_arr["content_raw"]))
+                    $now_h = date("G");
+                    if (preg_match($pattern, $poster_arr["content_raw"]))
                     {
-                        $user_id = $poster_arr["user_id"];
-                        $plurk_id = $poster_arr["plurk_id"];
-                        $post_url = "http://www.plurk.com/API/Profile/getPublicProfile?api_key=" . API_KEY . "&user_id={$user_id}";
-                        $pf_arr = json_decode(do_act($post_url, NULL), TRUE);
-                        $plurk_nick = $pf_arr["user_info"]["nick_name"];
-                        $response_text = "@{$plurk_nick}: {$robot_say}";
-                        $post_url = "http://www.plurk.com/API/Responses/responseAdd?api_key=" . API_KEY . "&plurk_id={$plurk_id}&content=" . urlencode($response_text) . "&qualifier=says";
-                        do_act($post_url, NULL);
-                        echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
-                        echo USERNAME . iconv("utf-8", "big5", " says: {$response_text}\n\n");
+                        if ($now_h >= 4 && $now_h <= 11)
+                        {
+                            $robot_say = $resp_text[0];
+                        }
+                        else if ($now_h >= 22 || $now_h <= 3)
+                        {
+                            $robot_say = $resp_text[1];
+                        }
+                        else
+                        {
+                            $robot_say = "";
+                        }
+
+                        if ( ! empty($robot_say))
+                        {
+                            $user_id = $poster_arr["user_id"];
+                            $plurk_id = $poster_arr["plurk_id"];
+                            $post_url = "http://www.plurk.com/API/Profile/getPublicProfile?api_key=" . API_KEY . "&user_id={$user_id}";
+                            $pf_arr = json_decode(do_act($post_url, NULL), TRUE);
+                            $plurk_nick = $pf_arr["user_info"]["nick_name"];
+                            $response_text = "@{$plurk_nick}: {$robot_say}";
+                            $post_url = "http://www.plurk.com/API/Responses/responseAdd?api_key=" . API_KEY . "&plurk_id={$plurk_id}&content=" . urlencode($response_text) . "&qualifier=says";
+                            do_act($post_url, NULL);
+                            echo "({$poster_arr["_cid"]}) ===== [NEW!] ({$t}) ===== " . iconv("utf-8", "big5", trim($poster_arr["user_id"])) . " => " . iconv("utf-8", "big5", trim($poster_arr["content_raw"])) . "\n";
+                            echo USERNAME . iconv("utf-8", "big5", " says: {$response_text}\n\n");
+                        }
                     }
                 }
                 else
                 {
-                    /*
                     $user_arr = $arr["data"][0]["response"]["user_id"];
                     $poster = $arr["data"][0]["user"][$user_arr]["display_name"] . " (" . $arr["data"][0]["user"][$user_arr]["karma"]. ")\n";
                     $post = $arr["data"][0]["response"]["content_raw"] . "\n";
                     echo "({$arr["new_offset"]})" . iconv("utf-8", "big5", trim($poster)) . " => " . iconv("utf-8", "big5", trim($post)) . "\n";
-                     */
                 }
                 $new_offset = $arr["new_offset"] + 1;
                 $url = $comet_server_uri . $new_offset;
