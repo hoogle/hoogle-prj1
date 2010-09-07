@@ -1,4 +1,10 @@
 <?php
+if ($_SERVER["argc"] != 2)
+{
+    echo "Lack parameter!!\n\n";
+    exit;
+}
+
 require "config/config.php";
 $uid = getUserID(USERNAME);
 
@@ -64,7 +70,7 @@ switch ($func)
         break;
 
     case "new_plurk":
-        $pattern = "/晚安|大家早|早[安|～|~|\!|！]/";
+        $pattern = "/晚安|大家早|早安|早安～|早安~|早安\!|早安！]/";
         $resp_text = array(
             "早安！",
             "晚安囉！",
