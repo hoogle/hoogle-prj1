@@ -54,6 +54,18 @@ $func = $_SERVER['argv'][1];
 
 switch ($func)
 {
+    case "9999":
+        $post_url = "http://www.plurk.com/TimeLine/addPlurk"; 
+        $post_data = array(
+            "qualifier" => "says",
+            "content" => "99/9/9 9:9 祝大家幸福 9999!! (dance)",
+            "lang" => "tr_ch",
+            "no_comments" => 0,
+            "uid" => $uid
+        );
+        echo do_act($post_url, $post_data);
+        break;
+
     case "nostop":
         $post_url = "http://www.plurk.com/TimeLine/addPlurk"; 
         $priv = "true"; 
